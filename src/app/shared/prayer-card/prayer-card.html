@@ -1,0 +1,16 @@
+<div class="prayer-card oasis-card" 
+     [class]="'status-' + status()" 
+     (click)="cycleStatus()">
+  
+  <div class="prayer-info">
+    <span class="prayer-name">{{ name() }}</span>
+    <span class="prayer-time">{{ time() }}</span>
+  </div>
+
+  <div class="status-label">
+    @if (status() === 3) { <span class="badge">Masjid</span> }
+    @else if (status() === 2) { <span class="badge">Alone</span> }
+    @else if (status() === 1) { <span class="badge">Late</span> }
+    @else { <span class="badge">--</span> }
+  </div>
+</div>

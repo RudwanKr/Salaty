@@ -25,6 +25,14 @@ const angularApp = new AngularNodeAppEngine();
  */
 
 /**
+ * Respond to Chrome DevTools' automatic config probe to prevent CSP console warnings.
+ * Chrome 132+ automatically requests this endpoint on every local server.
+ */
+app.get('/.well-known/appspecific/com.chrome.devtools.json', (_req, res) => {
+  res.json({});
+});
+
+/**
  * Serve static files from /browser
  */
 app.use(

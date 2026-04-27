@@ -1,0 +1,60 @@
+.prayer-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: var(--space-md);
+  border-left: 6px solid transparent; // Added for a "side-bar" accent
+
+  // Hover effect to make it feel responsive
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  // Dynamic Status Classes
+  &.status-3 {
+    border-color: var(--status-3);
+    background-color: rgba(141, 166, 147, 0.1); // Tint of Sage
+    .badge { color: var(--status-3); font-weight: 700; }
+  }
+
+  &.status-2 {
+    border-color: var(--status-2);
+    background-color: rgba(163, 196, 217, 0.1); // Tint of Sky
+    .badge { color: var(--status-2); }
+  }
+
+  &.status-1 {
+    border-color: var(--color-accent);
+    background-color: rgba(230, 184, 156, 0.1); // Tint of Sunset
+    .badge { color: var(--color-accent); }
+  }
+
+  .prayer-info {
+    display: flex;
+    flex-direction: column;
+    
+    .prayer-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    
+    .prayer-time {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  }
+
+  .badge {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    background: var(--color-surface);
+    padding: 4px 10px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+  }
+}

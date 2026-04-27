@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+@import './theme.scss';
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Cairo', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease; // Smooth dark mode transition
+  min-height: 100vh;
+}
+
+// Common Utility for Cards
+.oasis-card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
+}
