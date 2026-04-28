@@ -1,9 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { PrayerCard } from "./shared/prayer-card/prayer-card";
+import { PrayerCard } from "./shared/components/prayer-card/prayer-card";
+import { NavBar } from "./core/components/nav-bar/nav-bar";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-root',
-  imports: [PrayerCard],
+  imports: [NavBar, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

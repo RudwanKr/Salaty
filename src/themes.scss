@@ -1,0 +1,487 @@
+// ==========================================
+// 🎨 Salaty Design System — themes.scss
+// ==========================================
+
+// ------------------------------------------
+// 1. Color Palette
+// ------------------------------------------
+
+// Primary — Sage Green (Masjid / Group prayer)
+$primary-50:  #f2fcf3;
+$primary-100: #e3e7e4;
+$primary-200: #d1d8d1;
+$primary-300: #bfcfc0;
+$primary-400: #b1c2b2;
+$primary-500: #94AA95; // Base
+$primary-600: #819282;
+$primary-700: #5a665a;
+$primary-800: #485248;
+$primary-900: #303530;
+
+// Secondary — Sky Blue (Alone prayer)
+$secondary-100: #f1f9fc;
+$secondary-200: #e7f3f7;
+$secondary-300: #e1eff3;
+$secondary-400: #d1e4e9;
+$secondary-500: #C5DEE5; // Base
+$secondary-600: #a3c2ca;
+$secondary-700: #8eabb3;
+
+// Accent — Warm Sand (Late prayer)
+$third-100: #fdfaf6;
+$third-200: #faf0e5;
+$third-300: #fceedc;
+$third-400: #f3dcbf;
+$third-500: #E7C9A5; // Base
+$third-600: #d4b38a;
+$third-700: #c49c6b;
+
+// Danger — Terracotta (Missed prayer)
+$danger-100: #f7d4d4;
+$danger-200: #f5bcbc;
+$danger-300: #f39c9c;
+$danger-400: #f77171;
+$danger-500: #f36262;
+$danger-600: #ef4444;
+$danger-700: #a72e2e;
+
+// Success
+$success-100: #d4fdf0;
+$success-200: #94eccf;
+$success-300: #58e0b3;
+$success-400: #30ce99;
+$success-500: #10b981;
+$success-600: #138660;
+$success-700: #0f553e;
+
+// Neutrals
+$white:     #ffffff;
+$black:     #0f172a;
+$gray-50:   #f9fafb;
+$gray-100:  #f3f4f6;
+$gray-200:  #e5e7eb;
+$gray-300:  #d1d5db;
+$gray-400:  #9ca3af;
+$gray-500:  #6b7280;
+$gray-600:  #4b5563;
+$gray-700:  #374151;
+$gray-800:  #1f2937;
+$gray-900:  #111827;
+
+// Surfaces
+$bg-main:      #fdfaf5; // Warm off-white — page background
+$bg-secondary: #ffffff;
+$bg-card:      #ffffff; // Card / surface background
+
+// Semantic aliases
+$primary:        $primary-600;
+$primary-hover:  $primary-500;
+$secondary:      $secondary-500;
+$secondary-hover:$secondary-400;
+$third:          $third-500;
+$third-hover:    $third-400;
+$danger:         $danger-600;
+$success:        $success-500;
+$warning:        #f59e0b;
+$info:           #3b82f6;
+
+// Text
+$text-main:   #4a4a4a;
+$text-muted:  #8c8c8c;
+$text-light:  $gray-400;
+
+// Border
+$border-color: $gray-200;
+$border-focus: $primary-300;
+
+// Transitions
+$transition-base: 0.2s ease;
+
+// ------------------------------------------
+// 2. Typography
+// ------------------------------------------
+$font-family-main:    'Cairo', sans-serif;
+$font-family-heading: 'Cairo', sans-serif;
+
+$font-size-xs:   0.75rem;   // 12px
+$font-size-sm:   0.875rem;  // 14px
+$font-size-base: 1rem;      // 16px
+$font-size-lg:   1.125rem;  // 18px
+$font-size-xl:   1.25rem;   // 20px
+$font-size-2xl:  1.5rem;    // 24px
+$font-size-3xl:  1.875rem;  // 30px
+
+$font-weight-regular:  400;
+$font-weight-medium:   500;
+$font-weight-semibold: 600;
+$font-weight-bold:     700;
+
+// ------------------------------------------
+// 3. Spacing & Radius
+// ------------------------------------------
+$spacing-xs:  0.25rem;  // 4px
+$spacing-sm:  0.5rem;   // 8px
+$spacing-md:  1rem;     // 16px
+$spacing-lg:  1.5rem;   // 24px
+$spacing-xl:  2rem;     // 32px
+$spacing-2xl: 3rem;     // 48px
+
+$radius-sm:   0.375rem; // 6px
+$radius-md:   0.5rem;   // 8px
+$radius-lg:   0.75rem;  // 12px
+$radius-xl:   1rem;     // 16px
+$radius-2xl:  1.2rem;   // ~19px
+$radius-full: 9999px;
+
+// ------------------------------------------
+// 4. Shadows & Gradients
+// ------------------------------------------
+$shadow-sm:  0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md:  0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg:  0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl:  0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+$shadow-glow: 0 0 15px rgba($primary-500, 0.3);
+
+$gradient-primary:   linear-gradient(135deg, $primary-600 0%, $primary-400 100%);
+$gradient-secondary: linear-gradient(135deg, $secondary-600 0%, $secondary-400 100%);
+$gradient-thirdly:   linear-gradient(135deg, $third-600 0%, $third-400 100%);
+$gradient-danger:    linear-gradient(135deg, $danger-600 0%, $danger-400 100%);
+$gradient-glass:     linear-gradient(145deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.2) 100%);
+
+// ------------------------------------------
+// 5. Mixins
+// ------------------------------------------
+
+// Glassmorphism
+@mixin glass($blur: 12px, $opacity: 0.7) {
+    background: rgba(255, 255, 255, $opacity);
+    backdrop-filter: blur($blur);
+    -webkit-backdrop-filter: blur($blur);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+// Card surface
+@mixin card {
+    background: $bg-card;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-sm;
+}
+
+// Flexbox helpers
+@mixin flex($justify: center, $align: center, $dir: row) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $dir;
+}
+
+@mixin flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Lift on hover
+@mixin hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-lg;
+    }
+}
+
+// Glow on hover
+@mixin hover-glow {
+    transition: box-shadow 0.3s ease;
+    &:hover { box-shadow: $shadow-glow; }
+}
+
+// Brightness-dim behaviour (for icon/action buttons)
+@mixin btn-behaviour {
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover { filter: brightness(0.9); }
+}
+
+// Responsive breakpoints
+@mixin mobile  { @media (max-width: 640px)  { @content; } }
+@mixin tablet  { @media (max-width: 768px)  { @content; } }
+@mixin desktop { @media (min-width: 1024px) { @content; } }
+
+// ------------------------------------------
+// 6. Global Component Styles
+// ------------------------------------------
+
+// ── Buttons ──────────────────────────────
+button, .btn {
+    @include flex-center;
+    gap: $spacing-sm;
+    padding: 0.75rem 1.5rem;
+    border-radius: $radius-lg;
+    font-family: $font-family-main;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-base;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    i, svg { font-size: 1.1em; }
+
+    &:disabled {
+        background: $gray-300 !important;
+        color: $gray-500 !important;
+        cursor: not-allowed;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
+    &.loading {
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    &.btn-primary {
+        background: $gradient-primary;
+        color: $white;
+        box-shadow: 0 4px 12px rgba($primary-600, 0.25);
+        &:hover  { box-shadow: 0 8px 16px rgba($primary-600, 0.35); transform: translateY(-1px); }
+        &:active { box-shadow: 0 2px 4px rgba($primary-600, 0.25); transform: translateY(0); }
+    }
+
+    &.btn-secondary {
+        background: $white;
+        color: $primary-700;
+        border: 1px solid $primary-200;
+        &:hover { background: $primary-50; border-color: $primary-300; }
+    }
+
+    &.btn-accent {
+        background: $gradient-thirdly;
+        color: $white;
+        box-shadow: 0 4px 12px rgba($third-600, 0.25);
+        &:hover  { box-shadow: 0 8px 16px rgba($third-600, 0.35); transform: translateY(-1px); }
+        &:active { box-shadow: 0 2px 4px rgba($third-600, 0.25); transform: translateY(0); }
+    }
+
+    &.btn-teal {
+        background: $gradient-secondary;
+        color: $white;
+        box-shadow: 0 4px 12px rgba($secondary-600, 0.25);
+        &:hover  { box-shadow: 0 8px 16px rgba($secondary-600, 0.35); transform: translateY(-1px); }
+        &:active { box-shadow: 0 2px 4px rgba($secondary-600, 0.25); transform: translateY(0); }
+    }
+
+    &.btn-danger {
+        background: $gradient-danger;
+        color: $white;
+        box-shadow: 0 4px 12px rgba($danger-600, 0.25);
+        &:hover  { box-shadow: 0 8px 16px rgba($danger-600, 0.35); transform: translateY(-1px); }
+        &:active { box-shadow: 0 2px 4px rgba($danger-600, 0.25); transform: translateY(0); }
+    }
+}
+
+// ── Cards ─────────────────────────────────
+.card {
+    @include card;
+    padding: $spacing-lg;
+    box-shadow: $shadow-md;
+    border: 1px solid rgba($border-color, 0.5);
+    transition: all 0.3s ease;
+
+    &.glass     { @include glass; }
+    &.hoverable { @include hover-lift; }
+}
+
+// ── Inputs ────────────────────────────────
+input, select, textarea, .zk-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin: 0.35rem 0;
+    border-radius: $radius-lg;
+    border: 1.5px solid $border-color;
+    background: $bg-main;
+    color: $text-main;
+    font-family: $font-family-main;
+    font-size: $font-size-base;
+    transition: all 0.2s ease;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+
+    &::placeholder { color: $text-light; }
+    &:hover        { border-color: $gray-300; }
+    &:focus        { background: $white; border-color: $primary-400; box-shadow: 0 0 0 4px rgba($primary-400, 0.1); }
+    &:disabled     { background: $gray-100; cursor: not-allowed; opacity: 0.7; }
+}
+
+// ── Divider ───────────────────────────────
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: $spacing-md 0;
+    color: $text-light;
+
+    &::before, &::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid $border-color;
+    }
+
+    span {
+        padding: 0 $spacing-sm;
+        font-size: $font-size-sm;
+    }
+}
+
+// ── App Bar ───────────────────────────────
+.app-bar {
+    padding: $spacing-lg;
+    background-color: $bg-card;
+    margin: $spacing-sm;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-sm;
+    border: 1px solid rgba($border-color, 0.5);
+    display: flex;
+    gap: $spacing-xl;
+    align-items: center;
+    justify-content: space-between;
+
+    .section {
+        display: flex;
+        gap: $spacing-md;
+        align-items: center;
+
+        h2 {
+            font-size: $font-size-2xl;
+            font-weight: $font-weight-bold;
+            color: $primary;
+            margin: 0;
+        }
+
+        > i {
+            font-size: 2rem;
+            color: $primary;
+        }
+    }
+
+    @include mobile {
+        .section {
+            width: 100%;
+            h2, > i { font-size: $font-size-base; }
+        }
+    }
+}
+
+// ── Controller bar (table header area) ───
+.controller {
+    @include card;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md;
+    padding-bottom: 0;
+    gap: $spacing-lg;
+    flex-wrap: wrap;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: $shadow-md;
+
+    .right-side {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        flex: 1;
+        flex-wrap: wrap;
+
+        .search {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        p-select { min-width: 150px; }
+    }
+
+    .left-side {
+        display: flex;
+        gap: $spacing-md;
+    }
+}
+
+// ── Empty state ───────────────────────────
+.no-data {
+    @include flex-col;
+    @include flex-center;
+    padding: $spacing-2xl;
+    color: $text-muted;
+    font-size: $font-size-lg;
+    background-color: $bg-card;
+    border-radius: $radius-xl;
+    border: 1px solid $border-color;
+
+    i {
+        font-size: 3rem;
+        margin-bottom: $spacing-md;
+        color: $gray-300;
+    }
+}
+
+// ── Loading state ─────────────────────────
+.loading-state {
+    @include flex-col;
+    @include flex-center;
+    padding: $spacing-2xl;
+    color: $text-muted;
+    min-height: 200px;
+
+    i {
+        font-size: 2rem;
+        margin-bottom: $spacing-md;
+        color: $primary;
+    }
+
+    p { font-size: $font-size-base; margin: 0; }
+}
+
+// ── Typography helpers ────────────────────
+.text-gradient {
+    background: $gradient-primary;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.heading-xl {
+    font-family: $font-family-heading;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    color: $text-main;
+    line-height: 1.2;
+}
+
+.sub-text {
+    font-size: $font-size-sm;
+    color: $text-muted;
+}
+
+// ------------------------------------------
+// 7. Animations
+// ------------------------------------------
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}

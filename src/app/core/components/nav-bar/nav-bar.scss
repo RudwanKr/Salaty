@@ -1,0 +1,195 @@
+@import './../../../../themes.scss';
+
+main {
+  // ── Desktop: floating top bar ──────────────────────────────────
+  position: fixed;
+  top: $spacing-md;
+  left: $spacing-md;
+  right: $spacing-md;
+  height: 80px;
+  background-color: $bg-card;
+  border-radius: $radius-2xl;
+  border: 1px solid $border-color;
+  box-shadow: $shadow-md;
+  width: 90%;
+  margin: 0 auto;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  padding: 0 $spacing-lg;
+  transition: background-color $transition-base, color $transition-base;
+
+  // ── Logo ─────────────────────────────────────────────────────
+  .logo {
+    display: flex;
+    align-items: center;
+    margin-inline-end: $spacing-lg;
+
+    img {
+      height: 45px;
+      width: 45px;
+      border-radius: $radius-md;
+      object-fit: contain;
+      transition: transform $transition-base;
+
+      &:hover { transform: scale(1.05); }
+    }
+  }
+
+  // ── Menu List ────────────────────────────────────────────────
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    margin: 0;
+    padding: 10px 0 0 0;
+    list-style: none;
+    height: 100%;
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar       { height: 3px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: $border-color; border-radius: $radius-full; }
+
+    // ── Desktop li ─────────────────────────────────────────────
+    li {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-sm;
+      padding: $spacing-xs $spacing-md;
+      border-radius: $radius-lg;
+      cursor: pointer;
+      color: $text-muted;
+      transition: color 0.25s ease, background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+      white-space: nowrap;
+      user-select: none;
+      overflow: hidden;
+
+      // Gradient pill revealed on active via opacity (smoother than swapping background)
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: $gradient-primary;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        z-index: 0;
+      }
+
+      i, p { position: relative; z-index: 1; }
+
+      i { font-size: 1.2rem; transition: transform 0.2s ease; }
+
+      p {
+        margin: 0;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-semibold;
+      }
+
+      // ── Hover: tinted lift ──────────────────────────────────
+      &:hover {
+        color: $white;
+        background-color: $primary;
+        transform: translateY(-1px);
+        box-shadow: $shadow-sm;
+
+        i { transform: scale(1.15); }
+      }
+
+      // ── Active: gradient pill + glow ────────────────────────
+      &.active {
+        color: $white;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba($primary, 0.3);
+
+        &::before { opacity: 1; }
+
+        i {
+          color: $white;
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  // ── Mobile: fixed bottom bar, 4 equal items, no scroll ───────
+  @include tablet {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    border-radius: $radius-2xl $radius-2xl 0 0;
+    padding: 0 $spacing-sm;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.08);
+
+    .logo { display: none; }
+
+    ul {
+      overflow: hidden;              // no scrolling
+      justify-content: space-around;
+      align-items: center;
+      gap: $spacing-xs;             // small breathing room between items
+      padding: 0 $spacing-xs;       // side padding so pills don't touch edges
+
+      // ── Mobile li: same pill approach as desktop ────────────
+      li {
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: $spacing-xs $spacing-sm; // small, balanced padding
+        gap: 4px;
+        min-width: 0;
+        border-radius: $radius-lg;
+        // inherit ::before gradient pill from desktop rules — no override needed
+
+        i {
+          font-size: 1.3rem;
+          transition: transform 0.2s ease;
+        }
+
+        p {
+          font-size: 0.7rem;
+          font-weight: $font-weight-semibold;
+          text-align: center;
+        }
+
+        // ── Mobile hover: same tinted lift as desktop ─────────
+        &:hover {
+          color: $white;
+          background-color: $primary;
+          transform: translateY(-1px);
+          box-shadow: $shadow-sm;
+
+          i { transform: scale(1.15); }
+        }
+
+        // ── Mobile active: same gradient pill + glow ──────────
+        &.active {
+          color: $white;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba($primary, 0.3);
+
+          &::before { opacity: 1; }
+
+          i {
+            color: $white;
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+}

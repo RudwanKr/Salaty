@@ -1,12 +1,6 @@
-
-<div class="p-md" style="max-width: 500px; margin: 0 auto;">
-  <h2 style="text-align: center;">Oasis Tracker</h2>
-  
-  <app-prayer-card name="Fajr" time="04:30 AM"></app-prayer-card>
-  <app-prayer-card name="Duhr" time="12:45 PM"></app-prayer-card>
-  <app-prayer-card name="Asr" time="04:15 PM"></app-prayer-card>
-  
-  <button (click)="toggleTheme()" class="oasis-card" style="width: 100%; margin-top: 20px;">
-    Toggle Dark/Light Mode
-  </button>
-</div>
+<main>
+  <app-nav-bar />
+  <div class="content">
+    <router-outlet />
+  </div>
+</main>

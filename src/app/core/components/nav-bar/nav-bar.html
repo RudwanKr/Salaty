@@ -1,0 +1,17 @@
+<main>
+  <div class="logo">
+    <img src="assets/images/logo.webp" alt="" />
+  </div>
+
+  <ul>
+    @for(item of menuItems; track item.path) {
+        <li 
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        >
+        <i class="{{ item.icon }}"></i>
+        <p>{{ item.label }}</p>
+        </li>
+    }
+  </ul>
+</main>
