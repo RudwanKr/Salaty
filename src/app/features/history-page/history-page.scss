@@ -1,0 +1,174 @@
+@import './../../../themes.scss';
+
+// ── Desert Hero Scene ────────────────────────────────────────────
+.desert-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  // Desktop: fill the full screen above the fold
+  height: calc(100vh - 80px - #{$spacing-md} * 2);
+  border-radius: 0 0 $radius-2xl $radius-2xl;
+
+  // Mobile: compact banner strip with rounded top corners
+  @include tablet {
+    height: 180px;
+    border-radius: $radius-2xl $radius-2xl 0 0;
+  }
+}
+
+// ── Sky ──────────────────────────────────────────────────────────
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #f5deb3 0%,      // wheat / golden top
+    #f0c98a 40%,     // warm amber mid
+    #e8b86d 70%,     // deep golden orange
+    #d4b38a 100%     // sand base
+  );
+}
+
+// ── Sand Particles ────────────────────────────────────────────────
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: $radius-full;
+  background: rgba($third-500, 0.7);
+  animation: drift calc(4s + var(--i) * 0.4s) linear infinite;
+
+  // Scatter particles across width and height using CSS counter trick
+  $positions: (
+    (5%, 20%), (12%, 55%), (20%, 35%), (28%, 70%), (35%, 15%),
+    (42%, 45%), (50%, 25%), (58%, 65%), (65%, 40%), (72%, 10%),
+    (80%, 55%), (88%, 30%), (93%, 75%), (97%, 50%), (3%, 80%)
+  );
+
+  @for $i from 1 through 15 {
+    &:nth-child(#{$i}) {
+      left:  nth(nth($positions, $i), 1);
+      top:   nth(nth($positions, $i), 2);
+      width:  calc(2px + #{$i * 0.5px});
+      height: calc(2px + #{$i * 0.5px});
+      animation-delay: calc(#{$i} * -0.6s);
+      opacity: calc(0.3 + #{$i} * 0.04);
+    }
+  }
+}
+
+@keyframes drift {
+  0%   { transform: translate(0, 0)   rotate(0deg);   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.8; }
+  100% { transform: translate(80px, -40px) rotate(360deg); opacity: 0; }
+}
+
+// ── Dunes ────────────────────────────────────────────────────────
+.dunes {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dune {
+  position: absolute;
+  bottom: 0;
+  width: 200%;    // double-wide so we can pan seamlessly
+  height: auto;
+
+  // Seamless horizontal pan: slide one full copy width, then snap back
+  animation: sandShift linear infinite;
+}
+
+// Layer 3 — far back, slow, lightest
+.dune-3 {
+  fill: rgba($third-300, 0.6);
+  height: 160px;
+  animation-duration: 18s;
+}
+
+// Layer 2 — mid, medium speed
+.dune-2 {
+  fill: rgba($third-500, 0.75);
+  height: 180px;
+  animation-duration: 12s;
+}
+
+// Layer 1 — front, fast, darkest / richest
+.dune-1 {
+  fill: $third-600;
+  height: 200px;
+  animation-duration: 7s;
+}
+
+@keyframes sandShift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); } // slide one copy width then snap
+}
+
+// ── Hero Label ───────────────────────────────────────────────────
+.hero-label {
+  position: absolute;
+  // Desktop: center in the tall hero
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: $white;
+  text-shadow: 0 2px 12px rgba($third-700, 0.5);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  white-space: nowrap;
+
+  i {
+    font-size: 2.5rem;
+    color: rgba($white, 0.9);
+    filter: drop-shadow(0 2px 6px rgba($third-700, 0.4));
+    animation: float 3s ease-in-out infinite;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-sm;
+    opacity: 0.85;
+    font-weight: $font-weight-medium;
+  }
+
+  // Mobile: smaller text to fit compact strip
+  @include tablet {
+    i    { font-size: 1.6rem; }
+    h1   { font-size: $font-size-lg; }
+    p    { font-size: $font-size-xs; }
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+// ── Page Content Below Scene ─────────────────────────────────────
+.page-content {
+  padding: $spacing-lg;
+}

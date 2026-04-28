@@ -1,0 +1,24 @@
+@use "../themes.scss" as *;
+
+// ── App shell layout ──────────────────────────────────────────────
+// The navbar is position:fixed so the content wrapper needs
+// matching padding to prevent overlap.
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+// Desktop: navbar is fixed at the top
+// Height 80px + top offset $spacing-md (1rem) + a little extra breathing room
+.content {
+  padding-top: calc(80px + #{$spacing-md} + #{$spacing-md});
+  padding-inline: $spacing-md;
+//   min-height: 100vh;
+
+  // Mobile: navbar is fixed at the bottom
+  @include tablet {
+    padding-top: $spacing-md;
+    padding-bottom: calc(70px + #{$spacing-sm});
+  }
+}
