@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './today-page.scss',
 })
 export class TodayPage {
-
+  particles = Array.from({ length: 15 }, (_, i) => i);
 }

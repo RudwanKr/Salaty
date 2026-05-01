@@ -1,1 +1,45 @@
-<p>today-page works!</p>
+  <div class="desert-hero">
+  
+    <!-- Sky gradient layer -->
+    <div class="sky"></div>
+  
+    <!-- Floating sand particles -->
+    <div class="particles">
+      @for(_ of particles; track $index) {
+        <span class="particle" [style.--i]="$index"></span>
+      }
+    </div>
+  
+    <!-- Sand dune layers (back → front) -->
+    <div class="dunes">
+  
+      <!-- Dune layer 3 — far back, slow -->
+      <svg class="dune dune-3" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,80 C180,20 360,140 540,80 C720,20 900,140 1080,80 C1260,20 1440,100 1440,80 L1440,160 L0,160 Z"/>
+      </svg>
+  
+      <!-- Dune layer 2 — mid -->
+      <svg class="dune dune-2" viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,100 C200,30 400,160 600,90 C800,20 1000,160 1200,90 C1340,40 1440,110 1440,100 L1440,180 L0,180 Z"/>
+      </svg>
+  
+      <!-- Dune layer 1 — closest, fast -->
+      <svg class="dune dune-1" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,120 C240,50 480,180 720,110 C960,40 1200,180 1440,120 L1440,200 L0,200 Z"/>
+      </svg>
+  
+    </div>
+  
+    <!-- Hero text overlay -->
+    <div class="hero-label">
+      <i class="fa-solid fa-mosque"></i>
+      <h1>ماذا صليت اليوم</h1>
+      <p>لاتنسى صلاتك يا مسلم</p>
+    </div>
+  
+  </div>
+  
+  <!-- Page content below the scene -->
+  <div class="page-content">
+    <!-- history content goes here -->
+  </div>
