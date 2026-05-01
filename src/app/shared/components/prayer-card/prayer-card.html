@@ -1,16 +1,51 @@
-<div class="prayer-card oasis-card" 
-     [class]="'status-' + status()" 
-     (click)="cycleStatus()">
-  
-  <div class="prayer-info">
+<!-- ── Card ────────────────────────────────────────────────────── -->
+<div
+  class="prayer-card"
+  [class]="'s-' + (status() ?? 'none')"
+  (click)="openDialog()"
+  role="button"
+  [attr.aria-label]="'تعيين حالة صلاة ' + name()"
+>
+  <!-- Left: Name + time + type chip -->
+  <div class="card-left">
     <span class="prayer-name">{{ name() }}</span>
     <span class="prayer-time">{{ time() }}</span>
+    <span class="type-chip" [class]="type()">
+      {{ type() === 'main' ? 'فرض' : 'نافلة' }}
+    </span>
   </div>
 
-  <div class="status-label">
-    @if (status() === 3) { <span class="badge">Masjid</span> }
-    @else if (status() === 2) { <span class="badge">Alone</span> }
-    @else if (status() === 1) { <span class="badge">Late</span> }
-    @else { <span class="badge">--</span> }
+  <!-- Right: status pill + info button -->
+  <div class="card-right">
+    <div class="status-pill" [class]="'s-' + (status() ?? 'none')">
+      <i [class]="statusIcon"></i>
+      <span>{{ statusLabel }}</span>
+    </div>
+    <button class="info-btn" (click)="goToDetail($event)" title="تفاصيل الصلاة">
+      <i class="fa-solid fa-circle-info"></i>
+    </button>
   </div>
 </div>
+
+<!-- ── Status Dialog ──────────────────────────────────────────── -->
+@if (dialogOpen()) {
+  <div class="dialog-backdrop" (click)="closeDialog()">
+    <div class="dialog-sheet" (click)="$event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <p class="sheet-title">{{ name() }} — اختر حالة الصلاة</p>
+      <div class="options-grid" [class.two-col]="type() === 'voluntary'">
+        @for (opt of options; track opt.value) {
+          <button
+            class="option-btn"
+            [class]="'opt-' + opt.value"
+            [class.selected]="status() === opt.value"
+            (click)="setStatus(opt.value)"
+          >
+            <i [class]="opt.icon"></i>
+            <span>{{ opt.label }}</span>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+}

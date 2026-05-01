@@ -28,6 +28,11 @@ export const routes: Routes = [
       .then(m => m.ProfilePage)
   },
   {
+    path: 'prayer/:id',
+    loadComponent: () => import('./shared/components/prayer-detail/prayer-detail')
+      .then(m => m.PrayerDetail)
+  },
+  {
     path: '**', // Fallback for 404
     redirectTo: 'today'
   }

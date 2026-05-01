@@ -12,10 +12,10 @@ export class NavBar {
   showAllMenu = false;
 
   menuItems = [
-    { path: 'today', label: 'اليوم', icon: 'fa-duotone fa-solid fa-calendar-week' },
-    { path: 'prayers', label: 'الصلاوات', icon: 'fa-duotone fa-solid fa-calendar-week' },
-    { path: 'history', label: 'التاريخ', icon: 'fa-duotone fa-solid fa-calendar-week' },
-    { path: 'profile', label: 'الملف الشخصي', icon: 'fa-duotone fa-user' },
+    { path: 'today', label: 'اليوم', icon: 'fa-solid fa-calendar-week' },
+    { path: 'prayers', label: 'الصلاوات', icon: 'fa-solid fa-mosque' },
+    { path: 'history', label: 'التاريخ', icon: 'fa-solid fa-place-of-worship' },
+    { path: 'profile', label: 'الملف الشخصي', icon: 'fa-solid fa-user' },
   ];
 
   go = inject(GoRoute);

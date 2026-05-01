@@ -1,0 +1,205 @@
+@import './../../../../themes.scss';
+
+// ── Hero ─────────────────────────────────────────────────────────
+.detail-hero {
+  position: relative;
+  padding: $spacing-xl $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  text-align: center;
+
+  // Per-prayer colour themes
+  &.dawn      { background: linear-gradient(160deg, #fceabb 0%, #f8b500 100%); }
+  &.noon      { background: linear-gradient(160deg, $third-200 0%, $third-500 100%); }
+  &.afternoon { background: linear-gradient(160deg, $secondary-300 0%, $secondary-600 100%); }
+  &.sunset    { background: linear-gradient(160deg, #ff9a56 0%, #c0392b 100%); }
+  &.night     { background: linear-gradient(160deg, $primary-800 0%, $black 100%); }
+}
+
+.back-btn {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  background: rgba($white, 0.25);
+  border: none;
+  color: $white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: background 0.2s ease;
+  box-shadow: none;
+  padding: 0;
+
+  &:hover { background: rgba($white, 0.4); transform: none; }
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-lg;
+}
+
+.hero-icon {
+  font-size: 3rem;
+  color: $white;
+  filter: drop-shadow(0 4px 12px rgba($black, 0.2));
+  animation: float 3s ease-in-out infinite;
+}
+
+.hero-name {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $white;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba($black, 0.2);
+}
+
+.hero-time {
+  font-size: $font-size-sm;
+  color: rgba($white, 0.85);
+  margin: 0;
+  text-shadow: 0 1px 4px rgba($black, 0.15);
+}
+
+// ── Content ──────────────────────────────────────────────────────
+.detail-content {
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+// ── Rakaat Row ───────────────────────────────────────────────────
+.rakaat-row {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.rakaat-card {
+  flex: 1;
+  min-width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-md $spacing-sm;
+  border-radius: $radius-xl;
+  border: 1.5px solid $border-color;
+  background: $bg-card;
+  box-shadow: $shadow-sm;
+  text-align: center;
+
+  i { font-size: 1.4rem; }
+
+  .rakaat-num {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    line-height: 1;
+  }
+
+  .rakaat-label {
+    font-size: $font-size-xs;
+    color: $text-muted;
+    font-weight: $font-weight-semibold;
+  }
+
+  &.fard {
+    i, .rakaat-num { color: $primary-700; }
+    border-color: rgba($primary-500, 0.3);
+    background: rgba($primary-500, 0.07);
+  }
+
+  &.sunnah {
+    i, .rakaat-num { color: $secondary-700; }
+    border-color: rgba($secondary-500, 0.3);
+    background: rgba($secondary-500, 0.08);
+  }
+
+  &.witr {
+    i, .rakaat-num { color: $third-700; }
+    border-color: rgba($third-500, 0.3);
+    background: rgba($third-500, 0.08);
+  }
+}
+
+// ── Info Cards ───────────────────────────────────────────────────
+.info-card {
+  background: $bg-card;
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+  border: 1.5px solid $border-color;
+  box-shadow: $shadow-sm;
+
+  .info-card-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+
+    i { font-size: 1.2rem; }
+
+    h2 {
+      margin: 0;
+      font-size: $font-size-base;
+      font-weight: $font-weight-bold;
+      color: $text-main;
+    }
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $text-muted;
+    line-height: 1.8;
+  }
+
+  &.virtues .info-card-header i { color: $third-600; }
+  &.sunnah-info .info-card-header i { color: $primary; }
+  &.note {
+    border-color: rgba($warning, 0.3);
+    background: rgba($warning, 0.05);
+    .info-card-header i { color: $warning; }
+  }
+}
+
+// ── Not Found ────────────────────────────────────────────────────
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl;
+  gap: $spacing-md;
+  color: $text-muted;
+
+  i { font-size: 3rem; color: $gray-300; }
+  p { margin: 0; font-size: $font-size-lg; }
+}
+
+.back-btn-plain {
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-lg;
+  border: 1px solid $border-color;
+  background: $bg-card;
+  color: $primary;
+  cursor: pointer;
+  font-family: $font-family-main;
+  font-size: $font-size-base;
+}
+
+// ── Animation ────────────────────────────────────────────────────
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}

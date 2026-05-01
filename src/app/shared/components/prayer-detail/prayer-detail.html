@@ -1,0 +1,87 @@
+@if (prayer(); as p) {
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <div class="detail-hero" [class]="p.colorClass">
+    <button class="back-btn" (click)="goBack()">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+    <div class="hero-content">
+      <i [class]="p.icon + ' hero-icon'"></i>
+      <h1 class="hero-name">صلاة {{ p.name }}</h1>
+      <p class="hero-time">{{ p.timeDesc }}</p>
+    </div>
+  </div>
+
+  <!-- ── Content ───────────────────────────────────────────── -->
+  <div class="detail-content">
+
+    <!-- Rakaat cards row -->
+    <div class="rakaat-row">
+      @if (p.fard > 0) {
+        <div class="rakaat-card fard">
+          <i class="fa-solid fa-star-and-crescent"></i>
+          <span class="rakaat-num">{{ p.fard }}</span>
+          <span class="rakaat-label">فرض</span>
+        </div>
+      }
+      @if (p.sunnahBefore > 0) {
+        <div class="rakaat-card sunnah">
+          <i class="fa-solid fa-arrow-turn-down-left"></i>
+          <span class="rakaat-num">{{ p.sunnahBefore }}</span>
+          <span class="rakaat-label">سنة قبلية</span>
+        </div>
+      }
+      @if (p.sunnahAfter > 0) {
+        <div class="rakaat-card sunnah">
+          <i class="fa-solid fa-arrow-turn-down-right"></i>
+          <span class="rakaat-num">{{ p.sunnahAfter }}</span>
+          <span class="rakaat-label">سنة بعدية</span>
+        </div>
+      }
+      @if (p.witr > 0) {
+        <div class="rakaat-card witr">
+          <i class="fa-solid fa-moon"></i>
+          <span class="rakaat-num">{{ p.witr }}+</span>
+          <span class="rakaat-label">{{ p.fard === 0 ? 'ركعات' : 'وتر' }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Virtues -->
+    <div class="info-card virtues">
+      <div class="info-card-header">
+        <i class="fa-solid fa-sparkles"></i>
+        <h2>فضل الصلاة</h2>
+      </div>
+      <p>{{ p.virtues }}</p>
+    </div>
+
+    <!-- Sunnah info -->
+    <div class="info-card sunnah-info">
+      <div class="info-card-header">
+        <i class="fa-solid fa-hands-praying"></i>
+        <h2>السنن الراتبة</h2>
+      </div>
+      <p>{{ p.sunnahDesc }}</p>
+    </div>
+
+    <!-- Note (if any) -->
+    @if (p.note) {
+      <div class="info-card note">
+        <div class="info-card-header">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <h2>تنبيه</h2>
+        </div>
+        <p>{{ p.note }}</p>
+      </div>
+    }
+
+  </div>
+
+} @else {
+  <div class="not-found">
+    <i class="fa-solid fa-circle-question"></i>
+    <p>الصلاة غير موجودة</p>
+    <button class="back-btn-plain" (click)="goBack()">العودة</button>
+  </div>
+}

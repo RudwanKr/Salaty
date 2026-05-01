@@ -1,14 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
 @import './themes.scss';
 
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Cairo', sans-serif;
+}
+
+body {
   background-color: var(--color-bg);
   color: var(--text-main);
   transition: background-color 0.3s ease, color 0.3s ease; // Smooth dark mode transition
   min-height: 100vh;
+  // background-color: $bg-main;
+  background-color: $bg-main;
 }
 
 // Common Utility for Cards

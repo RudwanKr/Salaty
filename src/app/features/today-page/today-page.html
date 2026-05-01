@@ -1,45 +1,111 @@
-  <div class="desert-hero">
+ <main>
+   <div class="desert-hero">
+    
+      <!-- Sky gradient layer -->
+      <div class="sky"></div>
+    
+      <!-- Floating sand particles -->
+      <div class="particles">
+        @for(_ of particles; track $index) {
+          <span class="particle" [style.--i]="$index"></span>
+        }
+      </div>
+    
+      <!-- Sand dune layers (back → front) -->
+      <div class="dunes">
+    
+        <!-- Dune layer 3 — far back, slow -->
+        <svg class="dune dune-3" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,80 C180,20 360,140 540,80 C720,20 900,140 1080,80 C1260,20 1440,100 1440,80 L1440,160 L0,160 Z"/>
+        </svg>
+    
+        <!-- Dune layer 2 — mid -->
+        <svg class="dune dune-2" viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,100 C200,30 400,160 600,90 C800,20 1000,160 1200,90 C1340,40 1440,110 1440,100 L1440,180 L0,180 Z"/>
+        </svg>
+    
+        <!-- Dune layer 1 — closest, fast -->
+        <svg class="dune dune-1" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,120 C240,50 480,180 720,110 C960,40 1200,180 1440,120 L1440,200 L0,200 Z"/>
+        </svg>
+    
+      </div>
+    
+      <div class="hero-label">
+        <i class="fa-solid fa-mosque"></i>
+        <h1>{{ isNotToday() ? 'صلاة يوم ' + selectedDayName() : 'ماذا صليت اليوم' }}</h1>
+        <p>{{ isNotToday() ? selectedDayDate() : 'لاتنسى صلاتك يا مسلم' }}</p>
+        @if (isNotToday()) {
+          <button class="go-today-btn" (click)="goToToday()">
+            <i class="fa-solid fa-calendar-day"></i> العودة لليوم
+          </button>
+        }
+      </div>
+    
+    </div>
+    
+    <div class="page-content">
+
+      <!-- ── Weekly Days Bar ──────────────────────────────────── -->
+      <div class="days-bar-wrapper">
+        <div class="week-nav">
+          <button class="week-nav-btn" (click)="prevWeek()">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <button class="week-nav-btn" (click)="nextWeek()">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+        </div>
+        
+        <div class="days-bar">
+          @for (day of weekDays(); track day.dayNum) {
+            <button
+              class="day-pill"
+              [class.today]="day.isToday"
+              [class.selected]="day.isSelected"
+              (click)="selectDay(day)"
+            >
+              <span class="day-name">{{ day.dayName }}</span>
+              <span class="day-num">{{ day.dayNum }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- ── Accordions ────────────────────────────────────────── -->
+      @for (cat of categories; track cat.id) {
+
+        <div class="accordion" [class.open]="cat.open()" [class]="cat.colorClass">
   
-    <!-- Sky gradient layer -->
-    <div class="sky"></div>
+          <!-- Header -->
+          <button class="acc-header" (click)="toggle(cat)">
+            <div class="acc-header-left">
+              <div class="acc-icon-wrap">
+                <i [class]="cat.icon"></i>
+              </div>
+              <div class="acc-titles">
+                <span class="acc-title">{{ cat.title }}</span>
+                <span class="acc-subtitle">{{ cat.subtitle }}</span>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-down acc-chevron"></i>
+          </button>
   
-    <!-- Floating sand particles -->
-    <div class="particles">
-      @for(_ of particles; track $index) {
-        <span class="particle" [style.--i]="$index"></span>
+          <!-- Body -->
+          @if (cat.open()) {
+            <div class="acc-body">
+              @for (prayer of cat.prayers; track prayer.id) {
+                <app-prayer-card
+                  [prayerId]="prayer.id"
+                  [name]="prayer.name"
+                  [time]="prayer.time"
+                  [type]="prayer.type"
+                />
+              }
+            </div>
+          }
+  
+        </div>
       }
     </div>
-  
-    <!-- Sand dune layers (back → front) -->
-    <div class="dunes">
-  
-      <!-- Dune layer 3 — far back, slow -->
-      <svg class="dune dune-3" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,80 C180,20 360,140 540,80 C720,20 900,140 1080,80 C1260,20 1440,100 1440,80 L1440,160 L0,160 Z"/>
-      </svg>
-  
-      <!-- Dune layer 2 — mid -->
-      <svg class="dune dune-2" viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,100 C200,30 400,160 600,90 C800,20 1000,160 1200,90 C1340,40 1440,110 1440,100 L1440,180 L0,180 Z"/>
-      </svg>
-  
-      <!-- Dune layer 1 — closest, fast -->
-      <svg class="dune dune-1" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,120 C240,50 480,180 720,110 C960,40 1200,180 1440,120 L1440,200 L0,200 Z"/>
-      </svg>
-  
-    </div>
-  
-    <!-- Hero text overlay -->
-    <div class="hero-label">
-      <i class="fa-solid fa-mosque"></i>
-      <h1>ماذا صليت اليوم</h1>
-      <p>لاتنسى صلاتك يا مسلم</p>
-    </div>
-  
-  </div>
-  
-  <!-- Page content below the scene -->
-  <div class="page-content">
-    <!-- history content goes here -->
-  </div>
+ </main>

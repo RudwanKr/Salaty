@@ -1,60 +1,230 @@
+@import './../../../../themes.scss';
+
+// ── Card ─────────────────────────────────────────────────────────
+:host { display: block; }
+
 .prayer-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: $spacing-sm $spacing-md;
+  background: $bg-card;
+  border-radius: $radius-xl;
+  border: 1.5px solid $border-color;
+  border-inline-start: 5px solid $border-color;
+  box-shadow: $shadow-sm;
   cursor: pointer;
+  transition: all 0.25s ease;
   user-select: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-bottom: var(--space-md);
-  border-left: 6px solid transparent; // Added for a "side-bar" accent
 
-  // Hover effect to make it feel responsive
   &:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    box-shadow: $shadow-md;
   }
 
-  // Dynamic Status Classes
-  &.status-3 {
-    border-color: var(--status-3);
-    background-color: rgba(141, 166, 147, 0.1); // Tint of Sage
-    .badge { color: var(--status-3); font-weight: 700; }
-  }
+  // Status colour + tint
+  &.s-group      { border-inline-start-color: $primary;       background: rgba($primary-500,    0.06); }
+  &.s-individual { border-inline-start-color: $secondary-600; background: rgba($secondary-500,  0.08); }
+  &.s-late       { border-inline-start-color: $third-600;     background: rgba($third-500,      0.08); }
+  &.s-missed     { border-inline-start-color: $danger;        background: rgba($danger-500,     0.06); }
+  &.s-prayed     { border-inline-start-color: $success;       background: rgba($success-500,    0.06); }
+  &.s-not-prayed { border-inline-start-color: $text-muted;    background: rgba($gray-400,       0.05); }
+}
 
-  &.status-2 {
-    border-color: var(--status-2);
-    background-color: rgba(163, 196, 217, 0.1); // Tint of Sky
-    .badge { color: var(--status-2); }
-  }
+// ── Card Left ────────────────────────────────────────────────────
+.card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 
-  &.status-1 {
-    border-color: var(--color-accent);
-    background-color: rgba(230, 184, 156, 0.1); // Tint of Sunset
-    .badge { color: var(--color-accent); }
-  }
+.prayer-name {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+}
 
-  .prayer-info {
-    display: flex;
-    flex-direction: column;
-    
-    .prayer-name {
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-    
-    .prayer-time {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-  }
+.prayer-time {
+  font-size: $font-size-sm;
+  color: $text-muted;
+  font-variant-numeric: tabular-nums;
+}
 
-  .badge {
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-    background: var(--color-surface);
-    padding: 4px 10px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
+.type-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  width: fit-content;
+  margin-top: 2px;
+
+  &.main      { background: rgba($primary-500, 0.15); color: $primary-700; }
+  &.voluntary { background: rgba($third-500,   0.18); color: $third-700; }
+}
+
+// ── Card Right ───────────────────────────────────────────────────
+.card-right {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-shrink: 0;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  border: 1.5px solid $border-color;
+  background: $bg-main;
+  color: $text-muted;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  i { font-size: 0.9rem; }
+
+  &.s-group      { background: rgba($primary-500,   0.12); color: $primary-700;    border-color: rgba($primary-500,   0.35); }
+  &.s-individual { background: rgba($secondary-500, 0.18); color: $secondary-700;  border-color: rgba($secondary-500, 0.35); }
+  &.s-late       { background: rgba($third-500,     0.18); color: $third-700;      border-color: rgba($third-500,     0.35); }
+  &.s-missed     { background: rgba($danger-500,    0.12); color: $danger-700;     border-color: rgba($danger-500,    0.35); }
+  &.s-prayed     { background: rgba($success-500,   0.12); color: $success-600;    border-color: rgba($success-500,   0.35); }
+  &.s-not-prayed { background: rgba($gray-400,      0.12); color: $gray-600;       border-color: rgba($gray-400,      0.35); }
+}
+
+// ── Info Button ──────────────────────────────────────────────────
+.info-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-full;
+  background: transparent;
+  border: none;
+  color: $text-muted;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  box-shadow: none;
+  flex-shrink: 0;
+
+  i { font-size: 1.2rem; }
+
+  &:hover {
+    background: rgba($primary-500, 0.1);
+    color: $primary;
+    transform: none;
   }
+}
+
+// ── Dialog Backdrop ──────────────────────────────────────────────
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba($black, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  animation: backdropIn 0.2s ease;
+}
+
+// ── Bottom Sheet ─────────────────────────────────────────────────
+.dialog-sheet {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  background: $bg-card;
+  border-radius: $radius-2xl $radius-2xl 0 0;
+  padding: $spacing-xs $spacing-lg $spacing-xl;
+  animation: slideUp 0.32s cubic-bezier(0.34, 1.4, 0.64, 1);
+  box-shadow: 0 -8px 40px rgba($black, 0.15);
+  padding-bottom: 80px;
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: $gray-300;
+  border-radius: $radius-full;
+  margin: $spacing-sm auto $spacing-md;
+}
+
+.sheet-title {
+  text-align: center;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  margin: 0 0 $spacing-lg;
+}
+
+// ── Options Grid ─────────────────────────────────────────────────
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-sm;
+
+  &.two-col { grid-template-columns: 1fr 1fr; }
+}
+
+.option-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-lg $spacing-sm;
+  border-radius: $radius-xl;
+  border: 2px solid $border-color;
+  background: $bg-main;
+  color: $text-muted;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: $font-family-main;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  box-shadow: none;
+  line-height: 1.4;
+  text-align: center;
+
+  i { font-size: 1.8rem; transition: transform 0.2s ease; }
+
+  &:hover { transform: translateY(-2px); box-shadow: $shadow-sm; }
+  &.selected i { transform: scale(1.2); }
+
+  &.opt-group {
+    &:hover, &.selected { background: rgba($primary-500,   0.15); border-color: $primary;       color: $primary-700; }
+  }
+  &.opt-individual {
+    &:hover, &.selected { background: rgba($secondary-500, 0.18); border-color: $secondary-600; color: $secondary-700; }
+  }
+  &.opt-late {
+    &:hover, &.selected { background: rgba($third-500,     0.18); border-color: $third-600;     color: $third-700; }
+  }
+  &.opt-missed {
+    &:hover, &.selected { background: rgba($danger-500,    0.15); border-color: $danger;        color: $danger-700; }
+  }
+  &.opt-prayed {
+    &:hover, &.selected { background: rgba($success-500,   0.15); border-color: $success-600;   color: $success-600; }
+  }
+  &.opt-not-prayed {
+    &:hover, &.selected { background: rgba($gray-400,      0.15); border-color: $gray-500;      color: $gray-700; }
+  }
+}
+
+// ── Animations ───────────────────────────────────────────────────
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
