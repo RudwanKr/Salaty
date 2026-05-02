@@ -3,16 +3,17 @@
 main {
   background-color: $third-700;
   position: relative;
-  z-index: 0;          // establishes stacking context for children
+  z-index: 0; // establishes stacking context for children
   min-height: 100vh;
 }
+
 // ── Desert Hero Scene ────────────────────────────────────────────
 .desert-hero {
   position: relative;
   width: 100%;
   overflow: hidden;
   height: 180px;
-  z-index: 1;          // above main background, below page-content (z-index:2)
+  z-index: 1; // above main background, below page-content (z-index:2)
 
   @include tablet {
     height: 130px;
@@ -23,14 +24,13 @@ main {
 .sky {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    $third-100 0%,      // wheat / golden top
-    $third-200 20%,      // wheat / golden top
-    $third-300 40%,     // warm amber mid
-    $third-400 70%,     // deep golden orange
-    $third-500 100%     // sand base
-  );
+  background: linear-gradient(180deg,
+      $third-100 0%, // wheat / golden top
+      $third-200 20%, // wheat / golden top
+      $third-300 40%, // warm amber mid
+      $third-400 70%, // deep golden orange
+      $third-500 100% // sand base
+    );
 }
 
 // ── Sand Particles ────────────────────────────────────────────────
@@ -50,28 +50,53 @@ main {
 
   // Scatter particles across width and height using CSS counter trick
   $positions: (
-    (5%, 20%), (12%, 55%), (20%, 35%), (28%, 70%), (35%, 15%),
-    (42%, 45%), (50%, 25%), (58%, 65%), (65%, 40%), (72%, 10%),
-    (80%, 55%), (88%, 30%), (93%, 75%), (97%, 50%), (3%, 80%)
+    (5%, 20%),
+    (12%, 55%),
+    (20%, 35%),
+    (28%, 70%),
+    (35%, 15%),
+    (42%, 45%),
+    (50%, 25%),
+    (58%, 65%),
+    (65%, 40%),
+    (72%, 10%),
+    (80%, 55%),
+    (88%, 30%),
+    (93%, 75%),
+    (97%, 50%),
+    (3%, 80%)
   );
 
-  @for $i from 1 through 15 {
-    &:nth-child(#{$i}) {
-      left:  nth(nth($positions, $i), 1);
-      top:   nth(nth($positions, $i), 2);
-      width:  calc(2px + #{$i * 0.5px});
-      height: calc(2px + #{$i * 0.5px});
-      animation-delay: calc(#{$i} * -0.6s);
-      opacity: calc(0.3 + #{$i} * 0.04);
-    }
+@for $i from 1 through 15 {
+  &:nth-child(#{$i}) {
+    left: nth(nth($positions, $i), 1);
+    top: nth(nth($positions, $i), 2);
+    width: calc(2px + #{$i * 0.5px});
+    height: calc(2px + #{$i * 0.5px});
+    animation-delay: calc(#{$i} * -0.6s);
+    opacity: calc(0.3 + #{$i} * 0.04);
   }
+}
 }
 
 @keyframes drift {
-  0%   { transform: translate(0, 0)   rotate(0deg);   opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 0.8; }
-  100% { transform: translate(80px, -40px) rotate(360deg); opacity: 0; }
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translate(80px, -40px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 // ── Dunes ────────────────────────────────────────────────────────
@@ -87,7 +112,7 @@ main {
 .dune {
   position: absolute;
   bottom: 0;
-  width: 200%;    // double-wide so we can pan seamlessly
+  width: 200%; // double-wide so we can pan seamlessly
   height: auto;
 
   // Seamless horizontal pan: slide one full copy width, then snap back
@@ -121,17 +146,25 @@ main {
 }
 
 @keyframes sandShift {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); } // slide one copy width then snap
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(50%);
+  }
+
+  // slide one copy width to the right for RTL
 }
 
 // ── Hero Label ───────────────────────────────────────────────────
 .hero-label {
   position: absolute;
-  // Desktop: center in the tall hero
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   color: $white;
   text-shadow: 0 2px 12px rgba($third-700, 0.5);
@@ -195,15 +228,30 @@ main {
 
   // Mobile: smaller text to fit compact strip
   @include tablet {
-    i    { font-size: 1.6rem; }
-    h1   { font-size: $font-size-lg; }
-    p    { font-size: $font-size-xs; }
+    i {
+      font-size: 1.6rem;
+    }
+
+    h1 {
+      font-size: $font-size-lg;
+    }
+
+    p {
+      font-size: $font-size-xs;
+    }
   }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 // ── Page Content Below Scene ─────────────────────────────────────
@@ -218,11 +266,12 @@ main {
   z-index: 2;
   margin: 0 auto;
   width: 1400px;
+
   @include tablet {
     margin: 0;
     width: 100%;
     padding: $spacing-md;
-    padding-bottom: 70px; 
+    padding-bottom: 70px;
   }
 }
 
@@ -279,7 +328,9 @@ main {
   overflow-x: auto;
   flex: 1;
 
-  &::-webkit-scrollbar { display: none; }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .day-pill {
@@ -320,7 +371,10 @@ main {
     color: $primary-700;
     border-color: $primary-500;
     background: $primary-100;
-    .day-num { color: $primary; }
+
+    .day-num {
+      color: $primary;
+    }
   }
 
   &.selected {
@@ -329,8 +383,10 @@ main {
     border-color: rgba($black, 0.1);
     box-shadow: $shadow-sm;
     transform: translateY(-2px);
-    
-    .day-num { color: $white; }
+
+    .day-num {
+      color: $white;
+    }
   }
 }
 
@@ -344,7 +400,9 @@ main {
   transition: box-shadow 0.25s ease;
   margin-bottom: $spacing-md;
 
-  &.open { box-shadow: $shadow-md; }
+  &.open {
+    box-shadow: $shadow-md;
+  }
 
   // ── Category colour accents ─────────────────────────────────
   &.cat-main {
@@ -352,7 +410,10 @@ main {
       background: rgba($primary-500, 0.12);
       color: $primary-700;
     }
-    &.open { border-color: rgba($primary-500, 0.35); }
+
+    &.open {
+      border-color: rgba($primary-500, 0.35);
+    }
   }
 
   &.cat-voluntary {
@@ -360,7 +421,10 @@ main {
       background: rgba($third-500, 0.15);
       color: $third-700;
     }
-    &.open { border-color: rgba($third-500, 0.35); }
+
+    &.open {
+      border-color: rgba($third-500, 0.35);
+    }
   }
 }
 
@@ -378,7 +442,10 @@ main {
   transition: background 0.2s ease;
   box-shadow: none;
 
-  &:hover { background: rgba($gray-100, 0.6); transform: none; }
+  &:hover {
+    background: rgba($gray-100, 0.6);
+    transform: none;
+  }
 }
 
 .acc-header-left {
@@ -424,7 +491,9 @@ main {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
 
-  .open & { transform: rotate(180deg); }
+  .open & {
+    transform: rotate(180deg);
+  }
 }
 
 // ── Accordion Body ───────────────────────────────────────────────
@@ -439,6 +508,13 @@ main {
 }
 
 @keyframes accBodyIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

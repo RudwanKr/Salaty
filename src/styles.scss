@@ -8,13 +8,46 @@
   font-family: 'Cairo', sans-serif;
 }
 
+html, body {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: $bg-main;
+}
+
 body {
   background-color: var(--color-bg);
   color: var(--text-main);
-  transition: background-color 0.3s ease, color 0.3s ease; // Smooth dark mode transition
-  min-height: 100vh;
-  background-color: $bg-main;
+  transition: background-color 0.3s ease, color 0.3s ease;
   direction: rtl;
+}
+
+app-root {
+  display: block;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  direction: rtl;
+}
+
+// ── Premium Global Scrollbar ──────────────────────────────────────
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: $primary-400;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary-600;
+  border-radius: 10px;
+  
+  &:hover {
+    background: $primary-700;
+  }
 }
 
 // Common Utility for Cards

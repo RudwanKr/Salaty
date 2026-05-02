@@ -157,6 +157,16 @@ main {
   }
 }
 
+.cards-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: $spacing-sm;
+  width: 100%;
+  @include tablet {
+    grid-template-columns: 1fr;  
+  }
+}
+
 // ── Info Cards ───────────────────────────────────────────────────
 .info-card {
   background: $bg-card;
@@ -216,7 +226,14 @@ main {
     }
   }
 
-  &.virtues .info-card-header i { color: $third-600; }
+  &.virtues {
+    grid-row: span 2;
+    @include tablet {
+      grid-row: auto;
+    }
+    .info-card-header i { color: $third-600; }
+  }
+  
   &.sunnah-info .info-card-header i { color: $primary; }
   &.note {
     border-color: rgba($warning, 0.3);
