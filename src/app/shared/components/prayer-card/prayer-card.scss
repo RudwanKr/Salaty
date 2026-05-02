@@ -1,7 +1,9 @@
 @import './../../../../themes.scss';
 
 // ── Card ─────────────────────────────────────────────────────────
-:host { display: block; }
+:host {
+  display: block;
+}
 
 .prayer-card {
   display: flex;
@@ -22,13 +24,20 @@
     box-shadow: $shadow-md;
   }
 
-  // Status colour + tint
-  &.s-group      { border-inline-start-color: $primary;       background: rgba($primary-500,    0.06); }
-  &.s-individual { border-inline-start-color: $secondary-600; background: rgba($secondary-500,  0.08); }
-  &.s-late       { border-inline-start-color: $third-600;     background: rgba($third-500,      0.08); }
-  &.s-missed     { border-inline-start-color: $danger;        background: rgba($danger-500,     0.06); }
-  &.s-prayed     { border-inline-start-color: $success;       background: rgba($success-500,    0.06); }
-  &.s-not-prayed { border-inline-start-color: $text-muted;    background: rgba($gray-400,       0.05); }
+  // Base colour dot
+  &.c-fajr .prayer-dot { background-color: $fajr; box-shadow: 0 0 8px rgba($fajr, 0.4); }
+  &.c-dhuhr .prayer-dot { background-color: $dhuhr; box-shadow: 0 0 8px rgba($dhuhr, 0.4); }
+  &.c-asr .prayer-dot { background-color: $asr; box-shadow: 0 0 8px rgba($asr, 0.4); }
+  &.c-maghrib .prayer-dot { background-color: $maghrib; box-shadow: 0 0 8px rgba($maghrib, 0.4); }
+  &.c-isha .prayer-dot { background-color: $isha; box-shadow: 0 0 8px rgba($isha, 0.4); }
+
+  // Status border color
+  &.s-group { border-inline-start-color: $primary-700; }
+  &.s-individual { border-inline-start-color: $secondary-700; }
+  &.s-late { border-inline-start-color: $third-700; }
+  &.s-missed { border-inline-start-color: $danger-700; }
+  &.s-prayed { border-inline-start-color: $success-600; }
+  &.s-not-prayed { border-inline-start-color: $gray-600; }
 }
 
 // ── Card Left ────────────────────────────────────────────────────
@@ -36,6 +45,20 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+
+.prayer-title {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.prayer-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .prayer-name {
@@ -60,8 +83,15 @@
   width: fit-content;
   margin-top: 2px;
 
-  &.main      { background: rgba($primary-500, 0.15); color: $primary-700; }
-  &.voluntary { background: rgba($third-500,   0.18); color: $third-700; }
+  &.main {
+    background: rgba($primary-500, 0.15);
+    color: $primary-700;
+  }
+
+  &.voluntary {
+    background: rgba($third-500, 0.18);
+    color: $third-700;
+  }
 }
 
 // ── Card Right ───────────────────────────────────────────────────
@@ -86,14 +116,45 @@
   transition: all 0.2s ease;
   white-space: nowrap;
 
-  i { font-size: 0.9rem; }
+  i {
+    font-size: 0.9rem;
+  }
 
-  &.s-group      { background: rgba($primary-500,   0.12); color: $primary-700;    border-color: rgba($primary-500,   0.35); }
-  &.s-individual { background: rgba($secondary-500, 0.18); color: $secondary-700;  border-color: rgba($secondary-500, 0.35); }
-  &.s-late       { background: rgba($third-500,     0.18); color: $third-700;      border-color: rgba($third-500,     0.35); }
-  &.s-missed     { background: rgba($danger-500,    0.12); color: $danger-700;     border-color: rgba($danger-500,    0.35); }
-  &.s-prayed     { background: rgba($success-500,   0.12); color: $success-600;    border-color: rgba($success-500,   0.35); }
-  &.s-not-prayed { background: rgba($gray-400,      0.12); color: $gray-600;       border-color: rgba($gray-400,      0.35); }
+  &.s-group {
+    background: rgba($primary-500, 0.12);
+    color: $primary-700;
+    border-color: $primary-700;
+  }
+
+  &.s-individual {
+    background: rgba($secondary-500, 0.18);
+    color: $secondary-700;
+    border-color: $secondary-700;
+  }
+
+  &.s-late {
+    background: rgba($third-500, 0.18);
+    color: $third-700;
+    border-color: $third-700;
+  }
+
+  &.s-missed {
+    background: rgba($danger-500, 0.12);
+    color: $danger-700;
+    border-color: $danger-700;
+  }
+
+  &.s-prayed {
+    background: rgba($success-500, 0.12);
+    color: $success-600;
+    border-color: rgba($success-500, 0.35);
+  }
+
+  &.s-not-prayed {
+    background: rgba($gray-400, 0.12);
+    color: $gray-600;
+    border-color: rgba($gray-400, 0.35);
+  }
 }
 
 // ── Info Button ──────────────────────────────────────────────────
@@ -113,7 +174,9 @@
   box-shadow: none;
   flex-shrink: 0;
 
-  i { font-size: 1.2rem; }
+  i {
+    font-size: 1.2rem;
+  }
 
   &:hover {
     background: rgba($primary-500, 0.1);
@@ -170,7 +233,9 @@
   grid-template-columns: 1fr 1fr;
   gap: $spacing-sm;
 
-  &.two-col { grid-template-columns: 1fr 1fr; }
+  &.two-col {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .option-btn {
@@ -193,38 +258,100 @@
   line-height: 1.4;
   text-align: center;
 
-  i { font-size: 1.8rem; transition: transform 0.2s ease; }
+  i {
+    font-size: 1.8rem;
+    transition: transform 0.2s ease;
+  }
 
-  &:hover { transform: translateY(-2px); box-shadow: $shadow-sm; }
-  &.selected i { transform: scale(1.2); }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-sm;
+  }
+
+  &.selected i {
+    transform: scale(1.2);
+  }
 
   &.opt-group {
-    &:hover, &.selected { background: rgba($primary-500,   0.15); border-color: $primary;       color: $primary-700; }
+
+    &:hover,
+    &.selected {
+      background: rgba($primary-500, 0.15);
+      border-color: $primary;
+      color: $primary-700;
+    }
   }
+
   &.opt-individual {
-    &:hover, &.selected { background: rgba($secondary-500, 0.18); border-color: $secondary-600; color: $secondary-700; }
+
+    &:hover,
+    &.selected {
+      background: rgba($secondary-500, 0.18);
+      border-color: $secondary-600;
+      color: $secondary-700;
+    }
   }
+
   &.opt-late {
-    &:hover, &.selected { background: rgba($third-500,     0.18); border-color: $third-600;     color: $third-700; }
+
+    &:hover,
+    &.selected {
+      background: rgba($third-500, 0.18);
+      border-color: $third-600;
+      color: $third-700;
+    }
   }
+
   &.opt-missed {
-    &:hover, &.selected { background: rgba($danger-500,    0.15); border-color: $danger;        color: $danger-700; }
+
+    &:hover,
+    &.selected {
+      background: rgba($danger-500, 0.15);
+      border-color: $danger;
+      color: $danger-700;
+    }
   }
+
   &.opt-prayed {
-    &:hover, &.selected { background: rgba($success-500,   0.15); border-color: $success-600;   color: $success-600; }
+
+    &:hover,
+    &.selected {
+      background: rgba($success-500, 0.15);
+      border-color: $success-600;
+      color: $success-600;
+    }
   }
+
   &.opt-not-prayed {
-    &:hover, &.selected { background: rgba($gray-400,      0.15); border-color: $gray-500;      color: $gray-700; }
+
+    &:hover,
+    &.selected {
+      background: rgba($gray-400, 0.15);
+      border-color: $gray-500;
+      color: $gray-700;
+    }
   }
 }
 
 // ── Animations ───────────────────────────────────────────────────
 @keyframes slideUp {
-  from { transform: translateY(100%); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes backdropIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

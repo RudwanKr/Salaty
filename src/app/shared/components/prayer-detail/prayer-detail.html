@@ -1,4 +1,5 @@
 @if (prayer(); as p) {
+  <main [class]="p.colorClass">
 
   <!-- ── Hero ──────────────────────────────────────────────── -->
   <div class="detail-hero" [class]="p.colorClass">
@@ -53,7 +54,11 @@
         <i class="fa-solid fa-sparkles"></i>
         <h2>فضل الصلاة</h2>
       </div>
-      <p>{{ p.virtues }}</p>
+      <ul class="virtues-list">
+        @for (virtue of p.virtues; track $index) {
+          <li>{{ virtue }}</li>
+        }
+      </ul>
     </div>
 
     <!-- Sunnah info -->
@@ -78,6 +83,7 @@
 
   </div>
 
+</main>
 } @else {
   <div class="not-found">
     <i class="fa-solid fa-circle-question"></i>

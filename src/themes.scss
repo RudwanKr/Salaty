@@ -97,6 +97,19 @@ $border-focus: $primary-300;
 // Transitions
 $transition-base: 0.2s ease;
 
+//Prayers Colors
+$fajr: #512499;
+$dhuhr: #57c3df;
+$asr: #e79932;
+$maghrib: #441ea1;
+$isha: #181336; 
+
+$fajr-gradient: linear-gradient(135deg, #512499, #d37130);
+$dhuhr-gradient: linear-gradient(135deg, #39bcdd, #76cae6);
+$asr-gradient: linear-gradient(135deg, #45a6df, #e6ac30);
+$maghrib-gradient: linear-gradient(135deg, #493788, #db9131);
+$isha-gradient: linear-gradient(135deg, #2c245c, #000000);
+
 // ------------------------------------------
 // 2. Typography
 // ------------------------------------------

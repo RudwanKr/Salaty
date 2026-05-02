@@ -25,6 +25,7 @@ export class PrayerCard {
   time      = input<string>('');
   prayerId  = input.required<string>();
   type      = input<PrayerType>('main');
+  color     = input<string>('primary');
 
   status     = signal<PrayerStatus>(null);
   dialogOpen = signal(false);

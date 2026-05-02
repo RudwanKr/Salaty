@@ -1,14 +1,17 @@
 <!-- ── Card ────────────────────────────────────────────────────── -->
 <div
   class="prayer-card"
-  [class]="'s-' + (status() ?? 'none')"
+  [class]="'c-' + color() + ' s-' + (status() ?? 'none')"
   (click)="openDialog()"
   role="button"
   [attr.aria-label]="'تعيين حالة صلاة ' + name()"
 >
   <!-- Left: Name + time + type chip -->
   <div class="card-left">
-    <span class="prayer-name">{{ name() }}</span>
+    <div class="prayer-title">
+      <span class="prayer-dot"></span>
+      <span class="prayer-name">{{ name() }}</span>
+    </div>
     <span class="prayer-time">{{ time() }}</span>
     <span class="type-chip" [class]="type()">
       {{ type() === 'main' ? 'فرض' : 'نافلة' }}

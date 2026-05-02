@@ -1,28 +1,36 @@
 @import './../../../../themes.scss';
 
+main {
+  position: relative;
+  z-index: 0;
+  min-height: 100vh;
+  &.fajr      { background: $fajr-gradient; }
+  &.dhuhr     { background: $dhuhr-gradient; }
+  &.asr       { background: $asr-gradient; }
+  &.maghrib   { background: $maghrib-gradient; }
+  &.isha      { background: $isha-gradient; }
+}
+
 // ── Hero ─────────────────────────────────────────────────────────
 .detail-hero {
   position: relative;
+  width: 100%;
   padding: $spacing-xl $spacing-lg;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 220px;
+  min-height: 250px;
   text-align: center;
+  z-index: 1;
 
-  // Per-prayer colour themes
-  &.dawn      { background: linear-gradient(160deg, #fceabb 0%, #f8b500 100%); }
-  &.noon      { background: linear-gradient(160deg, $third-200 0%, $third-500 100%); }
-  &.afternoon { background: linear-gradient(160deg, $secondary-300 0%, $secondary-600 100%); }
-  &.sunset    { background: linear-gradient(160deg, #ff9a56 0%, #c0392b 100%); }
-  &.night     { background: linear-gradient(160deg, $primary-800 0%, $black 100%); }
+  background: transparent;
 }
 
 .back-btn {
   position: absolute;
   top: $spacing-md;
-  right: $spacing-md;
+  left: $spacing-md;
   width: 40px;
   height: 40px;
   border-radius: $radius-full;
@@ -46,7 +54,7 @@
   flex-direction: column;
   align-items: center;
   gap: $spacing-sm;
-  margin-top: $spacing-lg;
+  margin-bottom: $spacing-xl; // Account for the overlap
 }
 
 .hero-icon {
@@ -73,10 +81,26 @@
 
 // ── Content ──────────────────────────────────────────────────────
 .detail-content {
-  padding: $spacing-lg;
+  background-color: $bg-main;
+  margin-top: -$radius-2xl; // Pull up to overlap hero
+  padding: $spacing-xl;
+  border-top-left-radius: $radius-2xl;
+  border-top-right-radius: $radius-2xl;
+  min-height: calc(100vh - 231px);
+  position: relative;
+  z-index: 2;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
+  width: 1400px;
+  @include tablet {
+    margin: 0;
+    width: 100%;
+    padding: $spacing-md;
+    padding-bottom: 80px; 
+  }
 }
 
 // ── Rakaat Row ───────────────────────────────────────────────────
@@ -162,6 +186,34 @@
     font-size: $font-size-sm;
     color: $text-muted;
     line-height: 1.8;
+  }
+
+  .virtues-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    li {
+      position: relative;
+      font-size: $font-size-sm;
+      color: $text-muted;
+      line-height: 1.8;
+      padding-inline-start: $spacing-lg;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        inset-inline-start: 0;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: $third-500;
+      }
+    }
   }
 
   &.virtues .info-card-header i { color: $third-600; }

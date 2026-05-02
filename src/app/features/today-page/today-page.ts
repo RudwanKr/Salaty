@@ -6,6 +6,7 @@ interface Prayer {
   name: string;
   time: string;
   type: 'main' | 'voluntary';
+  color?: string;
 }
 
 interface PrayerCategory {
@@ -45,10 +46,10 @@ export class TodayPage {
   baseDate = signal<Date>(new Date()); // The week currently in view
 
   selectedDayName = computed(() => dayFmt.format(this.selectedDate()));
-  selectedDayDate = computed(() => 
-    new Intl.DateTimeFormat('ar-SA', { day: 'numeric', month: 'long', year: 'numeric' }).format(this.selectedDate())
+  selectedDayDate = computed(() =>
+    new Intl.DateTimeFormat('ar-SA-u-nu-latn', { day: 'numeric', month: 'long', year: 'numeric' }).format(this.selectedDate())
   );
-  
+
   isNotToday = computed(() => this.selectedDate().toDateString() !== this._today.toDateString());
 
   goToToday() {
@@ -104,17 +105,17 @@ export class TodayPage {
   categories: PrayerCategory[] = [
     {
       id: 'main',
-      title: 'الصلوات الفرضية',
+      title: 'صلوات الفرض',
       subtitle: '5 صلوات',
       icon: 'fa-solid fa-star-and-crescent',
       colorClass: 'cat-main',
       open: signal(true),
       prayers: [
-        { id: 'fajr',    name: 'الفجر',  time: '04:30', type: 'main' },
-        { id: 'dhuhr',   name: 'الظهر',  time: '12:15', type: 'main' },
-        { id: 'asr',     name: 'العصر',  time: '15:45', type: 'main' },
-        { id: 'maghrib', name: 'المغرب', time: '18:30', type: 'main' },
-        { id: 'isha',    name: 'العشاء', time: '20:00', type: 'main' },
+        { id: 'fajr',    name: 'الفجر',  time: '04:30', type: 'main', color: 'fajr' },
+        { id: 'dhuhr',   name: 'الظهر',  time: '12:15', type: 'main', color: 'dhuhr' },
+        { id: 'asr',     name: 'العصر',  time: '15:45', type: 'main', color: 'asr' },
+        { id: 'maghrib', name: 'المغرب', time: '18:30', type: 'main', color: 'maghrib' },
+        { id: 'isha',    name: 'العشاء', time: '20:00', type: 'main', color: 'isha' },
       ],
     },
     {
@@ -125,9 +126,13 @@ export class TodayPage {
       colorClass: 'cat-voluntary',
       open: signal(false),
       prayers: [
-        { id: 'qiyam',     name: 'قيام الليل',  time: 'بعد العشاء',  type: 'voluntary' },
-        { id: 'duha',      name: 'الضحى',        time: 'بعد الشروق', type: 'voluntary' },
-        { id: 'shaf-witr', name: 'الشفع والوتر', time: 'آخر الليل',  type: 'voluntary' },
+        { id: 'fajr-ratba',     name: 'راتبة الفجر',  time: 'قبل الفجر',  type: 'voluntary', color: 'fajr' },
+        { id: 'duha',      name: 'الضحى',        time: 'بعد الشروق', type: 'voluntary', color: 'dhuhr' },
+        { id: 'dhuhr-ratba',     name: 'راتبة الظهر',  time: 'قبل وبعد الظهر',  type: 'voluntary', color: 'dhuhr' },
+        { id: 'maghrib-ratba',     name: 'راتبة المغرب',  time: 'بعد المغرب',  type: 'voluntary', color: 'maghrib' },
+        { id: 'isha-ratba',     name: 'راتبة العشاء',  time: 'بعد العشاء',  type: 'voluntary', color: 'isha' },
+        { id: 'qiyam',     name: 'قيام الليل',  time: 'بعد العشاء',  type: 'voluntary', color: 'isha' },
+        { id: 'shaf-witr', name: 'الشفع والوتر', time: 'آخر الليل',  type: 'voluntary', color: 'isha' },
       ],
     },
   ];
