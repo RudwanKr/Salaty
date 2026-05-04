@@ -15,6 +15,7 @@ main {
   border: 1px solid $border-color;
   box-shadow: $shadow-md;
   z-index: 1000;
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
@@ -38,7 +39,9 @@ main {
       object-fit: contain;
       transition: transform $transition-base;
 
-      &:hover { transform: scale(1.05); }
+      &:hover {
+        transform: scale(1.05);
+      }
     }
   }
 
@@ -54,9 +57,18 @@ main {
     overflow-y: auto;
     overflow-x: hidden;
 
-    &::-webkit-scrollbar       { width: 3px; }
-    &::-webkit-scrollbar-track { background: transparent; }
-    &::-webkit-scrollbar-thumb { background: $border-color; border-radius: $radius-full; }
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $border-color;
+      border-radius: $radius-full;
+    }
 
     // ── Sidebar li ─────────────────────────────────────────────
     li {
@@ -86,9 +98,16 @@ main {
         z-index: 0;
       }
 
-      i, p { position: relative; z-index: 1; }
+      i,
+      p {
+        position: relative;
+        z-index: 1;
+      }
 
-      i { font-size: 1.2rem; transition: transform 0.2s ease; }
+      i {
+        font-size: 1.2rem;
+        transition: transform 0.2s ease;
+      }
 
       p {
         margin: 0;
@@ -103,7 +122,9 @@ main {
         transform: translateX(2px);
         box-shadow: $shadow-sm;
 
-        i { transform: scale(1.15); }
+        i {
+          transform: scale(1.15);
+        }
       }
 
       // ── Active ──────────────────────────────────────────────
@@ -112,7 +133,9 @@ main {
         transform: translateX(2px);
         box-shadow: 0 6px 16px rgba($primary, 0.3);
 
-        &::before { opacity: 1; }
+        &::before {
+          opacity: 1;
+        }
 
         i {
           color: $white;
@@ -141,7 +164,9 @@ main {
     border-right: none;
     box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.08);
 
-    .logo { display: none; }
+    .logo {
+      display: none;
+    }
 
     ul {
       flex-direction: row;
@@ -163,8 +188,13 @@ main {
         border-radius: $radius-lg;
 
         // Reset sidebar active nudge → mobile bottom nudge
-        &:hover  { transform: translateY(-1px); }
-        &.active { transform: translateY(-1px); }
+        &:hover {
+          transform: translateY(-1px);
+        }
+
+        &.active {
+          transform: translateY(-1px);
+        }
 
         i {
           font-size: 1.3rem;
@@ -178,5 +208,72 @@ main {
         }
       }
     }
+  }
+
+  // ── Flowers Scene ────────────────────────────────────────────
+  .flowers-scene {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 400px;
+    pointer-events: none;
+    margin-top: auto;
+    margin-bottom: -$spacing-md;
+
+    .flowers-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+
+      .flower {
+        transform-origin: 100px 500px;
+
+        &.red {
+          animation: swayCenter 6s ease-in-out infinite alternate;
+        }
+
+        &.blue {
+          animation: swayLeft 5s ease-in-out infinite alternate;
+        }
+
+        &.yellow {
+          animation: swayRight 7s ease-in-out infinite alternate;
+        }
+      }
+    }
+
+    @include tablet {
+      display: none; // in the computer screen only
+    }
+  }
+}
+
+@keyframes swayCenter {
+  0% {
+    transform: rotate(-8deg);
+  }
+
+  100% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes swayLeft {
+  0% {
+    transform: rotate(-5deg);
+  }
+
+  100% {
+    transform: rotate(15deg);
+  }
+}
+
+@keyframes swayRight {
+  0% {
+    transform: rotate(-15deg);
+  }
+
+  100% {
+    transform: rotate(5deg);
   }
 }
