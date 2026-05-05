@@ -1,0 +1,324 @@
+@import './../../../../themes.scss';
+
+.history-container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  animation: fadeIn 0.4s ease;
+  align-items: center;
+
+  @include desktop {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+  flex: 2;
+  width: 100%;
+}
+
+.calendar-panel {
+  flex: 3;
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// ── Statistics ──────────────────────────────────────────────────
+.stats-section {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 150px;
+  background: $bg-card;
+  border-radius: $radius-xl;
+  padding: $spacing-lg;
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  border: 1.5px solid $border-color;
+  box-shadow: $shadow-sm;
+
+  i {
+    font-size: 2rem;
+    color: $primary-500;
+    background: rgba($primary-500, 0.1);
+    padding: $spacing-md;
+    border-radius: $radius-lg;
+  }
+
+  .stat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .stat-value {
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-bold;
+      color: $text-main;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: $font-size-sm;
+      color: $text-muted;
+    }
+  }
+
+  @include tablet {
+    gap: $spacing-sm;
+    i {
+      font-size: 1.5rem;
+      padding: $spacing-sm;
+    }
+    .stat-info {
+      text-align: center;
+    }
+  }
+}
+
+// ── Status Legend ────────────────────────────────────────────────
+.status-counts {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  @include desktop {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+}
+
+.count-badge {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-full;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  border: 1.5px solid;
+
+  .badge-label {
+    display: none;
+  }
+
+  .badge-count {
+    font-family: monospace;
+    font-size: 1.1em;
+  }
+
+  @include desktop {
+    padding: $spacing-md $spacing-lg;
+    border-radius: $radius-lg;
+    font-size: $font-size-base;
+    gap: $spacing-md;
+
+    i {
+      font-size: 1.4rem;
+    }
+
+    .badge-label {
+      display: block;
+      margin-inline-end: auto;
+    }
+
+    .badge-count {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  &.group {
+    background: rgba($success, 0.1);
+    color: $success;
+    border-color: rgba($success, 0.3);
+  }
+  &.individual {
+    background: rgba($info, 0.1);
+    color: $info;
+    border-color: rgba($info, 0.3);
+  }
+  &.late {
+    background: rgba($warning, 0.1);
+    color: $warning;
+    border-color: rgba($warning, 0.3);
+  }
+  &.missed {
+    background: rgba($danger, 0.1);
+    color: $danger;
+    border-color: rgba($danger, 0.3);
+  }
+  &.prayed {
+    background: rgba($success, 0.1);
+    color: $success;
+    border-color: rgba($success, 0.3);
+  }
+  &.not-prayed {
+    background: rgba($danger, 0.1);
+    color: $danger;
+    border-color: rgba($danger, 0.3);
+  }
+}
+
+// ── Calendar ────────────────────────────────────────────────────
+.calendar-card {
+  background: $bg-card;
+  border-radius: $radius-xl;
+  border: 1.5px solid $border-color;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  padding: $spacing-lg;
+  width: 100%;
+  @include tablet {
+    padding: $spacing-md;
+  }
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-lg;
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-lg;
+    color: $text-main;
+  }
+
+  .nav-btn {
+    background: $bg-main;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-main;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: $primary-50;
+      color: $primary-600;
+      border-color: $primary-300;
+    }
+  }
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: $spacing-xs;
+  @include tablet {
+    gap: 4px;
+  }
+}
+
+.weekday-header {
+  text-align: center;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $text-muted;
+  padding-bottom: $spacing-sm;
+}
+
+.calendar-cell {
+  aspect-ratio: 1;
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  background: $bg-main;
+  transition: all 0.2s ease;
+
+  .day-num {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-main;
+  }
+
+  .status-icon {
+    font-size: 1.1rem;
+  }
+
+  .empty-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $gray-300;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    border-color: $primary-300;
+    z-index: 1;
+    box-shadow: $shadow-md;
+  }
+
+  &.not-current-month {
+    opacity: 0.3;
+  }
+
+  &.today {
+    border-color: $primary-500;
+    background: rgba($primary-500, 0.05);
+    .day-num {
+      color: $primary-600;
+    }
+  }
+
+  // Colors
+  &.group {
+    background: rgba($success, 0.05);
+    border-color: rgba($success, 0.2);
+    .status-icon { color: $success; }
+  }
+  &.individual {
+    background: rgba($info, 0.05);
+    border-color: rgba($info, 0.2);
+    .status-icon { color: $info; }
+  }
+  &.late {
+    background: rgba($warning, 0.05);
+    border-color: rgba($warning, 0.2);
+    .status-icon { color: $warning; }
+  }
+  &.missed {
+    background: rgba($danger, 0.05);
+    border-color: rgba($danger, 0.2);
+    .status-icon { color: $danger; }
+  }
+  &.prayed {
+    background: rgba($success, 0.05);
+    border-color: rgba($success, 0.2);
+    .status-icon { color: $success; }
+  }
+  &.not-prayed {
+    background: rgba($danger, 0.05);
+    border-color: rgba($danger, 0.2);
+    .status-icon { color: $danger; }
+  }
+
+  @include tablet {
+    gap: 0px;
+  }
+}

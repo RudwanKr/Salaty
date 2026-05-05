@@ -1,7 +1,8 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { PrayerHistory } from '../prayer-history/prayer-history';
 
 export interface PrayerInfo {
   id: string;
@@ -16,6 +17,7 @@ export interface PrayerInfo {
   virtues: string[];
   sunnahDesc: string;
   note?: string;
+  type: 'main' | 'voluntary';
 }
 
 const PRAYERS: Record<string, PrayerInfo> = {
@@ -40,6 +42,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
       'بركة النفس والبدن: تطرد الكسل، وتحلّ عُقد الشيطان، ليصبح المسلم "نشيطاً طيب النفس".'],
     sunnahDesc: 'ركعتان قبل الفريضة، يُستحب تخفيفهما. يُستحب الاضطجاع على الجنب الأيمن بعدهما.',
     note: 'لا سنة بعد الفجر حتى ترتفع الشمس.',
+    type: 'main',
   },
   'fajr-ratba': {
     id: 'fajr-ratba',
@@ -58,6 +61,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
       "صلاة ركعتي الفجر قبل الفريضة تهيئ النفس والقلب للخشوع في صلاة الصبح."
     ],
     sunnahDesc: 'ركعتان قبل الفريضة، يُستحب تخفيفهما.',
+    type: 'voluntary',
   },
   dhuhr: {
     id: 'dhuhr',
@@ -78,6 +82,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
       "اختبار لصدق العبد بترك انشغاله بالرزق وتلبية نداء الخالق."
       ],
     sunnahDesc: '4 ركعات قبل الفريضة و2 ركعات بعدها. قال ﷺ: «من حافظ على أربع ركعات قبل الظهر وأربع بعدها حرّمه الله على النار».',
+    type: 'main',
   },
   'dhuhr-ratba': {
     id: 'dhuhr-ratba',
@@ -96,6 +101,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
       "تمنح العبد فرصة للخروج من ضغوط النهار إلى سكينة الصلاة والصلة بالله."
     ],
     sunnahDesc: '4 ركعات قبل الفريضة وركعتان بعدها.',
+    type: 'voluntary',
   },
   asr: {
     id: 'asr',
@@ -117,6 +123,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
     ],
     sunnahDesc: '4 ركعات قبل العصر. قال ﷺ: «رحم الله امرأً صلى قبل العصر أربعاً».',
     note: 'تُكره الصلاة بعد العصر حتى الغروب إلا لذات سبب.',
+    type: 'main',
   },
   maghrib: {
     id: 'maghrib',
@@ -137,6 +144,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
       "صلاة المغرب تجمع بين فضل إنهاء النهار بالطاعة واستقبال الليل بالذكر."
     ],
     sunnahDesc: 'ركعتان بعد المغرب، وقيل ركعتان قبلها. كان النبي ﷺ يصلي ركعتين في بيته بعدها.',
+    type: 'main',
   },
   'maghrib-ratba': {
     id: 'maghrib-ratba',
@@ -155,6 +163,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
       "تعد من السنن الرواتب الاثنتي عشرة التي يبني الله لصاحبها بيتاً في الجنة."
     ],
     sunnahDesc: 'ركعتان بعد المغرب.',
+    type: 'voluntary',
   },
   isha: {
     id: 'isha',
@@ -176,6 +185,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
     ],
     sunnahDesc: 'ركعتان بعد الفريضة، ثم الوتر (1–11 ركعة). والوتر آكد السنن الراتبة.',
     note: 'يُستحب تأخيرها إلى ثلث الليل إذا أمكن.',
+    type: 'main',
   },
   'isha-ratba': {
     id: 'isha-ratba',
@@ -194,6 +204,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
       "المداومة عليها تضمن للمسلم استكمال الـ 12 ركعة (السنن الرواتب) الموعودة بالجنة."
     ],
     sunnahDesc: 'ركعتان بعد العشاء.',
+    type: 'voluntary',
   },
   qiyam: {
     id: 'qiyam',
@@ -223,6 +234,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
     ],
     sunnahDesc: 'يُصلى ركعتين ركعتين، ويُختم بالوتر. لا حد أدنى لعدد الركعات، ولا حد أعلى.',
     note: 'أفضل وقته الثلث الأخير من الليل، قال ﷺ: «ينزل ربنا إلى السماء الدنيا حين يبقى ثلث الليل الآخر».',
+    type: 'voluntary',
   },
   duha: {
     id: 'duha',
@@ -246,6 +258,7 @@ const PRAYERS: Record<string, PrayerInfo> = {
     ],
     sunnahDesc: 'أقلها ركعتان وأكثرها ثماني ركعات أو أكثر، تُصلى ركعتين ركعتين.',
     note: 'أفضل وقتها حين تشتد الشمس ويحمى الرمضاء.',
+    type: 'voluntary',
   },
   'shaf-witr': {
     id: 'shaf-witr',
@@ -269,18 +282,21 @@ const PRAYERS: Record<string, PrayerInfo> = {
     ],
     sunnahDesc: 'الشفع ركعتان يُسلّم منهما، ثم الوتر ركعة واحدة. ويجوز الوتر بـ3 أو 5 أو 7 أو 11 ركعة.',
     note: 'من خشي أن لا يقوم آخر الليل فليوتر أوله، ومن طمع في القيام فليوتر آخره.',
+    type: 'voluntary',
   },
 };
 
 @Component({
   selector: 'app-prayer-detail',
-  imports: [],
+  imports: [PrayerHistory],
   templateUrl: './prayer-detail.html',
   styleUrl: './prayer-detail.scss',
 })
 export class PrayerDetail {
   private route  = inject(ActivatedRoute);
   private router = inject(Router);
+
+  activeTab = signal<'details' | 'history'>('details');
 
   private paramId = toSignal(
     this.route.paramMap.pipe(map(p => p.get('id') ?? ''))

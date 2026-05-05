@@ -12,7 +12,7 @@ export class NavBar {
   showAllMenu = false;
 
   menuItems = [
-    { path: 'today', label: 'اليوم', icon: 'fa-solid fa-calendar-week' },
+    { path: 'today', label: 'اليوم', icon: 'fa-solid fa-calendar-day' },
     { path: 'prayers', label: 'الصلاوات', icon: 'fa-solid fa-mosque' },
     { path: 'history', label: 'التاريخ', icon: 'fa-solid fa-place-of-worship' },
     { path: 'profile', label: 'الملف الشخصي', icon: 'fa-solid fa-user' },

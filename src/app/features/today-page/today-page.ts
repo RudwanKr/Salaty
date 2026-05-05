@@ -1,4 +1,5 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { PrayerCard } from '../../shared/components/prayer-card/prayer-card';
 
 interface Prayer {
@@ -37,13 +38,26 @@ const dayFmt = new Intl.DateTimeFormat('ar-SA', { weekday: 'short' });
   templateUrl: './today-page.html',
   styleUrl: './today-page.scss',
 })
-export class TodayPage {
+export class TodayPage implements OnInit {
   particles = Array.from({ length: 15 }, (_, i) => i);
 
   // ── Week Days ──────────────────────────────────────────────────
   private readonly _today = new Date();
   selectedDate = signal<Date>(new Date());
   baseDate = signal<Date>(new Date()); // The week currently in view
+  private route = inject(ActivatedRoute);
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['date']) {
+        const d = new Date(params['date']);
+        if (!isNaN(d.getTime())) {
+          this.selectedDate.set(d);
+          this.baseDate.set(d);
+        }
+      }
+    });
+  }
 
   selectedDayName = computed(() => dayFmt.format(this.selectedDate()));
   selectedDayDate = computed(() =>

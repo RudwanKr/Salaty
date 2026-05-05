@@ -11,6 +11,11 @@ main {
   &.isha      { background: $isha-gradient; }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 // ── Hero ─────────────────────────────────────────────────────────
 .detail-hero {
   position: relative;
@@ -20,7 +25,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 250px;
+  max-height: 200px;
   text-align: center;
   z-index: 1;
 
@@ -79,10 +84,53 @@ main {
   text-shadow: 0 1px 4px rgba($black, 0.15);
 }
 
+// ── Tabs ─────────────────────────────────────────────────────────
+.tabs-container {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: $spacing-md;
+  margin-top: -$radius-2xl;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  background: transparent;
+
+  @include tablet {
+    margin-bottom: 0;
+  }
+}
+
+.tab-btn {
+  padding: $spacing-sm $spacing-xl;
+  border-radius: $radius-full;
+  border: 1px solid rgba($white, 0.2);
+  background: rgba($black, 0.2);
+  color: rgba($white, 0.8);
+  font-family: $font-family-main;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba($white, 0.1);
+    color: $white;
+  }
+
+  &.active {
+    background: $white;
+    color: $primary-700;
+    border-color: $white;
+    box-shadow: 0 4px 12px rgba($black, 0.1);
+  }
+}
+
 // ── Content ──────────────────────────────────────────────────────
 .detail-content {
   background-color: $bg-main;
-  margin-top: -$radius-2xl; // Pull up to overlap hero
+  margin-top: -$spacing-md; // Adjust margin to accommodate tabs
   padding: $spacing-xl;
   border-top-left-radius: $radius-2xl;
   border-top-right-radius: $radius-2xl;
@@ -100,6 +148,14 @@ main {
     width: 100%;
     padding: $spacing-md;
     padding-bottom: 80px; 
+  }
+  .content {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    animation: fadeIn 0.4s ease;
   }
 }
 

@@ -1,0 +1,98 @@
+<div class="history-container">
+  
+  <div class="side-panel">
+    <!-- Statistics -->
+    <div class="stats-section">
+      <div class="stat-card">
+        <i class="fa-solid fa-calendar-days"></i>
+        <div class="stat-info">
+          <span class="stat-value">{{ totalTrackedDays() }}</span>
+          <span class="stat-label">أيام مسجلة</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-fire"></i>
+        <div class="stat-info">
+          <span class="stat-value">{{ bestStreak() }}</span>
+          <span class="stat-label">أفضل سلسلة 
+            @if(type() === 'main') { (جماعة) } @else { (صليت) }
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Legend/Counts -->
+    <div class="status-counts">
+      @if(type() === 'main') {
+        <div class="count-badge group">
+          <i class="fa-solid fa-people-group"></i> 
+          <span class="badge-label">جماعة</span>
+          <span class="badge-count">{{ statusCounts()['group'] || 0 }}</span>
+        </div>
+        <div class="count-badge individual">
+          <i class="fa-solid fa-person-praying"></i> 
+          <span class="badge-label">منفرد</span>
+          <span class="badge-count">{{ statusCounts()['individual'] || 0 }}</span>
+        </div>
+        <div class="count-badge late">
+          <i class="fa-solid fa-clock-rotate-left"></i> 
+          <span class="badge-label">متأخر</span>
+          <span class="badge-count">{{ statusCounts()['late'] || 0 }}</span>
+        </div>
+        <div class="count-badge missed">
+          <i class="fa-solid fa-circle-xmark"></i> 
+          <span class="badge-label">فائتة</span>
+          <span class="badge-count">{{ statusCounts()['missed'] || 0 }}</span>
+        </div>
+      } @else {
+        <div class="count-badge prayed">
+          <i class="fa-solid fa-circle-check"></i> 
+          <span class="badge-label">صليت</span>
+          <span class="badge-count">{{ statusCounts()['prayed'] || 0 }}</span>
+        </div>
+        <div class="count-badge not-prayed">
+          <i class="fa-solid fa-circle-xmark"></i> 
+          <span class="badge-label">لم أصلِ</span>
+          <span class="badge-count">{{ statusCounts()['not-prayed'] || 0 }}</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="calendar-panel">
+    <!-- Calendar -->
+    <div class="calendar-card">
+      <div class="calendar-header">
+        <button class="nav-btn" (click)="prevMonth()">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <h2>{{ currentMonthName() }}</h2>
+        <button class="nav-btn" (click)="nextMonth()">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <div class="calendar-grid">
+        @for(day of weekDaysHeader; track $index) {
+          <div class="weekday-header">{{ day }}</div>
+        }
+
+        @for(day of calendarDays(); track $index) {
+          <div class="calendar-cell" 
+               [class.not-current-month]="!day.isCurrentMonth"
+               [class.today]="day.isToday"
+               [class]="getStatusClass(day.status)"
+               (click)="goToToday(day)">
+            <span class="day-num">{{ day.date.getDate() }}</span>
+            @if(day.status) {
+              <i [class]="getStatusIcon(day.status) + ' status-icon'"></i>
+            } @else {
+              <span class="empty-dot"></span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+</div>
