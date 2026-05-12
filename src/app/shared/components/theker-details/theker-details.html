@@ -1,0 +1,95 @@
+<!-- Backdrop -->
+<div class="td-backdrop" (click)="onClose()"></div>
+
+<!-- Sheet -->
+<div class="td-sheet" [attr.data-color]="category().color">
+
+  <!-- Handle -->
+  <div class="sheet-handle"></div>
+
+  <!-- Header -->
+  <div class="td-header">
+    <button class="close-btn" (click)="onClose()" aria-label="إغلاق">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="td-header-info">
+      <div class="cat-icon-wrap">
+        <i [class]="category().icon"></i>
+      </div>
+      <div>
+        <h2 class="cat-title">{{ category().title }}</h2>
+        <p class="cat-time">
+          <i class="fa-regular fa-clock"></i>
+          {{ category().timeLabel }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" [style.width.%]="progress()"></div>
+    </div>
+    <p class="progress-label">{{ currentIndex() + 1 }} من {{ total() }}</p>
+  </div>
+
+  <!-- Theker Card -->
+  <div class="theker-card">
+    <div class="theker-number">
+      <span>{{ currentIndex() + 1 }}</span>
+    </div>
+
+    <!-- Arabic text -->
+    <p class="theker-text">{{ currentTheker().text }}</p>
+
+    <!-- Hint -->
+    <p class="theker-hint">
+      <i class="fa-solid fa-circle-info"></i>
+      {{ currentTheker().hint }}
+    </p>
+
+    <!-- Repeat counter -->
+    <div class="repeat-section">
+      <button
+        class="repeat-btn"
+        [class.done]="allRepeatsDone()"
+        (click)="countRepeat()"
+        [disabled]="allRepeatsDone()"
+        aria-label="عدّ تكرار"
+      >
+        @if (allRepeatsDone()) {
+          <i class="fa-solid fa-check"></i>
+          <span>تمّ</span>
+        } @else {
+          <i class="fa-solid fa-hand-point-up"></i>
+          <span>اضغط للعدّ</span>
+        }
+      </button>
+
+      <div class="repeat-counter">
+        <span class="repeat-done">{{ repeatsDone() }}</span>
+        <span class="repeat-sep">/</span>
+        <span class="repeat-total">{{ currentTheker().repeats }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Button -->
+  <div class="td-actions">
+    <button
+      class="next-btn"
+      [class.finish]="isLast()"
+      [disabled]="!allRepeatsDone()"
+      (click)="next()"
+    >
+      @if (isLast()) {
+        <i class="fa-solid fa-flag-checkered"></i>
+        انتهيت
+      } @else {
+        التالي
+        <i class="fa-solid fa-chevron-left"></i>
+      }
+    </button>
+  </div>
+
+</div>

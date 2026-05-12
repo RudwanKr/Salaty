@@ -1,0 +1,157 @@
+@import './../../../../themes.scss';
+
+// ── Color palette per category (CSS custom props) ─────────────────
+$cat-colors: (
+  'morning':  (#f59e0b, #fef3c7, #92400e),   // amber
+  'evening':  (#6366f1, #ede9fe, #3730a3),   // indigo
+  'sleep':    (#8b5cf6, #f3e8ff, #5b21b6),   // violet
+  'wakeup':   (#0ea5e9, #e0f2fe, #075985),   // sky
+  'prayer':   ($primary-600, $primary-50, $primary-900),  // sage
+  'quran':    (#10b981, #d1fae5, #065f46),   // emerald
+);
+
+:host {
+  display: block;
+}
+
+.athkar-card {
+  background: $bg-card;
+  border-radius: $radius-xl;
+  border: 1.5px solid $border-color;
+  box-shadow: $shadow-sm;
+  padding: $spacing-lg;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  position: relative;
+  overflow: hidden;
+
+  // subtle top-accent line
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: $radius-xl $radius-xl 0 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+
+  // ── Per-color theming ──────────────────────────────────────────
+  @each $key, $vals in $cat-colors {
+    $accent: nth($vals, 1);
+    $bg:     nth($vals, 2);
+    $dark:   nth($vals, 3);
+
+    &[data-color='#{$key}'] {
+      &::before           { background: $accent; }
+      .card-icon-wrap     { background: rgba($accent, 0.12); color: $accent; }
+      .count-badge        { background: rgba($accent, 0.1);  color: $accent; border-color: rgba($accent, 0.2); }
+
+      &:hover {
+        border-color: rgba($accent, 0.35);
+      }
+    }
+  }
+}
+
+// ── Icon bubble ────────────────────────────────────────────────────
+.card-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: $radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  transition: transform 0.2s ease;
+
+  .athkar-card:hover & {
+    transform: scale(1.1) rotate(-3deg);
+  }
+}
+
+// ── Body ───────────────────────────────────────────────────────────
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  flex: 1;
+}
+
+.card-title {
+  margin: 0;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+}
+
+.card-time {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+
+  i { font-size: 0.8rem; }
+}
+
+.card-desc {
+  margin: $spacing-xs 0 0;
+  font-size: $font-size-sm;
+  color: $text-muted;
+  line-height: 1.6;
+}
+
+// ── Footer ─────────────────────────────────────────────────────────
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: $spacing-sm;
+  border-top: 1px solid $border-color;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+
+  i { font-size: 0.75rem; }
+}
+
+.go-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: $radius-full;
+  background: $gray-100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-muted;
+  font-size: 0.75rem;
+  transition: all 0.25s ease;
+
+  .athkar-card:hover & {
+    background: $gray-200;
+    transform: translateX(-3px);
+  }
+}

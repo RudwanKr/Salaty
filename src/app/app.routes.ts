@@ -18,9 +18,9 @@ export const routes: Routes = [
       .then(m => m.HistoryPage)
   },
   {
-    path: 'prayers',
-    loadComponent: () => import('./features/prayers-page/prayers-page')
-      .then(m => m.PrayersPage)
+    path: 'athkar',
+    loadComponent: () => import('./features/athkar-page/athkar-page')
+      .then(m => m.AthkarPage)
   },
   {
     path: 'profile',

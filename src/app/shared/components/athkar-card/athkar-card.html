@@ -1,0 +1,27 @@
+<div class="athkar-card" [attr.data-color]="category().color" (click)="onClick()">
+  <!-- Icon bubble -->
+  <div class="card-icon-wrap">
+    <i [class]="category().icon"></i>
+  </div>
+
+  <!-- Body -->
+  <div class="card-body">
+    <h3 class="card-title">{{ category().title }}</h3>
+    <p class="card-time">
+      <i class="fa-regular fa-clock"></i>
+      {{ category().timeLabel }}
+    </p>
+    <p class="card-desc">{{ category().description }}</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="card-footer">
+    <span class="count-badge">
+      <i class="fa-solid fa-list-check"></i>
+      {{ category().athkar.length }} أذكار
+    </span>
+    <span class="go-arrow">
+      <i class="fa-solid fa-chevron-left"></i>
+    </span>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<main>
+
+  <!-- ── Desert Hero Scene ──────────────────────────────────────── -->
+  <div class="desert-hero">
+    <div class="sky"></div>
+
+    <div class="particles">
+      @for(_ of particles; track $index) {
+        <span class="particle" [style.--i]="$index"></span>
+      }
+    </div>
+
+    <div class="dunes">
+      <svg class="dune dune-3" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,80 C120,40 240,100 360,80 C480,60 600,120 720,80 C840,40 960,100 1080,80 C1200,60 1320,120 1440,80 L1440,160 L0,160 Z"/>
+      </svg>
+      <svg class="dune dune-2" viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,100 C240,40 480,160 720,100 C960,40 1200,160 1440,100 L1440,180 L0,180 Z"/>
+      </svg>
+      <svg class="dune dune-1" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,120 C150,50 300,170 450,130 C600,90 570,190 720,120 C870,50 1020,170 1170,130 C1320,90 1290,190 1440,120 L1440,200 L0,200 Z"/>
+      </svg>
+    </div>
+
+    <div class="hero-label">
+      <i class="fa-solid fa-hands-praying"></i>
+      <h1>الأذكار</h1>
+      <p>حصّن يومك بذكر الله</p>
+    </div>
+  </div>
+
+  <!-- ── Page Content ───────────────────────────────────────────── -->
+  <div class="page-content">
+
+    <!-- Section header -->
+    <div class="section-header">
+      <h2 class="section-title">اختر صنف الأذكار</h2>
+      <span class="section-count">{{ categories.length }} أصناف</span>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="athkar-grid">
+      @for (cat of categories; track cat.id) {
+        <app-athkar-card
+          [category]="cat"
+          (cardClick)="openCategory($event)"
+        />
+      }
+    </div>
+
+  </div>
+
+  <!-- ── Theker Details Sheet ───────────────────────────────────── -->
+  @if (activeCategory()) {
+    <app-theker-details
+      [category]="activeCategory()!"
+      (close)="closeDetails()"
+    />
+  }
+
+</main>
