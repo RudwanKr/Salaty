@@ -2,12 +2,12 @@
 
 // ── Per-color theming (same map as athkar-card) ───────────────────
 $cat-colors: (
-  'morning': (#f59e0b, #fef3c7, #92400e),
-  'evening': (#6366f1, #ede9fe, #3730a3),
-  'sleep':   (#8b5cf6, #f3e8ff, #5b21b6),
-  'wakeup':  (#0ea5e9, #e0f2fe, #075985),
+  'morning': (#ffbb00, #fef3c7, #d37f00),
+  'evening': (#151786, #ede9fe, #0b073b),
+  'sleep':   (#4720a3, #f3e8ff, #2d1a4d),
+  'wakeup':  (#00b7ff, #e0f2fe, #0d73aa),
   'prayer':  ($primary-600, $primary-50, $primary-900),
-  'quran':   (#10b981, #d1fae5, #065f46),
+  'quran':   (#086848, #d1fae5, #0a3f30),
 );
 
 :host {
@@ -184,11 +184,29 @@ $cat-colors: (
   gap: $spacing-md;
   animation: cardSwap 0.3s ease;
   flex: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:active {
+    transform: scale(0.975);
+  }
+
+  &.tapped {
+    animation: cardSwap 0.3s ease, tap-pulse 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
 }
 
 @keyframes cardSwap {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tap-pulse {
+  0%   { transform: scale(1);     box-shadow: 0 0 0 0 rgba(0,0,0,0.08); }
+  30%  { transform: scale(0.974); box-shadow: 0 0 0 6px rgba(0,0,0,0.04); }
+  60%  { transform: scale(1.018); box-shadow: 0 0 0 12px rgba(0,0,0,0); }
+  100% { transform: scale(1);     box-shadow: 0 0 0 0 rgba(0,0,0,0); }
 }
 
 .theker-number {
@@ -300,10 +318,10 @@ $cat-colors: (
 .td-actions {
   display: flex;
   justify-content: center;
+  gap: $spacing-sm;
 
   .next-btn {
-    width: 100%;
-    max-width: 340px;
+    flex: 2;
     padding: $spacing-md $spacing-xl;
     border-radius: $radius-full;
     color: $white;
@@ -330,7 +348,38 @@ $cat-colors: (
     }
 
     &.finish {
-      // fallback; color set per-category
+      background: $gradient-primary !important; // green for done
+      box-shadow: 0 4px 20px rgba($primary, 0.35);
+    }
+
+    i { font-size: 1rem; }
+  }
+
+  .previous-btn {
+    flex: 1;
+    padding: $spacing-md $spacing-xl;
+    border-radius: $radius-full;
+    color: $text-main;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    font-family: $font-family-main;
+    border: none;
+    cursor: pointer;
+    box-shadow: $shadow-md;
+    transition: all 0.25s ease;
+
+    &:disabled {
+      background: $gray-300 !important;
+      color: $gray-500 !important;
+      cursor: not-allowed;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+
+    &:not(:disabled):hover {
+      filter: brightness(0.92);
+      transform: translateY(-2px);
+      box-shadow: $shadow-lg;
     }
 
     i { font-size: 1rem; }

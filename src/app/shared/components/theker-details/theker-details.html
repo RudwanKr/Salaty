@@ -34,7 +34,7 @@
   </div>
 
   <!-- Theker Card -->
-  <div class="theker-card">
+  <div class="theker-card" [class.tapped]="cardClicked()" (click)="countRepeat()">
     <div class="theker-number">
       <span>{{ currentIndex() + 1 }}</span>
     </div>
@@ -74,12 +74,24 @@
     </div>
   </div>
 
-  <!-- Next Button -->
+  <!-- Actions -->
   <div class="td-actions">
+    <button
+      class="previous-btn"
+      (click)="previous()"
+    >
+      @if (isFirst()) {
+        <i class="fa-solid fa-arrow-right-to-line"></i>
+        تخطي
+      } @else {
+        السابق
+        <i class="fa-solid fa-chevron-right"></i>
+      }
+    </button>
+
     <button
       class="next-btn"
       [class.finish]="isLast()"
-      [disabled]="!allRepeatsDone()"
       (click)="next()"
     >
       @if (isLast()) {

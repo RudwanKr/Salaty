@@ -2,12 +2,12 @@
 
 // ── Color palette per category (CSS custom props) ─────────────────
 $cat-colors: (
-  'morning':  (#f59e0b, #fef3c7, #92400e),   // amber
-  'evening':  (#6366f1, #ede9fe, #3730a3),   // indigo
-  'sleep':    (#8b5cf6, #f3e8ff, #5b21b6),   // violet
-  'wakeup':   (#0ea5e9, #e0f2fe, #075985),   // sky
-  'prayer':   ($primary-600, $primary-50, $primary-900),  // sage
-  'quran':    (#10b981, #d1fae5, #065f46),   // emerald
+  'morning': (#ffbb00, #fef3c7, #d37f00),
+  'evening': (#151786, #ede9fe, #0b073b),
+  'sleep':   (#4720a3, #f3e8ff, #2d1a4d),
+  'wakeup':  (#00b7ff, #e0f2fe, #0d73aa),
+  'prayer':  ($primary-600, $primary-50, $primary-900),
+  'quran':   (#086848, #d1fae5, #0a3f30),
 );
 
 :host {

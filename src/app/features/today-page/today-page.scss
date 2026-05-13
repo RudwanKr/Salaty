@@ -382,7 +382,7 @@ main {
     color: $white;
     border-color: rgba($black, 0.1);
     box-shadow: $shadow-sm;
-    transform: translateY(-2px);
+    transform: scale(1.05);
 
     .day-num {
       color: $white;
