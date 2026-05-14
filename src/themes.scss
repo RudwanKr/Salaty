@@ -225,7 +225,7 @@ $gradient-glass:     linear-gradient(145deg, rgba(255,255,255,0.6) 0%, rgba(255,
 
 // Responsive breakpoints
 @mixin mobile  { @media (max-width: 640px)  { @content; } }
-@mixin tablet  { @media (max-width: 768px)  { @content; } }
+@mixin tablet  { @media (max-width: 868px)  { @content; } }
 @mixin desktop { @media (min-width: 1024px) { @content; } }
 
 // ------------------------------------------
