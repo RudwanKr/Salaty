@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-page',
@@ -8,7 +9,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './profile-page.scss',
 })
 export class ProfilePage {
+  private router = inject(Router);
+
   particles = Array.from({ length: 15 }, (_, i) => i);
+
 
   // Profile state
   userName = signal('مستخدم صلاتي');
@@ -125,5 +129,10 @@ export class ProfilePage {
 
   setRate(r: number) {
     this.userRating.set(r);
+  }
+
+  logout() {
+    // Clear auth state (e.g. localStorage) if any
+    this.router.navigate(['/auth/login']);
   }
 }

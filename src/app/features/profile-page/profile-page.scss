@@ -238,6 +238,16 @@ main {
   @include flex-col;
   gap: $spacing-xl;
 
+  .logout-btn{
+    color: $danger-500;
+    background-color: transparent;
+    border-color: $danger-500;
+    border: 1px solid;
+    &:hover{
+      background-color: $danger-50;
+    }
+  }
+
   @include tablet { gap: $spacing-lg; }
 }
 

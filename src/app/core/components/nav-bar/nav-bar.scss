@@ -98,13 +98,13 @@ main {
         z-index: 0;
       }
 
-      i,
+      fa-icon,
       p {
         position: relative;
         z-index: 1;
       }
 
-      i {
+      fa-icon {
         font-size: 1.2rem;
         transition: transform 0.2s ease;
       }
@@ -122,7 +122,7 @@ main {
         transform: translateX(2px);
         box-shadow: $shadow-sm;
 
-        i {
+        fa-icon {
           transform: scale(1.15);
         }
       }
@@ -137,7 +137,7 @@ main {
           opacity: 1;
         }
 
-        i {
+        fa-icon {
           color: $white;
           transform: scale(1.1);
         }
@@ -196,7 +196,7 @@ main {
           transform: translateY(-1px);
         }
 
-        i {
+        fa-icon {
           font-size: 1.3rem;
           transition: transform 0.2s ease;
         }
