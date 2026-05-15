@@ -381,11 +381,11 @@ export class HistoryPage implements OnInit {
   // ── Mock data generation ───────────────────────────────────────────────────
 
   private loadData() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      this.historyData.set(JSON.parse(stored));
-      return;
-    }
+    // const stored = localStorage.getItem(STORAGE_KEY);
+    // if (stored) {
+    //   this.historyData.set(JSON.parse(stored));
+    //   return;
+    // }
     this.generateMockData();
   }
 

@@ -24,12 +24,13 @@ main {
 .sky {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg,
-    $third-100 0%,
-    $third-200 20%,
-    $third-300 40%,
-    $third-400 70%,
-    $third-500 100%
+  background: linear-gradient(
+    180deg,
+    $primary-100 0%,
+    $primary-200 20%,
+    $primary-300 40%,
+    $third-600 80%,
+    $third-700 100%
   );
 }
 
@@ -722,13 +723,6 @@ main {
   @include mobile { gap: 1.5px; }
 }
 
-.dots-main {
-  // first row — 5 dots
-}
-
-.dots-voluntary {
-  // second row — 7 dots
-}
 
 .prayer-dot {
   display: inline-block;
