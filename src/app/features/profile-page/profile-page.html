@@ -30,7 +30,222 @@
 
   <!-- ── Page Content ───────────────────────────────────────────── -->
   <div class="page-content">
+    
+    <!-- Profile & Stats Grid -->
+    <div class="top-grid">
+      
+      <!-- Profile Card -->
+      <div class="card profile-card">
+        <div class="avatar-container" (click)="openDialog('avatar')">
+          <img [src]="'assets/images/' + selectedAvatar()" alt="User Avatar" class="avatar">
+          <div class="avatar-overlay"><i class="fa-solid fa-pen"></i></div>
+        </div>
+        
+        <div class="form-group">
+          <label>الاسم</label>
+          <input type="text" [(ngModel)]="userName" class="zk-input">
+        </div>
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" [(ngModel)]="userEmail" class="zk-input">
+        </div>
+        <div class="form-group">
+          <label>كلمة المرور</label>
+          <button class="btn btn-secondary w-100" (click)="openDialog('password')">تغيير كلمة المرور</button>
+        </div>
+        
+        <button class="btn btn-primary w-100 mt-2" (click)="saveProfile()">حفظ التعديلات</button>
+      </div>
+
+      <!-- Stats & Actions Column -->
+      <div class="stats-actions-column">
+        
+        <!-- App Stats -->
+        <div class="card stats-card">
+          <div class="stat-item">
+            <i class="fa-solid fa-star text-warning"></i>
+            <div class="stat-info">
+              <span class="stat-value">{{ averageRating() }}</span>
+              <span class="stat-label">متوسط التقييم</span>
+            </div>
+          </div>
+          <div class="divider-vertical"></div>
+          <div class="stat-item">
+            <i class="fa-solid fa-users text-primary"></i>
+            <div class="stat-info">
+              <span class="stat-value">{{ totalRatings() }}</span>
+              <span class="stat-label">عدد التقييمات</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions Grid -->
+        <div class="actions-grid">
+          <button class="btn action-btn share-btn" (click)="shareApp()">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>مشاركة التطبيق</span>
+          </button>
+          <button class="btn action-btn support-btn" (click)="openDialog('support')">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <span>دعم التطبيق</span>
+          </button>
+          <button class="btn action-btn rate-btn" (click)="openDialog('rate')">
+            <i class="fa-solid fa-star"></i>
+            <span>تقييم التطبيق</span>
+          </button>
+          <button class="btn action-btn message-btn" (click)="openDialog('message')">
+            <i class="fa-solid fa-envelope"></i>
+            <span>مراسلة الإدارة</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PWA Guide Section -->
+    <div class="card pwa-guide">
+      <div class="section-header">
+        <h2><i class="fa-brands fa-chrome"></i> تثبيت التطبيق</h2>
+        <p>اختر نظام التشغيل لمعرفة كيفية تثبيت التطبيق كبرنامج على جهازك</p>
+      </div>
+      
+      <div class="os-tabs">
+        <button class="btn tab-btn text-muted" [class.active]="pwaOS() === 'android'" (click)="pwaOS.set('android')">
+          <i class="fa-brands fa-android"></i> أندرويد
+        </button>
+        <button class="btn tab-btn text-muted" [class.active]="pwaOS() === 'ios'" (click)="pwaOS.set('ios')">
+          <i class="fa-brands fa-apple"></i> آيفون / آيباد
+        </button>
+        <button class="btn tab-btn text-muted" [class.active]="pwaOS() === 'windows'" (click)="pwaOS.set('windows')">
+          <i class="fa-brands fa-windows"></i> ويندوز
+        </button>
+      </div>
+
+      <div class="video-container">
+        @if (pwaOS() === 'android') {
+          <div class="video-placeholder android">
+            <i class="fa-solid fa-play"></i>
+            <span>فيديو شرح أندرويد</span>
+          </div>
+        } @else if (pwaOS() === 'ios') {
+          <div class="video-placeholder ios">
+            <i class="fa-solid fa-play"></i>
+            <span>فيديو شرح آيفون</span>
+          </div>
+        } @else {
+          <div class="video-placeholder windows">
+            <i class="fa-solid fa-play"></i>
+            <span>فيديو شرح ويندوز</span>
+          </div>
+        }
+      </div>
+    </div>
 
   </div>
+
+  <!-- ── Dialogs ────────────────────────────────────────────────── -->
+  @if (activeDialog()) {
+    <div class="dialog-backdrop" (click)="closeDialog()">
+      <div class="dialog-sheet" (click)="$event.stopPropagation()">
+        
+        <div class="dialog-header">
+          @if (activeDialog() === 'avatar') { <h3>اختيار الصورة الرمزية</h3> }
+          @if (activeDialog() === 'support') { <h3>دعم التطبيق</h3> }
+          @if (activeDialog() === 'rate') { <h3>تقييم التطبيق</h3> }
+          @if (activeDialog() === 'message') { <h3>مراسلة الإدارة</h3> }
+          @if (activeDialog() === 'password') { <h3>تغيير كلمة المرور</h3> }
+          <button class="close-btn" (click)="closeDialog()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="dialog-body">
+          
+          <!-- Avatar Dialog -->
+          @if (activeDialog() === 'avatar') {
+            <div class="avatar-grid">
+              @for (av of avatars; track av) {
+                <img [src]="'assets/images/' + av" 
+                     class="selectable-avatar" 
+                     [class.selected]="selectedAvatar() === av"
+                     (click)="setAvatar(av)">
+              }
+            </div>
+          }
+
+          <!-- Support Dialog -->
+          @if (activeDialog() === 'support') {
+            <div class="support-content">
+              <div class="icon-wrapper bg-danger-light text-danger">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+              </div>
+              <p>دعمك لنا يساعدنا على الاستمرار في تطوير وتحديث التطبيق وإضافة مميزات جديدة.</p>
+              <button class="btn btn-primary w-100" (click)="sendSupport()">دعم عبر PayPal</button>
+            </div>
+          }
+
+          <!-- Rate Dialog -->
+          @if (activeDialog() === 'rate') {
+            <div class="rate-content">
+              <div class="stars-container">
+                @for (star of [1,2,3,4,5]; track star) {
+                  <i class="fa-star" 
+                     [class.fa-solid]="userRating() >= star" 
+                     [class.fa-regular]="userRating() < star"
+                     (click)="setRate(star)"></i>
+                }
+              </div>
+              <p>تقييمك يساعد الآخرين في الوصول للتطبيق.</p>
+              <button class="btn btn-teal w-100" (click)="submitRating()">تأكيد التقييم</button>
+            </div>
+          }
+
+          <!-- Message Dialog -->
+          @if (activeDialog() === 'message') {
+            <div class="message-content">
+              <p>أرسل لنا ملاحظاتك أو أي مشاكل تواجهها وسيتم مراجعتها من قبل الإدارة فقط.</p>
+              <textarea class="zk-input" rows="4" placeholder="اكتب رسالتك هنا..." [(ngModel)]="adminMessage"></textarea>
+              <button class="btn btn-accent w-100 mt-2" (click)="sendMessage()" [disabled]="!adminMessage()">إرسال الرسالة</button>
+            </div>
+          }
+
+          <!-- Password Dialog -->
+          @if (activeDialog() === 'password') {
+            <div class="password-content">
+              @if (passwordStep() === 1) {
+                <div class="step-content">
+                  <div class="icon-wrapper bg-primary-light text-primary mb-3">
+                    <i class="fa-solid fa-envelope-circle-check"></i>
+                  </div>
+                  <p>لتغيير كلمة المرور، سنقوم بإرسال رمز تحقق إلى بريدك الإلكتروني المسجل لدينا.</p>
+                  <p class="text-bold mb-3" style="font-weight: 700;">{{ userEmail() }}</p>
+                  <button class="btn btn-primary w-100 mt-2" (click)="sendOtp()">إرسال رمز التحقق</button>
+                </div>
+              }
+              @if (passwordStep() === 2) {
+                <div class="step-content">
+                  <p>الرجاء إدخال رمز التحقق الذي وصلك على البريد الإلكتروني.</p>
+                  <input type="text" class="zk-input otp-input text-center" placeholder="----" [(ngModel)]="otpInput" maxlength="6">
+                  <button class="btn btn-primary w-100 mt-2" (click)="verifyOtp()" [disabled]="otpInput().length < 4">تحقق</button>
+                </div>
+              }
+              @if (passwordStep() === 3) {
+                <div class="step-content" style="text-align: right;">
+                  <div class="form-group mb-2">
+                    <label>كلمة المرور الجديدة</label>
+                    <input type="password" class="zk-input" [(ngModel)]="newPassword">
+                  </div>
+                  <div class="form-group">
+                    <label>تأكيد كلمة المرور</label>
+                    <input type="password" class="zk-input" [(ngModel)]="confirmPassword">
+                  </div>
+                  <button class="btn btn-primary w-100 mt-3" (click)="changePassword()" [disabled]="!newPassword() || !confirmPassword()">حفظ كلمة المرور</button>
+                </div>
+              }
+            </div>
+          }
+
+        </div>
+      </div>
+    </div>
+  }
 
 </main>

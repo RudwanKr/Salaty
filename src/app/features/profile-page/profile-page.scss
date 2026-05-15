@@ -165,3 +165,393 @@ main {
     padding-bottom: 70px;
   }
 }
+
+// ── Top Grid (Profile & Stats/Actions) ────────────────────────────
+.top-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xl;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+}
+
+// ── Profile Card ──────────────────────────────────────────────────
+.profile-card {
+  @include flex-col;
+  align-items: center;
+  gap: $spacing-md;
+
+  .avatar-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: $radius-full;
+    cursor: pointer;
+    overflow: hidden;
+    margin-bottom: $spacing-md;
+    border: 4px solid $white;
+    box-shadow: $shadow-md;
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba($black, 0.4);
+      @include flex-center;
+      color: $white;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+
+      i { font-size: 1.5rem; }
+    }
+
+    &:hover .avatar-overlay {
+      opacity: 1;
+    }
+  }
+
+  .form-group {
+    width: 100%;
+    @include flex-col;
+    gap: $spacing-xs;
+
+    label {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      color: $text-muted;
+      margin-right: $spacing-xs;
+    }
+  }
+}
+
+// ── Stats & Actions ───────────────────────────────────────────────
+.stats-actions-column {
+  @include flex-col;
+  gap: $spacing-xl;
+
+  @include tablet { gap: $spacing-lg; }
+}
+
+.stats-card {
+  @include flex;
+  justify-content: space-around;
+  padding: $spacing-xl;
+
+  .stat-item {
+    @include flex-col;
+    align-items: center;
+    gap: $spacing-sm;
+    text-align: center;
+
+    i {
+      font-size: 2.5rem;
+    }
+
+    .stat-info {
+      @include flex-col;
+      gap: 2px;
+
+      .stat-value {
+        font-size: $font-size-2xl;
+        font-weight: $font-weight-bold;
+        color: $text-main;
+      }
+      .stat-label {
+        font-size: $font-size-sm;
+        color: $text-muted;
+      }
+    }
+  }
+
+  .divider-vertical {
+    width: 1px;
+    background: $border-color;
+    height: 60px;
+    margin: 0 $spacing-md;
+  }
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+
+  .action-btn {
+    @include flex-col;
+    gap: $spacing-sm;
+    padding: $spacing-lg;
+    background: $bg-card;
+    border: 1px solid rgba($border-color, 0.5);
+    box-shadow: $shadow-sm;
+    color: $text-main;
+
+    i {
+      font-size: 2rem;
+      color: $primary;
+      transition: transform 0.3s ease;
+    }
+
+    span {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+    }
+
+    &:hover {
+      background: $primary-50;
+      border-color: $primary-300;
+      i { transform: translateY(-3px); }
+    }
+
+    &.support-btn i { color: $danger-500; }
+    &.rate-btn i { color: $warning; }
+    &.share-btn i { color: $secondary-600; }
+    &.message-btn i { color: $third-600; }
+  }
+}
+
+// ── PWA Guide ─────────────────────────────────────────────────────
+.pwa-guide {
+  @include flex-col;
+  gap: $spacing-lg;
+
+  .section-header {
+    text-align: center;
+    h2 {
+      font-size: $font-size-xl;
+      color: $primary;
+      margin-bottom: $spacing-xs;
+      @include flex-center;
+      gap: $spacing-sm;
+    }
+    p {
+      color: $text-muted;
+      font-size: $font-size-sm;
+      margin: 0;
+    }
+  }
+
+  .os-tabs {
+    @include flex;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+
+    .tab-btn {
+      background: $bg-main;
+      color: $text-main;
+      border: 1px solid $border-color;
+      border-radius: $radius-full;
+      padding: 0.5rem 1.5rem;
+
+      &.active {
+        background: $primary-100;
+        border-color: $primary-400;
+        color: $primary-700;
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+
+  .video-container {
+    width: 100%;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    background: $black;
+    aspect-ratio: 16 / 9;
+    position: relative;
+
+    .video-placeholder {
+      position: absolute;
+      inset: 0;
+      @include flex-col;
+      @include flex-center;
+      color: rgba($white, 0.8);
+      gap: $spacing-md;
+      
+      i {
+        font-size: 4rem;
+        color: rgba($white, 0.5);
+      }
+
+      &.android { background: linear-gradient(135deg, #10b981 0%, #064e3b 100%); }
+      &.ios { background: linear-gradient(135deg, #6b7280 0%, #1f2937 100%); }
+      &.windows { background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%); }
+    }
+  }
+}
+
+// ── Dialogs (Bottom Sheet) ────────────────────────────────────────
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba($black, 0.6);
+  z-index: 1000;
+  @include flex;
+  align-items: flex-end; // Bottom sheet style
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease-out;
+
+  @include desktop {
+    align-items: center; // Center dialog on desktop
+  }
+}
+
+.dialog-sheet {
+  background: $bg-card;
+  width: 100%;
+  max-width: 500px;
+  border-top-left-radius: $radius-2xl;
+  border-top-right-radius: $radius-2xl;
+  padding: $spacing-xl;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: $shadow-xl;
+  padding-bottom: 80px;
+  
+  @include desktop {
+    border-radius: $radius-2xl;
+    animation: scaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .dialog-header {
+    @include flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+
+    h3 {
+      margin: 0;
+      font-size: $font-size-xl;
+      color: $text-main;
+      font-weight: $font-weight-bold;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: $text-light;
+      font-size: 1.5rem;
+      padding: $spacing-xs;
+      cursor: pointer;
+      &:hover { color: $danger-500; }
+    }
+  }
+
+  .dialog-body {
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: $spacing-md;
+
+      @include mobile {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .selectable-avatar {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: $radius-full;
+        object-fit: cover;
+        cursor: pointer;
+        border: 3px solid transparent;
+        transition: transform 0.2s, border-color 0.2s;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+
+        &.selected {
+          border-color: $primary-500;
+          box-shadow: $shadow-md;
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    .support-content, .message-content, .rate-content, .password-content {
+      @include flex-col;
+      gap: $spacing-lg;
+      text-align: center;
+
+      p {
+        color: $text-muted;
+        font-size: $font-size-base;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .icon-wrapper {
+        width: 80px;
+        height: 80px;
+        border-radius: $radius-full;
+        @include flex-center;
+        margin: 0 auto;
+        font-size: 2.5rem;
+        background: $danger-100;
+
+        &.bg-primary-light {
+          background: $primary-100;
+        }
+      }
+    }
+
+    .password-content {
+      .otp-input {
+        font-size: 1.5rem;
+        letter-spacing: 0.5rem;
+        font-family: monospace;
+        font-weight: $font-weight-bold;
+      }
+      .step-content {
+        @include flex-col;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        animation: fadeIn 0.3s ease;
+      }
+    }
+
+    .rate-content {
+      .stars-container {
+        @include flex-center;
+        gap: $spacing-md;
+        font-size: 3rem;
+        color: $warning;
+        margin: $spacing-md 0;
+        direction: ltr;
+
+        i {
+          cursor: pointer;
+          transition: transform 0.2s ease;
+          &:hover { transform: scale(1.1); }
+        }
+      }
+    }
+
+    .message-content {
+      text-align: right;
+      p { text-align: right; }
+    }
+  }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}

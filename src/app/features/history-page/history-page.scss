@@ -1,0 +1,747 @@
+@import './../../../themes.scss';
+
+// ── Root ─────────────────────────────────────────────────────────────────────
+main {
+  background-color: $third-700;
+  position: relative;
+  z-index: 0;
+  min-height: 100vh;
+}
+
+// ── Desert Hero Scene ─────────────────────────────────────────────────────────
+.desert-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 180px;
+  z-index: 1;
+
+  @include tablet {
+    height: 130px;
+  }
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    $third-100 0%,
+    $third-200 20%,
+    $third-300 40%,
+    $third-400 70%,
+    $third-500 100%
+  );
+}
+
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: $radius-full;
+  background: rgba($third-500, 0.7);
+  animation: drift calc(4s + var(--i) * 0.4s) linear infinite;
+
+  $positions: (
+    (5%, 20%), (12%, 55%), (20%, 35%), (28%, 70%), (35%, 15%),
+    (42%, 45%), (50%, 25%), (58%, 65%), (65%, 40%), (72%, 10%),
+    (80%, 55%), (88%, 30%), (93%, 75%), (97%, 50%), (3%, 80%)
+  );
+
+  @for $i from 1 through 15 {
+    &:nth-child(#{$i}) {
+      left: nth(nth($positions, $i), 1);
+      top:  nth(nth($positions, $i), 2);
+      width:  calc(2px + #{$i * 0.5px});
+      height: calc(2px + #{$i * 0.5px});
+      animation-delay: calc(#{$i} * -0.6s);
+      opacity: calc(0.3 + #{$i} * 0.04);
+    }
+  }
+}
+
+@keyframes drift {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.8; }
+  100% { transform: translate(80px, -40px) rotate(360deg); opacity: 0; }
+}
+
+.dunes {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dune {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: auto;
+  animation: sandShift linear infinite;
+}
+
+.dune-3 { fill: rgba($third-500, 0.6); height: 150px; animation-delay: 5s; animation-duration: 25s; }
+.dune-2 { fill: rgba($third-600, 0.75); height: 125px; animation-delay: 3s; animation-duration: 18s; }
+.dune-1 { fill: $third-700; height: 110px; animation-duration: 12s; }
+
+@keyframes sandShift {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+.hero-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: $white;
+  text-shadow: 0 2px 12px rgba($third-700, 0.5);
+  z-index: 10;
+  gap: $spacing-xs;
+  white-space: nowrap;
+
+  i {
+    font-size: 2.5rem;
+    color: rgba($white, 0.9);
+    filter: drop-shadow(0 2px 6px rgba($third-700, 0.6));
+    animation: float 3s ease-in-out infinite;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    filter: drop-shadow(0 2px 6px rgba($third-700, 0.6));
+    letter-spacing: 0.02em;
+  }
+
+  p {
+    margin: 0;
+    font-size: $font-size-sm;
+    filter: drop-shadow(0 2px 6px rgba($third-700, 0.6));
+    opacity: 0.85;
+    font-weight: $font-weight-medium;
+  }
+
+  @include tablet {
+    i  { font-size: 1.6rem; }
+    h1 { font-size: $font-size-lg; }
+    p  { font-size: $font-size-xs; }
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+// ── Page Content ──────────────────────────────────────────────────────────────
+.page-content {
+  background-color: $bg-main;
+  margin-top: -$radius-2xl;
+  padding: $spacing-xl;
+  border-top-left-radius:  $radius-2xl;
+  border-top-right-radius: $radius-2xl;
+  min-height: calc(100vh - 180px);
+  position: relative;
+  z-index: 2;
+  margin-inline: auto;
+  max-width: 1400px;
+  animation: fadeIn 0.4s ease;
+
+  @include tablet {
+    padding: $spacing-md;
+    padding-bottom: 80px;
+    max-width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Overview Stats Row ────────────────────────────────────────────────────────
+.overview-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+
+  @include desktop {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-sm;
+  }
+}
+
+.overview-card {
+  background: $bg-card;
+  border-radius: $radius-xl;
+  border: 1.5px solid $border-color;
+  box-shadow: $shadow-sm;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: $spacing-sm;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: $radius-full;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  @include mobile {
+    padding: $spacing-md $spacing-sm;
+  }
+}
+
+.ov-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: $radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+
+  @include mobile { width: 38px; height: 38px; font-size: 1.1rem; }
+}
+
+.ov-icon--primary   { background: rgba($primary-500, 0.12); color: $primary-700; }
+.ov-icon--accent    { background: rgba($third-500, 0.15);   color: $third-700; }
+.ov-icon--success   { background: rgba($success, 0.12);     color: $success-600; }
+.ov-icon--warning   { background: rgba($warning, 0.12);     color: darken(#f59e0b, 10%); }
+.ov-icon--voluntary { background: rgba($secondary-500, 0.15); color: $secondary-700; }
+
+.overview-card:nth-child(1)::before { background: $gradient-primary; }
+.overview-card:nth-child(2)::before { background: $gradient-thirdly; }
+.overview-card:nth-child(3)::before { background: linear-gradient(90deg, $success-500, $success-400); }
+.overview-card:nth-child(4)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.overview-card:nth-child(5)::before { background: $gradient-secondary; }
+
+.ov-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ov-value {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  line-height: 1;
+
+  @include mobile { font-size: $font-size-xl; }
+}
+
+.ov-label {
+  font-size: $font-size-xs;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+.ov-sub {
+  font-size: $font-size-xxs;
+  color: $text-light;
+  text-align: center;
+}
+
+// ── Prayer Stats Grid ─────────────────────────────────────────────────────────
+.prayer-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+.prayer-stats-card {
+  background: $bg-card;
+  border-radius: $radius-xl;
+  border: 1.5px solid $border-color;
+  box-shadow: $shadow-sm;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  @include mobile { padding: $spacing-md; }
+}
+
+// top accent strip
+.main-card      { border-top: 3px solid $primary-500; }
+.voluntary-card { border-top: 3px solid $third-500; }
+
+.psc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+}
+
+.psc-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+
+  h3 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $text-main;
+  }
+}
+
+.psc-sub {
+  font-size: $font-size-xs;
+  color: $text-muted;
+}
+
+.psc-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  background: rgba($primary-500, 0.12);
+  color: $primary-700;
+  flex-shrink: 0;
+
+  &.voluntary {
+    background: rgba($third-500, 0.15);
+    color: $third-700;
+  }
+}
+
+.completion-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba($primary-500, 0.08);
+  border: 1px solid rgba($primary-500, 0.2);
+  border-radius: $radius-lg;
+  padding: $spacing-xs $spacing-md;
+  min-width: 64px;
+
+  &.voluntary {
+    background: rgba($third-500, 0.08);
+    border-color: rgba($third-500, 0.2);
+
+    .completion-pct { color: $third-700; }
+  }
+}
+
+.completion-pct {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $primary-700;
+  line-height: 1;
+}
+
+.completion-label {
+  font-size: $font-size-xxs;
+  color: $text-muted;
+  margin-top: 2px;
+}
+
+// Progress bar
+.progress-bar-wrap {
+  height: 8px;
+  background: rgba($primary-500, 0.12);
+  border-radius: $radius-full;
+  overflow: hidden;
+
+  &.voluntary {
+    background: rgba($third-500, 0.12);
+
+    .progress-bar {
+      background: $gradient-thirdly;
+    }
+  }
+}
+
+.progress-bar {
+  height: 100%;
+  background: $gradient-primary;
+  border-radius: $radius-full;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 4px;
+}
+
+.progress-info {
+  font-size: $font-size-xs;
+  color: $text-muted;
+  text-align: center;
+}
+
+// Status badges
+.status-badges-row {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  border: 1.5px solid;
+  flex: 1;
+  min-width: 80px;
+  justify-content: center;
+
+  i { font-size: 0.85rem; }
+
+  .sbadge-label {
+    font-size: $font-size-xxs;
+    @include mobile { display: none; }
+  }
+
+  .sbadge-count {
+    font-weight: $font-weight-bold;
+    font-family: monospace;
+    font-size: $font-size-sm;
+  }
+}
+
+.badge-group      { background: rgba($success, 0.1); color: $success-600; border-color: rgba($success, 0.3); }
+.badge-individual { background: rgba($info, 0.1);    color: $info;         border-color: rgba($info, 0.3); }
+.badge-late       { background: rgba($warning, 0.1); color: darken(#f59e0b, 15%); border-color: rgba($warning, 0.3); }
+.badge-missed     { background: rgba($danger, 0.1);  color: $danger-700;   border-color: rgba($danger, 0.3); }
+.badge-prayed     { background: rgba($success, 0.1); color: $success-600;  border-color: rgba($success, 0.3); }
+.badge-not-prayed { background: rgba($danger, 0.1);  color: $danger-700;   border-color: rgba($danger, 0.3); }
+
+// ── Dot Legend ────────────────────────────────────────────────────────────────
+.dot-legend-card {
+  background: $bg-card;
+  border-radius: $radius-xl;
+  border: 1.5px solid $border-color;
+  box-shadow: $shadow-sm;
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-xl;
+
+  @include mobile { padding: $spacing-sm $spacing-md; }
+}
+
+.legend-title {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $text-muted;
+  margin: 0 0 $spacing-sm;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+
+  i { color: $primary-400; }
+}
+
+.legend-row {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-lg;
+  flex-wrap: wrap;
+}
+
+.legend-section {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.legend-section-label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $text-muted;
+  white-space: nowrap;
+}
+
+.legend-items {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: $font-size-xs;
+  color: $text-muted;
+  white-space: nowrap;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-divider {
+  width: 1px;
+  height: 32px;
+  background: $border-color;
+  align-self: center;
+
+  @include mobile { display: none; }
+}
+
+// ── Dot Status Colors ─────────────────────────────────────────────────────────
+// Used both in .legend-dot and .prayer-dot
+
+.dot-group      { background-color: $success-500; }
+.dot-individual { background-color: $info; }
+.dot-late       { background-color: $warning; }
+.dot-missed     { background-color: $danger-500; }
+.dot-prayed     { background-color: $success-500; }
+.dot-not-prayed { background-color: $danger-500; }
+.dot-empty      { background-color: $gray-300; }
+
+// ── Calendar Card ─────────────────────────────────────────────────────────────
+.calendar-card {
+  background: $bg-card;
+  border-radius: $radius-xl;
+  border: 1.5px solid $border-color;
+  box-shadow: $shadow-sm;
+  overflow: hidden;
+  padding: $spacing-lg;
+  width: 100%;
+
+  @include tablet { padding: $spacing-md; }
+  @include mobile { padding: $spacing-sm; }
+}
+
+// ── Calendar Header ───────────────────────────────────────────────────────────
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-lg;
+  gap: $spacing-md;
+
+  @include mobile { margin-bottom: $spacing-md; }
+}
+
+.cal-month-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $text-main;
+  }
+}
+
+.go-current-btn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-xs;
+  color: $primary;
+  background: rgba($primary-500, 0.08);
+  border: 1px solid rgba($primary-500, 0.25);
+  border-radius: $radius-full;
+  padding: 2px $spacing-sm;
+  cursor: pointer;
+  font-family: $font-family-main;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba($primary-500, 0.15);
+    transform: none;
+  }
+}
+
+.cal-nav-btn {
+  background: $bg-main;
+  border: 1.5px solid $border-color;
+  border-radius: $radius-md;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-main;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+
+  i { font-size: 0.85rem; }
+
+  &:hover {
+    background: $primary-50;
+    color: $primary-600;
+    border-color: $primary-300;
+    transform: none;
+  }
+}
+
+// ── Calendar Grid ─────────────────────────────────────────────────────────────
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+
+  @include mobile { gap: 2px; }
+}
+
+.weekday-header {
+  text-align: center;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $text-muted;
+  padding-bottom: $spacing-sm;
+}
+
+// ── Calendar Cell ─────────────────────────────────────────────────────────────
+.calendar-cell {
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px 2px 5px;
+  gap: 3px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  background: $bg-main;
+  transition: all 0.2s ease;
+  min-height: 62px;
+  position: relative;
+  overflow: visible;
+
+  @include tablet {
+    min-height: 52px;
+    padding: 3px 1px 4px;
+  }
+
+  @include mobile {
+    min-height: 46px;
+    padding: 3px 1px;
+    border-radius: $radius-sm;
+  }
+
+  &:hover {
+    transform: scale(1.04);
+    border-color: rgba($primary-300, 0.7);
+    z-index: 2;
+    box-shadow: $shadow-md;
+    background: $white;
+  }
+
+  &.not-current-month {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  &.today {
+    border-color: $primary-500;
+    background: rgba($primary-500, 0.05);
+
+    .cal-day-num {
+      color: $primary-600;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  &.has-data {
+    background: $white;
+    border-color: $gray-200;
+  }
+}
+
+.cal-day-num {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $text-main;
+  line-height: 1;
+  margin-bottom: 1px;
+
+  @include mobile { font-size: $font-size-xxs; }
+}
+
+// ── Prayer Dot Rows ───────────────────────────────────────────────────────────
+.dots-row {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  @include mobile { gap: 1.5px; }
+}
+
+.dots-main {
+  // first row — 5 dots
+}
+
+.dots-voluntary {
+  // second row — 7 dots
+}
+
+.prayer-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+
+  @include tablet  { width: 5px;   height: 5px; }
+  @include mobile  { width: 4px;   height: 4px; }
+
+  .calendar-cell:hover & {
+    transform: scale(1.2);
+  }
+}

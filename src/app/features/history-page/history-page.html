@@ -1,0 +1,272 @@
+<main>
+
+  <!-- ── Desert Hero Scene ──────────────────────────────────────── -->
+  <div class="desert-hero">
+    <div class="sky"></div>
+
+    <div class="particles">
+      @for(_ of particles; track $index) {
+        <span class="particle" [style.--i]="$index"></span>
+      }
+    </div>
+
+    <div class="dunes">
+      <svg class="dune dune-3" viewBox="0 0 1440 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,80 C120,40 240,100 360,80 C480,60 600,120 720,80 C840,40 960,100 1080,80 C1200,60 1320,120 1440,80 L1440,160 L0,160 Z"/>
+      </svg>
+      <svg class="dune dune-2" viewBox="0 0 1440 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,100 C240,40 480,160 720,100 C960,40 1200,160 1440,100 L1440,180 L0,180 Z"/>
+      </svg>
+      <svg class="dune dune-1" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,120 C150,50 300,170 450,130 C600,90 570,190 720,120 C870,50 1020,170 1170,130 C1320,90 1290,190 1440,120 L1440,200 L0,200 Z"/>
+      </svg>
+    </div>
+
+    <div class="hero-label">
+      <i class="fa-solid fa-calendar-check"></i>
+      <h1>سجل صلواتك</h1>
+      <p>تاريخ صلواتك اليومية — فرض ونافلة</p>
+    </div>
+  </div>
+
+  <!-- ── Page Content ───────────────────────────────────────────── -->
+  <div class="page-content">
+
+    <!-- ── Overview Stats Row ──────────────────────────────────── -->
+    <div class="overview-row">
+
+      <div class="overview-card">
+        <div class="ov-icon ov-icon--primary">
+          <i class="fa-solid fa-calendar-days"></i>
+        </div>
+        <div class="ov-info">
+          <span class="ov-value">{{ totalTrackedDays() }}</span>
+          <span class="ov-label">يوم مسجل</span>
+        </div>
+      </div>
+
+      <div class="overview-card">
+        <div class="ov-icon ov-icon--accent">
+          <i class="fa-solid fa-hourglass-start"></i>
+        </div>
+        <div class="ov-info">
+          <span class="ov-value">{{ daysActive() }}</span>
+          <span class="ov-label">يوم منذ البداية</span>
+        </div>
+        @if (firstRecordedDate()) {
+          <span class="ov-sub">منذ {{ firstRecordedDateLabel() }}</span>
+        }
+      </div>
+
+      <div class="overview-card">
+        <div class="ov-icon ov-icon--success">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <div class="ov-info">
+          <span class="ov-value">{{ currentStreak() }}</span>
+          <span class="ov-label">السلسلة الحالية</span>
+        </div>
+      </div>
+
+      <div class="overview-card">
+        <div class="ov-icon ov-icon--warning">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <div class="ov-info">
+          <span class="ov-value">{{ bestMainStreak() }}</span>
+          <span class="ov-label">أفضل سلسلة فرض</span>
+        </div>
+      </div>
+
+      <div class="overview-card">
+        <div class="ov-icon ov-icon--voluntary">
+          <i class="fa-solid fa-medal"></i>
+        </div>
+        <div class="ov-info">
+          <span class="ov-value">{{ bestVoluntaryStreak() }}</span>
+          <span class="ov-label">أفضل سلسلة نافلة</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Prayer Stats Grid ───────────────────────────────────── -->
+    <div class="prayer-stats-grid">
+
+      <!-- Main Prayers Stats -->
+      <div class="prayer-stats-card main-card">
+        <div class="psc-header">
+          <div class="psc-title-wrap">
+            <div class="psc-icon-wrap">
+              <i class="fa-solid fa-star-and-crescent"></i>
+            </div>
+            <div>
+              <h3>صلوات الفرض</h3>
+              <span class="psc-sub">5 صلوات في اليوم</span>
+            </div>
+          </div>
+          <div class="completion-badge">
+            <span class="completion-pct">{{ mainCompletionPct() }}%</span>
+            <span class="completion-label">أُديت</span>
+          </div>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" [style.width.%]="mainCompletionPct()"></div>
+        </div>
+        <div class="progress-info">
+          <span>{{ mainTotalPrayed() }} من {{ mainTotalPossible() }} صلاة</span>
+        </div>
+
+        <div class="status-badges-row">
+          <div class="status-badge badge-group">
+            <i class="fa-solid fa-people-group"></i>
+            <span class="sbadge-label">جماعة</span>
+            <span class="sbadge-count">{{ mainGroupCount() }}</span>
+          </div>
+          <div class="status-badge badge-individual">
+            <i class="fa-solid fa-person-praying"></i>
+            <span class="sbadge-label">منفرد</span>
+            <span class="sbadge-count">{{ mainIndividualCount() }}</span>
+          </div>
+          <div class="status-badge badge-late">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span class="sbadge-label">قضاء</span>
+            <span class="sbadge-count">{{ mainLateCount() }}</span>
+          </div>
+          <div class="status-badge badge-missed">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <span class="sbadge-label">فائتة</span>
+            <span class="sbadge-count">{{ mainMissedCount() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voluntary Prayers Stats -->
+      <div class="prayer-stats-card voluntary-card">
+        <div class="psc-header">
+          <div class="psc-title-wrap">
+            <div class="psc-icon-wrap voluntary">
+              <i class="fa-solid fa-hands-praying"></i>
+            </div>
+            <div>
+              <h3>النوافل</h3>
+              <span class="psc-sub">7 نوافل في اليوم</span>
+            </div>
+          </div>
+          <div class="completion-badge voluntary">
+            <span class="completion-pct">{{ voluntaryCompletionPct() }}%</span>
+            <span class="completion-label">أُديت</span>
+          </div>
+        </div>
+
+        <div class="progress-bar-wrap voluntary">
+          <div class="progress-bar" [style.width.%]="voluntaryCompletionPct()"></div>
+        </div>
+        <div class="progress-info">
+          <span>{{ voluntaryPrayedCount() }} من {{ voluntaryTotalPossible() }} نافلة</span>
+        </div>
+
+        <div class="status-badges-row">
+          <div class="status-badge badge-prayed">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="sbadge-label">صليت</span>
+            <span class="sbadge-count">{{ voluntaryPrayedCount() }}</span>
+          </div>
+          <div class="status-badge badge-not-prayed">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <span class="sbadge-label">لم أصلِ</span>
+            <span class="sbadge-count">{{ voluntaryNotPrayedCount() }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Dot Legend ──────────────────────────────────────────── -->
+    <div class="dot-legend-card">
+      <h4 class="legend-title"><i class="fa-solid fa-circle-info"></i> دليل الألوان</h4>
+      <div class="legend-row">
+        <div class="legend-section">
+          <span class="legend-section-label">الفرض</span>
+          <div class="legend-items">
+            <div class="legend-item"><span class="legend-dot dot-group"></span><span>جماعة</span></div>
+            <div class="legend-item"><span class="legend-dot dot-individual"></span><span>منفرد</span></div>
+            <div class="legend-item"><span class="legend-dot dot-late"></span><span>قضاء</span></div>
+            <div class="legend-item"><span class="legend-dot dot-missed"></span><span>فائتة</span></div>
+            <div class="legend-item"><span class="legend-dot dot-empty"></span><span>غير مسجل</span></div>
+          </div>
+        </div>
+        <div class="legend-divider"></div>
+        <div class="legend-section">
+          <span class="legend-section-label">النوافل</span>
+          <div class="legend-items">
+            <div class="legend-item"><span class="legend-dot dot-prayed"></span><span>صليت</span></div>
+            <div class="legend-item"><span class="legend-dot dot-not-prayed"></span><span>لم أصلِ</span></div>
+            <div class="legend-item"><span class="legend-dot dot-empty"></span><span>غير مسجل</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Calendar ────────────────────────────────────────────── -->
+    <div class="calendar-card">
+
+      <!-- Calendar Header -->
+      <div class="calendar-header">
+        <button class="cal-nav-btn" id="prev-month-btn" (click)="prevMonth()">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <div class="cal-month-label">
+          <h2>{{ currentMonthName() }}</h2>
+          @if (!isCurrentMonth()) {
+            <button class="go-current-btn" (click)="goToToday()">
+              <i class="fa-solid fa-rotate-left"></i> الشهر الحالي
+            </button>
+          }
+        </div>
+        <button class="cal-nav-btn" id="next-month-btn" (click)="nextMonth()">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <!-- Week day headers -->
+      <div class="calendar-grid">
+        @for (wd of weekDaysHeader; track $index) {
+          <div class="weekday-header">{{ wd }}</div>
+        }
+
+        <!-- Calendar cells -->
+        @for (day of calendarDays(); track day.dateStr) {
+          <div
+            class="calendar-cell"
+            [class.not-current-month]="!day.isCurrentMonth"
+            [class.today]="day.isToday"
+            [class.has-data]="day.hasAnyData"
+            (click)="goToDay(day)"
+            [attr.title]="day.date.toLocaleDateString('ar-SA')"
+          >
+            <span class="cal-day-num">{{ day.date.getDate() }}</span>
+
+            <!-- Main prayer dots row -->
+            <div class="dots-row dots-main">
+              @for (dot of day.mainDots; track dot.prayerId) {
+                <span class="prayer-dot {{ dot.colorClass }}" [attr.title]="dot.name"></span>
+              }
+            </div>
+
+            <!-- Voluntary prayer dots row -->
+            <div class="dots-row dots-voluntary">
+              @for (dot of day.voluntaryDots; track dot.prayerId) {
+                <span class="prayer-dot {{ dot.colorClass }}" [attr.title]="dot.name"></span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+
+  </div>
+
+</main>

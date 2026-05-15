@@ -305,10 +305,15 @@ button, .btn {
 // ── Cards ─────────────────────────────────
 .card {
     @include card;
+    border-radius: $radius-xl;
+    border: 1.5px solid $border-color;
+    background: $bg-card;
+    box-shadow: $shadow-sm;
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+    margin-bottom: $spacing-md;
+
     padding: $spacing-lg;
-    box-shadow: $shadow-md;
-    border: 1px solid rgba($border-color, 0.5);
-    transition: all 0.3s ease;
 
     &.glass     { @include glass; }
     &.hoverable { @include hover-lift; }
@@ -472,6 +477,42 @@ input, select, textarea, .zk-input {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.text-warning {
+    color: $warning;
+}
+
+.text-info {
+    color: $info;
+}
+
+.text-success {
+    color: $success;
+}
+
+.text-danger {
+    color: $danger;
+}
+
+.text-secondary {
+    color: $secondary;
+}
+
+.text-primary {
+    color: $primary;
+}
+
+.text-thirdly {
+    color: $third;
+}
+
+.text-dark {
+    color: $black;
+}
+
+.text-muted {
+    color: $text-muted;
 }
 
 .heading-xl {
