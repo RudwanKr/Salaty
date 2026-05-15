@@ -1,0 +1,4 @@
+// Auth layout is transparent — styles live in each child page component.
+:host {
+  display: block;
+}

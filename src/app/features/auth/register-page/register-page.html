@@ -1,1 +1,135 @@
-<p>register-page works!</p>
+<div class="auth-page">
+
+  <div class="auth-bg">
+    <div class="auth-sky"></div>
+    <div class="auth-blobs">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+  </div>
+
+  <div class="auth-card">
+
+    <div class="auth-brand">
+      <div class="brand-icon">
+        <img src="../../../assets/images/logo.webp" alt="">
+      </div>
+      <h1 class="brand-name">صلاتي</h1>
+      <p class="brand-tagline">إنشاء حساب جديد</p>
+    </div>
+
+    @if (success()) {
+      <div class="auth-success-screen">
+        <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <h2>تم إنشاء الحساب بنجاح!</h2>
+        <p>جارٍ تحويلك...</p>
+      </div>
+    } @else {
+      <form class="auth-form" (ngSubmit)="register()">
+
+        <div class="field-group">
+          <label class="field-label" for="reg-name">
+            <i class="fa-solid fa-user"></i> الاسم الكامل
+          </label>
+          <input
+            id="reg-name"
+            type="text"
+            class="auth-input"
+            placeholder="أحمد محمد"
+            [(ngModel)]="fullName"
+            name="fullName"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="reg-email">
+            <i class="fa-solid fa-envelope"></i> البريد الإلكتروني
+          </label>
+          <input
+            id="reg-email"
+            type="email"
+            class="auth-input"
+            placeholder="example@mail.com"
+            [(ngModel)]="email"
+            name="email"
+            autocomplete="email"
+            dir="ltr"
+          />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="reg-pass">
+            <i class="fa-solid fa-lock"></i> كلمة المرور
+          </label>
+          <div class="input-with-icon">
+            <input
+              id="reg-pass"
+              [type]="showPass() ? 'text' : 'password'"
+              class="auth-input"
+              placeholder="8 أحرف على الأقل"
+              [(ngModel)]="password"
+              name="password"
+              autocomplete="new-password"
+              dir="ltr"
+            />
+            <button type="button" class="eye-btn" (click)="showPass.set(!showPass())">
+              <i [class]="showPass() ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="reg-confirm">
+            <i class="fa-solid fa-shield-halved"></i> تأكيد كلمة المرور
+          </label>
+          <div class="input-with-icon">
+            <input
+              id="reg-confirm"
+              [type]="showConfirmPass() ? 'text' : 'password'"
+              class="auth-input"
+              placeholder="أعد كتابة كلمة المرور"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              autocomplete="new-password"
+              dir="ltr"
+            />
+            <button type="button" class="eye-btn" (click)="showConfirmPass.set(!showConfirmPass())">
+              <i [class]="showConfirmPass() ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        @if (error()) {
+          <div class="auth-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            {{ error() }}
+          </div>
+        }
+
+        <button
+          type="submit"
+          class="btn-auth-submit"
+          [class.loading]="loading()"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            جارٍ إنشاء الحساب...
+          } @else {
+            <i class="fa-solid fa-user-plus"></i>
+            إنشاء الحساب
+          }
+        </button>
+
+      </form>
+    }
+
+    <div class="auth-footer">
+      <span>لديك حساب بالفعل؟</span>
+      <a routerLink="/auth/login" class="auth-link">تسجيل الدخول</a>
+    </div>
+
+  </div>
+</div>

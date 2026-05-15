@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { NavBar } from "./core/components/nav-bar/nav-bar";
-import { RouterOutlet } from "@angular/router";
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +12,20 @@ import { RouterOutlet } from "@angular/router";
 })
 export class App {
   protected readonly title = signal('Salaty');
+
+  private router = inject(Router);
+
+  // Reactively tracks the current URL — updates on every navigation end
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd),
+      map(e => (e as NavigationEnd).urlAfterRedirects),
+      startWith(this.router.url)
+    ),
+    { initialValue: this.router.url }
+  );
+
+  isAuthRoute = computed(() => this.currentUrl().startsWith('/auth'));
 
   toggleTheme() {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';

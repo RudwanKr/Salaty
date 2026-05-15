@@ -1,5 +1,7 @@
 <div class="shell">
-  <app-nav-bar />
+  @if (!isAuthRoute()) {
+    <app-nav-bar />
+  }
   <div class="content">
     <router-outlet />
   </div>

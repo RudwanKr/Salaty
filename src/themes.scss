@@ -334,6 +334,7 @@ input, select, textarea, .zk-input {
     outline: none;
     resize: none;
     box-sizing: border-box;
+    text-align: right;
 
     &::placeholder { color: $text-light; }
     &:hover        { border-color: $gray-300; }

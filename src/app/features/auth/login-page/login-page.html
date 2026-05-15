@@ -1,1 +1,101 @@
-<p>login-page works!</p>
+<div class="auth-page">
+
+  <!-- Background layers -->
+  <div class="auth-bg">
+    <div class="auth-sky"></div>
+    <div class="auth-blobs">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="auth-card">
+
+    <!-- Logo -->
+    <div class="auth-brand">
+      <div class="brand-icon">
+        <img src="../../../assets/images/logo.webp" alt="صلاتي">
+      </div>
+      <h1 class="brand-name">صلاتي</h1>
+      <p class="brand-tagline">مرحباً بعودتك</p>
+    </div>
+
+    <!-- Form -->
+    <form class="auth-form" (ngSubmit)="login()">
+
+      <div class="field-group">
+        <label class="field-label" for="login-email">
+          <i class="fa-solid fa-envelope"></i> البريد الإلكتروني
+        </label>
+        <input
+          id="login-email"
+          type="email"
+          class="auth-input"
+          placeholder="example@mail.com"
+          [(ngModel)]="email"
+          name="email"
+          autocomplete="email"
+          dir="ltr"
+        />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="login-password">
+          <i class="fa-solid fa-lock"></i> كلمة المرور
+        </label>
+        <div class="input-with-icon">
+          <input
+            id="login-password"
+            [type]="showPass() ? 'text' : 'password'"
+            class="auth-input"
+            placeholder="••••••••"
+            [(ngModel)]="password"
+            name="password"
+            autocomplete="current-password"
+            dir="ltr"
+          />
+          <button type="button" class="eye-btn" (click)="showPass.set(!showPass())">
+            <i [class]="showPass() ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Error message -->
+      @if (error()) {
+        <div class="auth-error">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          {{ error() }}
+        </div>
+      }
+
+      <button
+        type="submit"
+        class="btn-auth-submit"
+        [class.loading]="loading()"
+        [disabled]="loading()"
+      >
+        @if (loading()) {
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          جارٍ تسجيل الدخول...
+        } @else {
+          <i class="fa-solid fa-right-to-bracket"></i>
+          تسجيل الدخول
+        }
+      </button>
+
+      <a routerLink="/auth/reset-password" class="forgot-link">
+        نسيت كلمة المرور؟
+      </a>
+
+    </form>
+
+    <!-- Footer link -->
+    <div class="auth-footer">
+      <span>ليس لديك حساب؟</span>
+      <a routerLink="/auth/register" class="auth-link">إنشاء حساب جديد</a>
+    </div>
+
+  </div>
+</div>

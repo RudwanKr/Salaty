@@ -6,9 +6,33 @@ export const routes: Routes = [
     redirectTo: 'today',
     pathMatch: 'full'
   },
+  // ── Auth (no nav-bar layout) ───────────────────────────────────────────────
+  {
+    path: 'auth',
+    loadComponent: () => import('./features/auth/auth-layout/auth-layout')
+      .then(m => m.AuthLayout),
+    children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      {
+        path: 'login',
+        loadComponent: () => import('./features/auth/login-page/login-page')
+          .then(m => m.LoginPage)
+      },
+      {
+        path: 'register',
+        loadComponent: () => import('./features/auth/register-page/register-page')
+          .then(m => m.RegisterPage)
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () => import('./features/auth/reset-password-page/reset-password-page')
+          .then(m => m.ResetPasswordPage)
+      },
+    ]
+  },
+  // ── Main app ──────────────────────────────────────────────────────────────
   {
     path: 'today',
-    // Lazy load the standalone component
     loadComponent: () => import('./features/today-page/today-page')
       .then(m => m.TodayPage)
   },
@@ -33,7 +57,7 @@ export const routes: Routes = [
       .then(m => m.PrayerDetail)
   },
   {
-    path: '**', // Fallback for 404
+    path: '**',
     redirectTo: 'today'
   }
 ];

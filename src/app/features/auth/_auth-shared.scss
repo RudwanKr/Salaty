@@ -1,0 +1,506 @@
+@import './../../../themes.scss';
+
+// ══════════════════════════════════════════════════════════════════
+// Auth Pages — Shared Styles
+// Imported by: login-page, register-page, reset-password-page
+// ══════════════════════════════════════════════════════════════════
+
+// ── Full-screen wrapper ───────────────────────────────────────────
+.auth-page {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+  position: relative;
+  overflow: hidden;
+  font-family: $font-family-main;
+}
+
+// ── Animated Background ───────────────────────────────────────────
+.auth-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.auth-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    145deg,
+    $primary-900 0%,
+    $primary-800 30%,
+    $primary-700 55%,
+    $third-700 80%,
+    $third-600 100%
+  );
+}
+
+// Decorative blobs
+.auth-blobs {
+  position: absolute;
+  inset: 0;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+  animation: blobPulse 8s ease-in-out infinite;
+}
+
+.blob-1 {
+  width: 400px; height: 400px;
+  background: $primary-400;
+  top: -100px; right: -100px;
+  animation-delay: 0s;
+}
+.blob-2 {
+  width: 300px; height: 300px;
+  background: $third-500;
+  bottom: -80px; left: -80px;
+  animation-delay: -3s;
+}
+.blob-3 {
+  width: 250px; height: 250px;
+  background: $secondary-500;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -6s;
+}
+
+@keyframes blobPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.15); }
+}
+
+.blob-3 {
+  @keyframes blobPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50%       { transform: translate(-50%, -50%) scale(1.15); }
+  }
+}
+
+// ── Card ──────────────────────────────────────────────────────────
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  background: rgba($white, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: $radius-2xl;
+  border: 1px solid rgba($white, 0.6);
+  box-shadow:
+    0 24px 64px rgba($black, 0.25),
+    0 0 0 1px rgba($white, 0.15) inset;
+  padding: $spacing-2xl $spacing-xl;
+  animation: authCardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  @include mobile {
+    padding: $spacing-xl $spacing-md;
+  }
+}
+
+@keyframes authCardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+// ── Brand / Logo ──────────────────────────────────────────────────
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-xl;
+}
+
+.brand-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: $radius-xl;
+  background: $gradient-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white;
+  font-size: 1.8rem;
+  box-shadow: 0 8px 24px rgba($primary-600, 0.4);
+  animation: float 3s ease-in-out infinite;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: $radius-xl;
+    filter: drop-shadow(0 8px 24px rgba($primary-600, 0.4));
+  }
+
+  @include mobile { width: 56px; height: 56px; font-size: 1.4rem; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+
+.brand-name {
+  margin: 0;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $primary-800;
+  letter-spacing: 0.02em;
+}
+
+.brand-tagline {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $text-muted;
+  font-weight: $font-weight-medium;
+}
+
+// ── Form ──────────────────────────────────────────────────────────
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.field-label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $text-main;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+
+  i { color: $primary-500; font-size: 0.85rem; }
+}
+
+// Override global input for auth context
+.auth-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: $radius-lg;
+  border: 1.5px solid $border-color;
+  background: $bg-main;
+  color: $text-main;
+  font-family: $font-family-main;
+  font-size: $font-size-base;
+  transition: all 0.2s ease;
+  outline: none;
+  box-sizing: border-box;
+  margin: 0;
+
+  &::placeholder { color: $text-light; }
+  &:hover        { border-color: $gray-300; }
+  &:focus        {
+    background: $white;
+    border-color: $primary-400;
+    box-shadow: 0 0 0 4px rgba($primary-400, 0.12);
+  }
+
+  &.otp-input {
+    text-align: center;
+    letter-spacing: 0.5em;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    font-family: monospace;
+  }
+}
+
+// Password field with eye toggle
+.input-with-icon {
+  position: relative;
+
+  .auth-input {
+    padding-left: 2.8rem;
+  }
+}
+
+.eye-btn {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: $text-muted;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+
+  &:hover { color: $primary; transform: translateY(-50%); }
+}
+
+// ── Submit button ─────────────────────────────────────────────────
+.btn-auth-submit {
+  width: 100%;
+  padding: 0.875rem $spacing-md;
+  border-radius: $radius-lg;
+  background: $gradient-primary;
+  color: $white;
+  font-family: $font-family-main;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  box-shadow: 0 4px 16px rgba($primary-600, 0.35);
+  transition: all 0.25s ease;
+  margin-top: $spacing-xs;
+
+  i { font-size: 1rem; }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba($primary-600, 0.45);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba($primary-600, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.btn-back {
+  width: 100%;
+  padding: 0.65rem $spacing-md;
+  border-radius: $radius-lg;
+  background: transparent;
+  color: $text-muted;
+  font-family: $font-family-main;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border: 1.5px solid $border-color;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $gray-100;
+    border-color: $gray-300;
+    color: $text-main;
+    transform: none;
+  }
+}
+
+// ── Forgot link ───────────────────────────────────────────────────
+.forgot-link {
+  text-align: center;
+  font-size: $font-size-xs;
+  color: $text-muted;
+  text-decoration: none;
+  transition: color 0.2s;
+  margin-top: $spacing-xs;
+
+  &:hover { color: $primary; }
+}
+
+// ── Messages ──────────────────────────────────────────────────────
+.auth-error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  background: rgba($danger, 0.08);
+  border: 1px solid rgba($danger, 0.25);
+  border-radius: $radius-lg;
+  color: $danger-700;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  animation: authSlideIn 0.25s ease;
+
+  i { color: $danger; font-size: 0.9rem; flex-shrink: 0; }
+}
+
+.auth-success-msg {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  background: rgba($success, 0.08);
+  border: 1px solid rgba($success, 0.25);
+  border-radius: $radius-lg;
+  color: $success-600;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-md;
+  animation: authSlideIn 0.25s ease;
+
+  i { color: $success; font-size: 0.9rem; flex-shrink: 0; }
+}
+
+// ── Footer link row ───────────────────────────────────────────────
+.auth-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-lg;
+  font-size: $font-size-sm;
+  color: $text-muted;
+}
+
+.auth-link {
+  color: $primary;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  i { font-size: 0.85rem; }
+  &:hover { color: $primary-700; text-decoration: underline; }
+}
+
+// ── Success screen (register) ─────────────────────────────────────
+.auth-success-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-xl 0;
+  animation: authSlideIn 0.4s ease;
+
+  h2 { margin: 0; color: $success-600; font-size: $font-size-xl; }
+  p  { margin: 0; color: $text-muted; font-size: $font-size-sm; }
+}
+
+.success-icon {
+  font-size: 3rem;
+  color: $success-500;
+  animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes successPop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+// ── Step indicator (reset password) ──────────────────────────────
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: $spacing-xl;
+}
+
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: $gray-200;
+  color: $text-muted;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+
+  &.active {
+    background: $gradient-primary;
+    color: $white;
+    box-shadow: 0 4px 12px rgba($primary-600, 0.4);
+    transform: scale(1.1);
+  }
+
+  &.done {
+    background: $success-500;
+    color: $white;
+  }
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: $gray-200;
+  max-width: 48px;
+  transition: background 0.3s ease;
+
+  &.done { background: $success-400; }
+}
+
+// ── Step content ──────────────────────────────────────────────────
+.step-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.step-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  text-align: center;
+  margin-bottom: $spacing-xs;
+}
+
+.step-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: $radius-xl;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+
+  &.step-icon--primary { background: rgba($primary-500, 0.12); color: $primary-700; }
+  &.step-icon--warning { background: rgba($warning, 0.12); color: darken(#f59e0b, 10%); }
+  &.step-icon--success { background: rgba($success, 0.12); color: $success-600; }
+}
+
+.step-desc {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $text-muted;
+  max-width: 300px;
+}
+
+.step-hint {
+  margin: 0;
+  font-size: $font-size-xs;
+  color: $info;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  i { font-size: 0.8rem; }
+}
+
+// ── Animation ─────────────────────────────────────────────────────
+@keyframes authSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
