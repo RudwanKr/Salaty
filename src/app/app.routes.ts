@@ -30,6 +30,39 @@ export const routes: Routes = [
       },
     ]
   },
+   {
+    path: 'admin',
+    loadComponent: () => import('./features/admin-panel/admin-layout/admin-layout')
+      .then(m => m.AdminLayout),
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      {
+        path: 'home',
+        loadComponent: () => import('./features/admin-panel/home-page/home-page')
+          .then(m => m.HomePage)
+      },
+      {
+        path: 'users',
+        loadComponent: () => import('./features/admin-panel/users-page/users-page')
+          .then(m => m.UsersPage)
+      },
+      {
+        path: 'user-details/:id',
+        loadComponent: () => import('./features/admin-panel/user-details/user-details')
+          .then(m => m.UserDetails)
+      },
+      {
+        path: 'prayer-details/:name',
+        loadComponent: () => import('./features/admin-panel/prayer-details/prayer-details')
+          .then(m => m.PrayerDetails)
+      },
+      {
+        path: 'profile-page',
+        loadComponent: () => import('./features/admin-panel/profile-page/profile-page')
+          .then(m => m.ProfilePage)
+      },
+    ]
+  },
   // ── Main app ──────────────────────────────────────────────────────────────
   {
     path: 'today',
