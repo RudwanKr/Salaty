@@ -1,0 +1,17 @@
+@import './../../../../themes.scss';
+
+// ── Root Page Container ──────────────────────────────────────────
+main {
+    padding: $spacing-lg;
+    margin: 0 auto;
+    margin-right: 250px;
+    min-height: calc(100vh - 100px);
+    font-family: $font-family-main;
+    direction: rtl;
+
+    @include tablet {
+        margin-right: auto;
+        padding: $spacing-md;
+        padding-bottom: 80px;
+    }
+}
