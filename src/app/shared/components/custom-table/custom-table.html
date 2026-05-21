@@ -1,152 +1,124 @@
 <!-- Total Count Badge -->
 <div class="badge-container">
-  <div class="total-count-badge" *ngIf="products && products.length > 0">
-    <span class="count">{{ products.length }}</span>
-  </div>
+    @if (products.length > 0) {
+    <div class="total-count-badge">
+        <span class="count">{{ products.length }}</span>
+    </div>
+    }
 </div>
 
 <table class="table table-light">
-  <thead class="thead-light">
-    <tr>
-      <th *ngIf="showIndex" class="index-col">#</th>
-      <th *ngFor="let header of headers"
-        [style.width]="header.width ? header.width + 'px' : null"
-        [ngClass]="header.isNormal ? 'normal' : ''">
-        <ng-container *ngIf="header.isCheckbox; else normalHeader">
-          <input
-            type="checkbox"
-            [checked]="isAllSelected()"
-            (change)="toggleSelectAll($event)" />
-        </ng-container>
-        <ng-template #normalHeader>
-          {{ header.label }}
-        </ng-template>
-      </th>
-      <th *ngIf="menuActions && menuActions.length > 0"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      *ngFor="let item of paginatedProducts; let i = index; trackBy: trackByIndex">
-      <td *ngIf="showIndex" class="index-cell">
-        {{ (currentPage - 1) * itemsPerPage + i + 1 }}
-      </td>
-      <td *ngFor="let header of headers"
-        [style.width]="header.width ? header.width + 'px' : null"
-        [attr.data-label]="header.label">
+    <thead class="thead-light">
+        <tr>
+            @if (showIndex) { <th class="index-col">#</th> }
 
-        <!-- ✅ Checkbox column -->
-        <ng-container *ngIf="header.isCheckbox; else nonCheckboxCell">
-          <input
-            type="checkbox"
-            [(ngModel)]="item[header.key]" />
-        </ng-container>
+            @for (header of headers; track header.key) {
+            <th [style.width]="header.width ? header.width + 'px' : null" [ngClass]="{ 'normal': header.isNormal }">
+                {{ header.label }}
+            </th>
+            }
 
-        <!-- ✅ ALL OTHER CELL TYPES -->
-        <ng-template #nonCheckboxCell>
+            @if (menuActions.length > 0) { <th></th> }
+        </tr>
+    </thead>
 
-          <ng-container [ngSwitch]="header.key">
+    <tbody>
+        @for (item of paginatedProducts; track item.id || $index; let i = $index) {
+        <tr>
+            @if (showIndex) {
+            <td class="index-cell">
+                {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+            </td>
+            }
 
-            <!-- صورة المنتج -->
-            <ng-container *ngSwitchCase="'image'">
-              <img [src]="item.image" alt="product" width="60" height="60" />
-            </ng-container>
+            @for (header of headers; track header.key) {
+            <td [style.width]="header.width ? header.width + 'px' : null" [attr.data-label]="header.label">
 
-            <!-- باقي الحقول -->
-            <ng-container *ngSwitchDefault>
-
-              <!-- رابط -->
-              <ng-container *ngIf="header.isLink; else iconCheck">
+                @if (header.isCheckbox) {
+                <p-checkbox [(ngModel)]="item[header.key]" binary="true"></p-checkbox>
+                }
+                @else {
+                @switch (header.key) {
+                @case ('image') {
+                <img [src]="item.image" alt="product" width="60" height="60" />
+                }
+                @default {
+                @if (header.isLink) {
                 <div (click)="openLink(item[header.key])" class="link">
-                  <i
-                    class="fa-solid fa-arrow-up-right-from-square text-blue-500"></i>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-blue-500"></i>
                 </div>
-              </ng-container>
+                }
+                @else if (header.isIcon) {
+                <i [class]="item[header.key]"></i>
+                }
+                @else if (header.badgeMap) {
+                <span class="badge" [ngClass]="header.badgeMap[item[header.key]]?.class">
+                    {{ header.badgeMap[item[header.key]]?.text ?? 'لا توجد بيانات' }}
+                </span>
+                }
+                @else {
+                {{ item[header.key] ?? 'لا توجد بيانات' }}
+                }
+                }
+                }
+                }
+            </td>
+            }
 
-              <!-- أيقونة -->
-              <ng-template #iconCheck>
-                <ng-container *ngIf="header.isIcon; else badgeOrText">
-                  <i [class]="item[header.key]"></i>
-                </ng-container>
-              </ng-template>
+            <!-- Actions Menu -->
+            @if (menuActions.length > 0) {
+            <td>
+                <i #menuBtn class="fa-solid fa-ellipsis-stroke-vertical" (click)="toggleMenu(i, menuBtn, $event)"></i>
 
-              <!-- بادج / نص -->
-              <ng-template #badgeOrText>
-                <ng-container *ngIf="header.badgeMap; else normalText">
-                  <span class="badge"
-                    [ngClass]="header.badgeMap[item[header.key]]?.class">
-                    {{ header.badgeMap[item[header.key]]?.text ??
-                    'لا توجد بيانات' }}
-                  </span>
-                </ng-container>
-                <ng-template #normalText>
-                  {{ item[header.key] ?? 'لا توجد بيانات' }}
-                </ng-template>
-              </ng-template>
-
-            </ng-container>
-
-          </ng-container>
-
-        </ng-template>
-      </td>
-
-      <!-- زر القائمة -->
-      <td *ngIf="menuActions && menuActions.length > 0">
-        <i #menuBtn
-          class="fa-solid fa-ellipsis-stroke-vertical"
-          (click)="toggleMenu(i, menuBtn, $event)">
-        </i>
-
-        <ul class="menu"
-          *ngIf="selectedIndex === i"
-          [ngStyle]="menuStyles">
-          <li *ngFor="let action of getMenuItems(item)"
-            (click)="handleAction(item, action.id)"
-            [class.danger]="action.isDengar"
-            [class.allow]="action.isAllow">
-            <i [class]="action.icon"></i>
-            <p>{{ action.name }}</p>
-          </li>
-        </ul>
-      </td>
-
-    </tr>
-  </tbody>
+                @if (selectedIndex === i) {
+                <ul class="menu" [ngStyle]="menuStyles">
+                    @for (action of getMenuItems(item); track action.id) {
+                    <li (click)="handleAction(item, action.id)" [class.danger]="action.isDengar"
+                        [class.allow]="action.isAllow">
+                        <i [class]="action.icon"></i>
+                        <p>{{ action.name }}</p>
+                    </li>
+                    }
+                </ul>
+                }
+            </td>
+            }
+        </tr>
+        } @empty {
+        <tr>
+            <td [attr.colspan]="headers.length + (showIndex ? 1 : 0) + 1" class="text-center">
+                لا توجد بيانات لعرضها
+            </td>
+        </tr>
+        }
+    </tbody>
 </table>
 
 <!-- Pagination Controls -->
-<div class="pagination-wrapper" *ngIf="totalPages > 1">
-  <div class="pagination">
-    <!-- Previous Button -->
-    <button
-      class="pagination-btn"
-      [disabled]="currentPage === 1"
-      (click)="previousPage()">
-      <i class="fa-solid fa-chevron-right"></i>
-      <span>السابق</span>
-    </button>
+@if (totalPages > 1) {
+<div class="pagination-wrapper">
+    <div class="pagination">
+        <button class="pagination-btn" [disabled]="currentPage === 1" (click)="previousPage()">
+            <i class="fa-solid fa-chevron-right"></i>
+            <span>السابق</span>
+        </button>
 
-    <!-- Page Info -->
-    <div class="page-info">
-      <span class="current-page">{{ currentPage }}</span>
-      <span class="separator">/</span>
-      <span class="total-pages">{{ totalPages }}</span>
+        <div class="page-info">
+            <span class="current-page">{{ currentPage }}</span>
+            <span class="separator">/</span>
+            <span class="total-pages">{{ totalPages }}</span>
+        </div>
+
+        <button class="pagination-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
+            <span>التالي</span>
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
     </div>
 
-    <!-- Next Button -->
-    <button
-      class="pagination-btn"
-      [disabled]="currentPage === totalPages"
-      (click)="nextPage()">
-      <span>التالي</span>
-      <i class="fa-solid fa-chevron-left"></i>
-    </button>
-  </div>
-
-  <!-- Items Info -->
-  <div class="items-info" *ngIf="products && products.length > 0">
-    عرض {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage *
-    itemsPerPage, products.length) }} من {{ products.length }}
-  </div>
+    <div class="items-info">
+        عرض {{ (currentPage - 1) * itemsPerPage + 1 }} -
+        {{ Math.min(currentPage * itemsPerPage, products.length) }}
+        من {{ products.length }}
+    </div>
 </div>
+}

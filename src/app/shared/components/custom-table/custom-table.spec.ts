@@ -10,7 +10,7 @@ describe('CustomTable', () => {
     await TestBed.configureTestingModule({
       imports: [CustomTable]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CustomTable);
     component = fixture.componentInstance;

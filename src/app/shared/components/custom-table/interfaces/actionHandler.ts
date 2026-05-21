@@ -1,4 +1,4 @@
 export interface actionHandler {
-  item: any;
-  menuId: number;
+    item: any;
+    menuId: number;
 }
