@@ -1,0 +1,152 @@
+<!-- Total Count Badge -->
+<div class="badge-container">
+  <div class="total-count-badge" *ngIf="products && products.length > 0">
+    <span class="count">{{ products.length }}</span>
+  </div>
+</div>
+
+<table class="table table-light">
+  <thead class="thead-light">
+    <tr>
+      <th *ngIf="showIndex" class="index-col">#</th>
+      <th *ngFor="let header of headers"
+        [style.width]="header.width ? header.width + 'px' : null"
+        [ngClass]="header.isNormal ? 'normal' : ''">
+        <ng-container *ngIf="header.isCheckbox; else normalHeader">
+          <input
+            type="checkbox"
+            [checked]="isAllSelected()"
+            (change)="toggleSelectAll($event)" />
+        </ng-container>
+        <ng-template #normalHeader>
+          {{ header.label }}
+        </ng-template>
+      </th>
+      <th *ngIf="menuActions && menuActions.length > 0"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let item of paginatedProducts; let i = index; trackBy: trackByIndex">
+      <td *ngIf="showIndex" class="index-cell">
+        {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+      </td>
+      <td *ngFor="let header of headers"
+        [style.width]="header.width ? header.width + 'px' : null"
+        [attr.data-label]="header.label">
+
+        <!-- ✅ Checkbox column -->
+        <ng-container *ngIf="header.isCheckbox; else nonCheckboxCell">
+          <input
+            type="checkbox"
+            [(ngModel)]="item[header.key]" />
+        </ng-container>
+
+        <!-- ✅ ALL OTHER CELL TYPES -->
+        <ng-template #nonCheckboxCell>
+
+          <ng-container [ngSwitch]="header.key">
+
+            <!-- صورة المنتج -->
+            <ng-container *ngSwitchCase="'image'">
+              <img [src]="item.image" alt="product" width="60" height="60" />
+            </ng-container>
+
+            <!-- باقي الحقول -->
+            <ng-container *ngSwitchDefault>
+
+              <!-- رابط -->
+              <ng-container *ngIf="header.isLink; else iconCheck">
+                <div (click)="openLink(item[header.key])" class="link">
+                  <i
+                    class="fa-solid fa-arrow-up-right-from-square text-blue-500"></i>
+                </div>
+              </ng-container>
+
+              <!-- أيقونة -->
+              <ng-template #iconCheck>
+                <ng-container *ngIf="header.isIcon; else badgeOrText">
+                  <i [class]="item[header.key]"></i>
+                </ng-container>
+              </ng-template>
+
+              <!-- بادج / نص -->
+              <ng-template #badgeOrText>
+                <ng-container *ngIf="header.badgeMap; else normalText">
+                  <span class="badge"
+                    [ngClass]="header.badgeMap[item[header.key]]?.class">
+                    {{ header.badgeMap[item[header.key]]?.text ??
+                    'لا توجد بيانات' }}
+                  </span>
+                </ng-container>
+                <ng-template #normalText>
+                  {{ item[header.key] ?? 'لا توجد بيانات' }}
+                </ng-template>
+              </ng-template>
+
+            </ng-container>
+
+          </ng-container>
+
+        </ng-template>
+      </td>
+
+      <!-- زر القائمة -->
+      <td *ngIf="menuActions && menuActions.length > 0">
+        <i #menuBtn
+          class="fa-solid fa-ellipsis-stroke-vertical"
+          (click)="toggleMenu(i, menuBtn, $event)">
+        </i>
+
+        <ul class="menu"
+          *ngIf="selectedIndex === i"
+          [ngStyle]="menuStyles">
+          <li *ngFor="let action of getMenuItems(item)"
+            (click)="handleAction(item, action.id)"
+            [class.danger]="action.isDengar"
+            [class.allow]="action.isAllow">
+            <i [class]="action.icon"></i>
+            <p>{{ action.name }}</p>
+          </li>
+        </ul>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
+
+<!-- Pagination Controls -->
+<div class="pagination-wrapper" *ngIf="totalPages > 1">
+  <div class="pagination">
+    <!-- Previous Button -->
+    <button
+      class="pagination-btn"
+      [disabled]="currentPage === 1"
+      (click)="previousPage()">
+      <i class="fa-solid fa-chevron-right"></i>
+      <span>السابق</span>
+    </button>
+
+    <!-- Page Info -->
+    <div class="page-info">
+      <span class="current-page">{{ currentPage }}</span>
+      <span class="separator">/</span>
+      <span class="total-pages">{{ totalPages }}</span>
+    </div>
+
+    <!-- Next Button -->
+    <button
+      class="pagination-btn"
+      [disabled]="currentPage === totalPages"
+      (click)="nextPage()">
+      <span>التالي</span>
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+  </div>
+
+  <!-- Items Info -->
+  <div class="items-info" *ngIf="products && products.length > 0">
+    عرض {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ Math.min(currentPage *
+    itemsPerPage, products.length) }} من {{ products.length }}
+  </div>
+</div>

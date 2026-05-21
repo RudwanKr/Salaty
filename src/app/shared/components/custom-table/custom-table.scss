@@ -1,0 +1,531 @@
+@use "./../../../../themes.scss" as *;
+// Total Count Badge
+.badge-container{
+  width: 100%;
+  background-color: $white;
+}
+.total-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: $spacing-sm;
+  padding: $spacing-xs $spacing-sm;
+  background: linear-gradient(135deg, rgba($primary, 0.1) 0%, rgba($primary, 0.05) 100%);
+  border: 1px solid rgba($primary, 0.2);
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $primary;
+  box-shadow: $shadow-sm;
+  transition: all 0.3s ease;
+
+  .count {
+    font-weight: $font-weight-bold;
+    font-size: $font-size-sm;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: $shadow-md;
+  }
+}
+
+.table-wrapper {
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.table {
+  width: 100%;
+  background-color: $bg-card;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  border-collapse: collapse;
+  table-layout: fixed;
+  transition: all 0.3s ease;
+
+  input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid $gray-300;
+    border-radius: $radius-sm;
+    background-color: $white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+
+    &:checked {
+      background-color: $success;
+      border-color: $success;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 5px;
+        width: 4px;
+        height: 8px;
+        border: solid $white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    }
+
+    &:hover {
+      border-color: $gray-400;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba($success, 0.1);
+    }
+  }
+
+  thead {
+    background-color: $gray-100;
+
+    th {
+      text-align: right;
+      padding: $spacing-md;
+      font-weight: $font-weight-semibold;
+      font-size: $font-size-sm;
+      color: $text-main;
+      border-bottom: 1px solid $border-color;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background-color: $gray-100;
+      transition: all 0.2s ease;
+
+      &:last-child:not(.normal) {
+        text-align: center;
+        width: 80px;
+      }
+
+      &:first-child:not(.normal) {
+        text-align: center;
+        width: 80px;
+      }
+    }
+  }
+
+  tbody {
+    width: 100%;
+
+    tr {
+      width: 100%;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: $gray-100;
+      }
+
+      td {
+        position: relative;
+        padding: $spacing-md;
+        font-size: $font-size-sm;
+        border-bottom: 1px solid $border-color;
+        color: $text-main;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+
+        img {
+          width: 50px;
+          height: 50px;
+          object-fit: cover;
+          border-radius: $radius-lg;
+          box-shadow: $shadow-sm;
+        }
+
+        .btn {
+          margin-inline: $spacing-xs;
+          padding: $spacing-xs $spacing-sm;
+          font-size: $font-size-xs;
+          border-radius: $radius-md;
+        }
+
+        i {
+          font-size: 20px;
+          padding: $spacing-xs $spacing-sm;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          color: $text-muted;
+
+          &:hover {
+            color: $primary;
+            transform: scale(1.1);
+          }
+        }
+
+        .link {
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover i {
+            color: $primary;
+            transform: scale(1.2);
+          }
+        }
+
+        .menu {
+          position: fixed; // use viewport coords from getBoundingClientRect()
+          z-index: 1000;
+          background: $white;
+          border: 1px solid $border-color;
+          border-radius: 10px;
+          width: 180px;
+
+          opacity: 0;
+          transform: translateY(0) scale(1);
+
+
+          &.shown {
+            opacity: 1;
+          }
+
+          &.animate {
+            animation: menuPop 0.15s ease-out forwards;
+          }
+
+          li {
+            display: flex;
+            gap: 10px;
+            padding: 5px;
+            justify-content: flex-start;
+            align-items: center;
+            border-bottom: 1px solid $border-color;
+            @include btn-behaviour;
+
+            &.danger {
+              color: $danger;
+
+              i {
+                color: $danger;
+              }
+            }
+
+            &.allow {
+              color: $success;
+
+              i {
+                color: $success;
+              }
+            }
+
+            &:hover {
+              background: #f6f6f675;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  tfoot {
+    background-color: $bg-main;
+
+    th {
+      padding: $spacing-sm;
+      font-size: $font-size-xs;
+      color: $text-muted;
+    }
+  }
+
+  .badge {
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-full;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+
+    &-success {
+      background-color: rgba($success, 0.15);
+      color: darken($color: $success, $amount: 10);
+      border: 1px solid rgba($success, 0.3);
+    }
+
+    &-danger {
+      background-color: rgba($danger, 0.15);
+      color: darken($color: $danger, $amount: 10);
+      border: 1px solid rgba($danger, 0.3);
+    }
+
+    &-info {
+      background-color: rgba($info, 0.15);
+      color: darken($color: $info, $amount: 10);
+      border: 1px solid rgba($info, 0.3);
+    }
+
+    &-warning {
+      background-color: rgba($warning, 0.15);
+      color: darken($color: $warning, $amount: 10);
+      border: 1px solid rgba($warning, 0.3);
+    }
+  }
+}
+
+@keyframes menuPop {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Responsive Design
+@include tablet {
+  .table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    thead,
+    tbody,
+    tr,
+    th,
+    td {
+      display: table-cell;
+    }
+  }
+}
+
+@include mobile {
+  .table {
+    border-radius: 0;
+    box-shadow: none;
+
+    thead {
+      display: none;
+    }
+
+    tbody {
+      display: block;
+
+      tr {
+        display: block;
+        margin-bottom: $spacing-lg;
+        background-color: $bg-card;
+        border-radius: $radius-xl;
+        box-shadow: $shadow-md;
+        padding: $spacing-md;
+        border: 1px solid $border-color;
+
+        &:last-child {
+          margin-bottom: $spacing-2xl;
+        }
+
+        &:hover {
+          transform: none;
+          box-shadow: $shadow-lg;
+        }
+
+        td {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: $spacing-sm 0;
+          border-bottom: 1px solid $border-color;
+          text-align: right;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &::before {
+            content: attr(data-label);
+            font-weight: $font-weight-semibold;
+            color: $text-muted;
+            font-size: $font-size-xs;
+            flex-shrink: 0;
+            margin-left: $spacing-md;
+          }
+
+          // Hide the label for checkbox and action columns
+          &:first-child::before,
+          &:last-child::before {
+            content: none;
+          }
+
+          // Center checkbox column
+          &:first-child {
+            justify-content: center;
+            padding: $spacing-sm 0;
+          }
+
+          // Action menu column
+          &:last-child {
+            justify-content: center;
+            padding: $spacing-sm 0;
+          }
+
+          img {
+            width: 60px;
+            height: 60px;
+          }
+
+          .menu {
+            width: 160px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Pagination Styles
+.pagination-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+  padding: $spacing-sm;
+  background-color: $bg-card;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+
+    .pagination-btn {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      padding: $spacing-sm $spacing-md;
+      background: linear-gradient(135deg, $primary 0%, darken($primary, 10%) 100%);
+      color: $white;
+      border: none;
+      border-radius: $radius-lg;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: $shadow-sm;
+
+      i {
+        font-size: $font-size-sm;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+
+        i {
+          transform: scale(1.2);
+        }
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
+        box-shadow: $shadow-sm;
+      }
+
+      &:disabled {
+        background: linear-gradient(135deg, $gray-300 0%, $gray-400 100%);
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+
+    .page-info {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      padding: $spacing-sm $spacing-sm;
+      background-color: $bg-main;
+      border-radius: $radius-lg;
+      border: 1px solid $border-color;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      min-width: 80px;
+      justify-content: center;
+
+      .current-page {
+        color: $primary;
+        font-weight: $font-weight-bold;
+        font-size: $font-size-base;
+      }
+
+      .separator {
+        color: $text-muted;
+        margin: 0 $spacing-xs;
+      }
+
+      .total-pages {
+        color: $text-muted;
+      }
+    }
+  }
+
+  .items-info {
+    font-size: $font-size-xs;
+    color: $text-muted;
+    text-align: center;
+  }
+}
+
+// Responsive Pagination
+@include tablet {
+  .pagination-wrapper {
+    .pagination {
+      gap: $spacing-sm;
+
+      .pagination-btn {
+        padding: $spacing-xs $spacing-sm;
+        font-size: $font-size-xs;
+
+        span {
+          display: none;
+        }
+
+        i {
+          margin: 0;
+        }
+      }
+
+      .page-info {
+        padding: $spacing-xs $spacing-sm;
+        min-width: 60px;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .pagination-wrapper {
+    margin-top: $spacing-md;
+    padding: $spacing-sm;
+
+    .pagination {
+      width: 100%;
+      justify-content: space-between;
+
+      .pagination-btn {
+        flex: 1;
+        justify-content: center;
+        max-width: 100px;
+      }
+
+      .page-info {
+        flex: 0 0 auto;
+      }
+    }
+
+    .items-info {
+      font-size: 10px;
+    }
+  }
+}
