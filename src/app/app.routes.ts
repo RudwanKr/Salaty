@@ -61,6 +61,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/admin-panel/profile-page/profile-page')
           .then(m => m.ProfilePage)
       },
+      {
+        path: 'users-messages',
+        loadComponent: () => import('./features/admin-panel/users-messages/users-messages')
+          .then(m => m.UsersMessages)
+      },
     ]
   },
   // ── Main app ──────────────────────────────────────────────────────────────

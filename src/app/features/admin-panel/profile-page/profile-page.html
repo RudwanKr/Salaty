@@ -1,1 +1,180 @@
-<p>profile-page works!</p>
+<main class="admin-profile-container">
+
+  <!-- ── Header ───────────────────────────────────────────── -->
+  <header class="app-bar admin-header">
+    <div class="section">
+      <i class="fa-solid fa-user-shield text-primary"></i>
+      <h2>الملف الشخصي للمشرف</h2>
+    </div>
+    <div class="subtitle text-muted">إدارة حساب الإدارة والأمان</div>
+  </header>
+
+  <!-- ── Main Grid Layout ──────────────────────────────────── -->
+  <div class="admin-grid">
+
+    <!-- Profile Details & Avatar Card -->
+    <div class="card profile-info-card">
+      <div class="card-header">
+        <h3><i class="fa-solid fa-id-card"></i> البيانات الشخصية</h3>
+        <p class="text-muted">تحديث البريد الإلكتروني والصورة الرمزية</p>
+      </div>
+
+      <div class="card-body">
+        <!-- Interactive Avatar Selector -->
+        <div class="avatar-wrapper">
+          <div class="avatar-container" (click)="openDialog('avatar')" title="تغيير الصورة الرمزية">
+            <img [src]="'assets/images/' + selectedAvatar()" alt="Admin Avatar" class="avatar">
+            <div class="avatar-overlay">
+              <i class="fa-solid fa-camera"></i>
+              <span>تغيير</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form fields -->
+        <div class="form-group mt-3">
+          <label class="form-label"><i class="fa-solid fa-envelope"></i> البريد الإلكتروني</label>
+          <input type="email" [(ngModel)]="userEmail" class="zk-input" placeholder="admin@example.com">
+        </div>
+
+        <button class="btn btn-primary w-100 mt-4" (click)="saveProfile()">
+          <i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات
+        </button>
+      </div>
+    </div>
+
+    <!-- Security & Permissions Card -->
+    <div class="card security-card">
+      <div class="card-header">
+        <h3><i class="fa-solid fa-shield-halved"></i> الأمان والصلاحيات</h3>
+        <p class="text-muted">مراقبة الأمان وتغيير كلمة المرور الخاصة بك</p>
+      </div>
+
+      <div class="card-body">
+        <!-- Permissions Badge & Details -->
+        <div class="info-badges">
+          <div class="badge-item">
+            <span class="badge-label">رتبة الحساب</span>
+            <span class="badge-value role-badge"><i class="fa-solid fa-crown"></i> مدير النظام</span>
+          </div>
+          <div class="badge-item">
+            <span class="badge-label">مستوى الصلاحية</span>
+            <span class="badge-value access-badge"><i class="fa-solid fa-unlock-keyhole"></i> صلاحيات كاملة</span>
+          </div>
+        </div>
+
+        <div class="divider"><span>خيارات الحساب</span></div>
+
+        <!-- Security Action Buttons -->
+        <div class="security-actions">
+          <button class="btn btn-secondary w-100" (click)="openDialog('password')">
+            <i class="fa-solid fa-key"></i> تغيير كلمة المرور
+          </button>
+          
+          <button class="btn btn-danger-outline w-100 mt-3" (click)="logout()">
+            <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج من لوحة التحكم
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Dialogs/Modals ────────────────────────────────────── -->
+  @if (activeDialog()) {
+    <div class="dialog-backdrop" (click)="closeDialog()">
+      <div class="dialog-sheet" (click)="$event.stopPropagation()">
+        
+        <div class="dialog-header">
+          @if (activeDialog() === 'avatar') { 
+            <h3><i class="fa-solid fa-images"></i> اختيار الصورة الرمزية</h3> 
+          }
+          @if (activeDialog() === 'password') { 
+            <h3><i class="fa-solid fa-lock"></i> تغيير كلمة المرور</h3> 
+          }
+          <button class="close-btn" (click)="closeDialog()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="dialog-body">
+          
+          <!-- Avatar Choice Grid -->
+          @if (activeDialog() === 'avatar') {
+            <p class="text-center text-muted mb-3">اختر صورة رمزية جديدة تمثلك كمسؤول في النظام</p>
+            <div class="avatar-grid">
+              @for (av of avatars; track av) {
+                <div class="avatar-item" [class.selected]="selectedAvatar() === av" (click)="setAvatar(av)">
+                  <img [src]="'assets/images/' + av" class="selectable-avatar" alt="Avatar option">
+                  <div class="selected-check"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Password Change Flow (Exactly like User Profile flow) -->
+          @if (activeDialog() === 'password') {
+            <div class="password-content">
+              
+              <!-- STEP 1: Request OTP -->
+              @if (passwordStep() === 1) {
+                <div class="step-content">
+                  <div class="icon-wrapper bg-primary-light text-primary mb-3">
+                    <i class="fa-solid fa-paper-plane"></i>
+                  </div>
+                  <p class="mb-3">لتأمين الحساب، سنقوم بإرسال رمز تحقق (OTP) لبريدك الإلكتروني المسجل.</p>
+                  <div class="email-display mb-3">{{ userEmail() }}</div>
+                  <button class="btn btn-primary w-100 mt-2" (click)="sendOtp()">
+                    إرسال رمز التحقق <i class="fa-solid fa-arrow-left"></i>
+                  </button>
+                </div>
+              }
+
+              <!-- STEP 2: Input 4-digit OTP -->
+              @if (passwordStep() === 2) {
+                <div class="step-content">
+                  <div class="icon-wrapper bg-teal-light text-teal mb-3">
+                    <i class="fa-solid fa-shield"></i>
+                  </div>
+                  <p class="mb-3">الرجاء إدخال رمز التحقق المكون من 4 أرقام على الأقل المرسل إلى بريدك.</p>
+                  <input type="text" class="zk-input otp-input text-center" placeholder="----" [(ngModel)]="otpInput" maxlength="6">
+                  <button class="btn btn-primary w-100 mt-3" (click)="verifyOtp()" [disabled]="otpInput().length < 4">
+                    تحقق من الرمز <i class="fa-solid fa-arrow-left"></i>
+                  </button>
+                </div>
+              }
+
+              <!-- STEP 3: Enter new passwords -->
+              @if (passwordStep() === 3) {
+                <div class="step-content text-right">
+                  <p class="mb-3 text-center">قم بتعيين كلمة مرور جديدة قوية لحساب الإدارة الخاص بك</p>
+                  
+                  <div class="form-group mb-3">
+                    <label class="form-label">كلمة المرور الجديدة</label>
+                    <div class="input-with-icon">
+                      <i class="fa-solid fa-lock"></i>
+                      <input type="password" class="zk-input" [(ngModel)]="newPassword" placeholder="كلمة المرور الجديدة">
+                    </div>
+                  </div>
+
+                  <div class="form-group mb-3">
+                    <label class="form-label">تأكيد كلمة المرور الجديدة</label>
+                    <div class="input-with-icon">
+                      <i class="fa-solid fa-circle-check"></i>
+                      <input type="password" class="zk-input" [(ngModel)]="confirmPassword" placeholder="تأكيد كلمة المرور">
+                    </div>
+                  </div>
+
+                  <button class="btn btn-primary w-100 mt-4" (click)="changePassword()" [disabled]="!newPassword() || !confirmPassword()">
+                    حفظ كلمة المرور <i class="fa-solid fa-circle-check"></i>
+                  </button>
+                </div>
+              }
+
+            </div>
+          }
+
+        </div>
+      </div>
+    </div>
+  }
+
+</main>

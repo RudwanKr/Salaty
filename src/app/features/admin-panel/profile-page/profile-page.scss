@@ -1,0 +1,488 @@
+@import './../../../../themes.scss';
+
+// ── Root Page Container ──────────────────────────────────────────
+.admin-profile-container {
+  padding: $spacing-lg;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 100px);
+  font-family: $font-family-main;
+  direction: rtl;
+
+  @include tablet {
+    padding: $spacing-md;
+    padding-bottom: 80px;
+  }
+}
+
+// ── Header Styling ───────────────────────────────────────────────
+.admin-header {
+  margin-bottom: $spacing-xl;
+  border-left: 5px solid $primary;
+
+  .subtitle {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  @include tablet {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-xs;
+
+    .subtitle {
+      margin-right: $spacing-xl + 0.5rem;
+    }
+  }
+}
+
+// ── Grid Layout ──────────────────────────────────────────────────
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xl;
+  align-items: start;
+
+  @include tablet {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+}
+
+// ── Dashboard Card Customizations ────────────────────────────────
+.profile-info-card,
+.security-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .card-header {
+    margin-bottom: $spacing-lg;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: $spacing-md;
+
+    h3 {
+      font-size: $font-size-lg;
+      color: $text-main;
+      margin: 0 0 $spacing-xs 0;
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      i {
+        color: $primary;
+      }
+    }
+
+    p {
+      margin: 0;
+      font-size: $font-size-xs;
+    }
+  }
+
+  .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// ── Avatar Selector Area ──────────────────────────────────────────
+.avatar-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacing-lg;
+}
+
+.avatar-container {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: $radius-full;
+  cursor: pointer;
+  overflow: hidden;
+  border: 4px solid $white;
+  box-shadow: $shadow-md;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+
+    .avatar-overlay {
+      opacity: 1;
+    }
+  }
+
+  .avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba($black, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    gap: 4px;
+
+    i {
+      font-size: 1.5rem;
+    }
+
+    span {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-bold;
+    }
+  }
+}
+
+// ── Form Elements ────────────────────────────────────────────────
+.form-group {
+  margin-bottom: $spacing-md;
+
+  .form-label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-main;
+    margin-bottom: $spacing-xs;
+
+    i {
+      color: $primary;
+      margin-left: 4px;
+    }
+  }
+}
+
+// ── Info Badges (Role & Access Status) ───────────────────────────
+.info-badges {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+
+  .badge-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md;
+    background: $bg-main;
+    border-radius: $radius-lg;
+    border: 1px solid $border-color;
+
+    .badge-label {
+      font-size: $font-size-sm;
+      color: $text-muted;
+      font-weight: $font-weight-medium;
+    }
+
+    .badge-value {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+      padding: 0.25rem 0.75rem;
+      border-radius: $radius-full;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      i {
+        font-size: 0.9em;
+      }
+    }
+
+    .role-badge {
+      background-color: rgba($primary-500, 0.15);
+      color: $primary-700;
+    }
+
+    .access-badge {
+      background-color: rgba($success-500, 0.15);
+      color: $success-700;
+    }
+  }
+}
+
+// ── Security Actions ─────────────────────────────────────────────
+.security-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-danger-outline {
+  background: transparent;
+  color: $danger-600;
+  border: 1.5px solid $danger-400;
+
+  &:hover {
+    background: $danger-50;
+    border-color: $danger-600;
+    color: $danger-700;
+  }
+}
+
+// ── Inputs with Icons (For Password step) ─────────────────────────
+.input-with-icon {
+  position: relative;
+
+  i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-light;
+    pointer-events: none;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+  }
+
+  .zk-input {
+    padding-right: 36px;
+
+    &:focus+i {
+      color: $primary;
+    }
+  }
+}
+
+// ── Dialog Backdrop & Bottom Sheet / Desktop Modal ────────────────
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba($black, 0.55);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+
+  @include desktop {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.dialog-sheet {
+  background: $bg-card;
+  width: 100%;
+  max-width: 520px;
+  border-top-left-radius: $radius-2xl;
+  border-top-right-radius: $radius-2xl;
+  padding: $spacing-xl;
+  box-shadow: $shadow-xl;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+
+  @include desktop {
+    border-radius: $radius-2xl;
+    animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-lg;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: $spacing-sm;
+
+    h3 {
+      margin: 0;
+      font-size: $font-size-xl;
+      color: $text-main;
+      font-weight: $font-weight-bold;
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      i {
+        color: $primary;
+      }
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: $text-light;
+      font-size: 1.4rem;
+      padding: $spacing-xs;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $danger-600;
+      }
+    }
+  }
+}
+
+// ── Avatar Grid Selection ────────────────────────────────────────
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .avatar-item {
+    position: relative;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.25s ease;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+      transform: scale(1.03);
+      box-shadow: $shadow-md;
+    }
+
+    &.selected {
+      border-color: $primary;
+      box-shadow: $shadow-glow;
+      transform: scale(1.05);
+
+      .selected-check {
+        opacity: 1;
+      }
+    }
+
+    .selectable-avatar {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+    }
+
+    .selected-check {
+      position: absolute;
+      inset: 0;
+      background: rgba($primary-700, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      color: $white;
+      font-size: 2rem;
+      text-shadow: 0 2px 8px rgba($black, 0.4);
+    }
+  }
+}
+
+// ── Password Reset Flow step contents ────────────────────────────
+.password-content {
+  text-align: center;
+
+  .step-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-md;
+    animation: fadeIn 0.3s ease;
+
+    &.text-right {
+      align-items: stretch;
+      text-align: right;
+    }
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $text-muted;
+    line-height: 1.6;
+  }
+
+  .email-display {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $text-main;
+    background: $bg-main;
+    padding: $spacing-sm $spacing-lg;
+    border-radius: $radius-md;
+    border: 1px dashed $primary-300;
+  }
+
+  .otp-input {
+    font-size: 1.8rem;
+    letter-spacing: 0.5rem;
+    font-family: monospace;
+    font-weight: $font-weight-bold;
+    max-width: 200px;
+    margin: $spacing-md auto;
+    text-align: center;
+  }
+
+  .icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: $radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    box-shadow: $shadow-sm;
+
+    &.bg-primary-light {
+      background: rgba($primary-500, 0.15);
+      color: $primary-700;
+    }
+
+    &.bg-teal-light {
+      background: rgba($secondary-500, 0.18);
+      color: $secondary-700;
+    }
+  }
+}
+
+// ── Simple Keyframe Animations ───────────────────────────────────
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

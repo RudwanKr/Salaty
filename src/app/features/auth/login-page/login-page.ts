@@ -27,7 +27,11 @@ export class LoginPage {
     // Mock: simulate API call delay
     await new Promise(r => setTimeout(r, 1200));
     this.loading.set(false);
-    // Mock: any credentials succeed → go to today
-    this.router.navigate(['/today']);
+    // Mock: redirect admin emails to the admin panel home page, otherwise today page
+    if (this.email().toLowerCase().includes('admin')) {
+      this.router.navigate(['/admin/home']);
+    } else {
+      this.router.navigate(['/today']);
+    }
   }
 }
